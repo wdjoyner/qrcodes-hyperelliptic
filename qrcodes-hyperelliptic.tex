@@ -1,0 +1,1140 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{question}[theorem]{Question}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Fp}{\mathbb{F}_p}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\wt}{\operatorname{wt}}
+\newcommand{\ct}{\operatorname{ct}}
+\newcommand{\CNQ}{C_{NQ}}
+\newcommand{\Cev}{C_{\mathrm{ev}}}
+\newcommand{\X}{\#X}
+\newcommand{\leg}[1]{\chi(#1)}
+
+\title{On quadratic residue codes and hyperelliptic curves\\[4pt]
+\large (revised version)}
+\author{David Joyner\thanks{\texttt{wdjoyner@gmail.com}}
+\and Claude\thanks{An AI model developed by Anthropic (Claude Opus~5.5). Contributions to this revision are described in the Acknowledgements and in the accompanying revision log.}}
+\date{Original submission: 20 October 2006. Revised: November 2026.}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+For an odd prime $p$ and a non-empty subset $S\subset\Fp$, let $X_S$ be the
+hyperelliptic curve $y^2=f_S(x)$, where $f_S(x)=\prod_{a\in S}(x-a)$.
+The quasi-quadratic residue (QQR) code $\CNQ$ is a binary double-circulant code of
+length $2p$ whose codeword weights are given exactly by the numbers $\X_T(\Fp)$ for
+sets $T$ of even size. We use this dictionary in both directions.
+Coding-theory bounds give point-count bounds: for every $c<1.6258$
+and every sufficiently large prime $p$ there is a set $S$ with $\X_S(\Fp)>cp$;
+if $p\equiv 3\pmod 4$ and $p\ge 11$ there is a set with $\X_S(\Fp)\ge \tfrac53 p-6$.
+Conversely, if for some $c<1.7799$ every such curve had at most $cp$ points
+for infinitely many $p$, Goppa's conjecture would fail.
+We prove that $\CNQ$ is self-dual for $p\equiv3\pmod4$ and has complementary dual
+for $p\equiv1\pmod 4$, and that its extension by the all-ones vector is isodual.
+A quadratic-twist identity, $\X_T+\X_{T'}=2p+2$, pairs curves with many and with
+few points. We record explicit constructions (due to Voloch) of sets with about
+$1.5p$ points for every $p$, and give examples of optimal-looking codes whose
+Duursma zeta functions violate the analog of the Riemann hypothesis.
+\end{abstract}
+
+\noindent\textbf{Keywords:} binary linear codes, double circulant codes,
+quadratic residue codes, hyperelliptic curves over finite fields, Legendre sums,
+Duursma zeta function.\\
+\textbf{MSC 2020:} 94B05, 94B65, 11T71, 11T24, 14G50.
+
+\tableofcontents
+
+%======================================================================
+\section{Introduction}
+\label{sec:intro}
+
+Finding explicit families of binary linear codes that are asymptotically good,
+let alone ones that beat the Gilbert--Varshamov bound, is a long-standing problem.
+This paper studies one attack on it, through a dictionary between certain
+double-circulant codes built from quadratic residues and the number of points on
+hyperelliptic curves over a prime field. Codes with this kind of relationship were
+studied by Helleseth~\cite{He92}, Bazzi and Mitter~\cite{BM06}, Voloch~\cite{Vo},
+and Helleseth and Voloch~\cite{HV04}.
+
+\subsection{Codes}
+A binary linear $[n,k,d]$ code is a $k$-dimensional subspace $C\subseteq\F_2^n$
+whose smallest nonzero Hamming weight is $d$. Writing $V(n,r)$ for the size of a
+Hamming ball of radius $r$, the Gilbert--Varshamov (GV) bound guarantees an
+$[n,k,d]$ code with $k\ge n-\log_2 V(n,d-1)$. Asymptotically: for each
+$0<\delta<1/2$ there are codes with relative distance $d/n\to\delta$ and rate
+$k/n\to 1-H(\delta)$, where
+\[
+H(\delta)=-\delta\log_2\delta-(1-\delta)\log_2(1-\delta)
+\]
+is the binary entropy function.
+
+\begin{conjecture}[Goppa~\cite{Go93}]\label{conj:goppa}
+The asymptotic binary GV bound is tight: if $\alpha(\delta)$ denotes the largest
+asymptotic rate of binary codes with relative distance at least $\delta$, then
+$\alpha(\delta)=1-H(\delta)$ for $0\le\delta\le 1/2$.
+\end{conjecture}
+
+\subsection{Curves}
+For a polynomial $h\in\Fp[x]$ with distinct roots, $X:\ y^2=h(x)$ denotes the
+smooth projective curve with that affine equation, and $\X(\Fp)$ its number of
+$\Fp$-rational points (affine points plus the points at infinity).
+For each non-empty $S\subseteq\Fp$ put
+\[
+f_S(x)=\prod_{a\in S}(x-a),\qquad X_S:\ y^2=f_S(x),\qquad \X_S=\X_S(\Fp).
+\]
+Weil's theorem gives $\X_S\approx p$ when $|S|$ is small compared to $\sqrt p$,
+but says nothing when $|S|$ is a positive proportion of $p$. Trivially
+$\X_S\le 2p+1$.
+
+\begin{definition}\label{def:B}
+For $c>0$, let $B(c,p)$ be the statement: \emph{$\X_S\le cp$ for every non-empty
+$S\subseteq\Fp$}. Let $B_{\mathrm{ev}}(c,p)$ be the same statement restricted to
+sets $S$ of even size.
+\end{definition}
+
+\begin{conjecture}[Bazzi--Mitter~\cite{BM06}]\label{conj:BM}
+There is $c\in(0,2)$ such that $B(c,p)$ holds for infinitely many primes $p$.
+\end{conjecture}
+
+\subsection{Results}
+The QQR code $\CNQ\subseteq\F_2^{2p}$ (Section~\ref{sec:QQR}) has dimension $p$ or
+$p-1$, and Proposition~\ref{prop:main} expresses each codeword weight as
+$2p+2-\X_T$ or $\X_T-2$ for a set $T$ of even size. Our main results are:
+\begin{enumerate}
+\item $\CNQ$ is self-dual if $p\equiv3\pmod 4$ and LCD (linear complementary dual)
+if $p\equiv1\pmod4$; its extension by the all-ones word is isodual when
+$p\equiv 1\pmod 4$ (Theorem~\ref{thm:duality}, Theorem~\ref{thm:isodual}).
+\item A quadratic-twist identity: for $T$ of even size and suitable $a\notin T$,
+$\X_T+\X_{T'}=2p+2$ for an explicit set $T'$ of the same size
+(Lemma~\ref{lem:twist}).
+\item If $B_{\mathrm{ev}}(c,p)$ holds for infinitely many primes $p$ with
+$c<2(1-H^{-1}(1/2))\approx1.7799$, then Goppa's conjecture is false
+(Theorem~\ref{thm:goppa}). No congruence condition on $p$ is needed.
+\item For every $c<1.6258$ and all sufficiently large $p$, there is $S$ with
+$\X_S>cp$ (Theorem~\ref{thm:mrrw}). The proof is non-constructive.
+\item If $p\equiv3\pmod4$ and $p\ge11$, there is $S$ with
+$\X_S\ge\frac53p-6$ (Corollary~\ref{cor:53}).
+\item Explicitly, for every prime $p\ge 11$ the set $S=Q$, $N$ or $Q\cup\{0\}$
+(depending on $p\bmod 8$) has $\X_S\ge 1.5p-\frac12$
+(Theorem~\ref{thm:voloch}, due to Voloch, with the case $p\equiv5\pmod 8$ added).
+\item The Duursma zeta function of $\CNQ$ satisfies the Riemann hypothesis for
+$p=7,11,19$ but not for $p=23$, and that of the extended code fails for $p=13,17$
+(Section~\ref{sec:zeta}).
+\end{enumerate}
+
+\subsection{Questions}
+\begin{question}\label{q:1}
+For each large prime $p$, is there an \emph{effectively computable} $S\subseteq\Fp$
+with $\X_S>cp$ for a fixed $c>1$?
+\end{question}
+\begin{question}\label{q:2}
+Is there $c<2$ such that $\X_S<cp$ for all sufficiently large $p$ and all
+$S\subseteq\Fp$?
+\end{question}
+Item~6 above answers Question~\ref{q:1} for $c=1.5-o(1)$. Voloch's Chebotarev
+construction (Theorem~\ref{thm:chebotarev}) answers Question~\ref{q:2} negatively.
+Section~\ref{sec:open} discusses what remains open and how hard it appears.
+
+\subsection{About this revision}
+This is a revision of the version submitted to \emph{Discrete Mathematics and
+Theoretical Computer Science} on 20 October 2006. A different revision was
+published as~\cite{Jo08} (see also arXiv:math/0609562). The present text corrects
+several errors in the 2006 version, replaces some arguments, proves two statements
+that were stated as conjectures, and adds examples, a literature survey and a
+glossary. A separate revision log lists every change.
+
+%======================================================================
+\section{Notation and background}
+\label{sec:notation}
+
+Throughout, $p$ is an odd prime, $Q\subset\Fp^\times$ the set of nonzero squares,
+$N=\Fp^\times\setminus Q$ the non-squares, and $\chi=\left(\frac{\cdot}{p}\right)$
+the Legendre symbol, with $\chi(0)=0$. Recall $-1\in Q$ iff $p\equiv1\pmod4$ and
+$2\in Q$ iff $p\equiv\pm1\pmod8$.
+
+\subsection{Cyclotomic arithmetic modulo 2}
+Let $R=\F_2[x]/(x^p-1)$. For $S\subseteq\Fp$ put $r_S=\sum_{i\in S}x^i\in R$
+(so $r_\emptyset=0$), and let $J=r_{\Fp}=1+x+\dots+x^{p-1}$. We identify $u\in R$
+with its coefficient vector in $\F_2^p$, so $\wt(r_S)=|S|$. Then:
+\begin{itemize}
+\item $1+r_Q+r_N=J$, and $J^2=pJ=J$;
+\item $r_S\,J=|S|\,J$, so $\wt(u)\bmod 2$ is the ring homomorphism $u\mapsto u(1)$;
+\item $\wt(r_Ar_B)\equiv|A|\,|B|\pmod 2$;
+\item $r_S^2=r_{2S}$; in particular $r_Q^2=r_Q$ iff $2\in Q$.
+\end{itemize}
+For $u\in R$ let $u^-(x)=u(x^{-1})$. Then $u\mapsto u^-$ is a ring automorphism,
+$r_S^-=r_{-S}$, and so
+\begin{equation}\label{eq:minus}
+r_Q^-=r_Q,\ r_N^-=r_N\ \ (p\equiv1\bmod 4),\qquad
+r_Q^-=r_N,\ r_N^-=r_Q\ \ (p\equiv3\bmod 4).
+\end{equation}
+The standard inner product on $\F_2^p$ is
+$\langle u,v\rangle=\ct(u\,v^-)$, where $\ct$ denotes the constant term.
+
+The coefficient of $x^a$ in $r_Ar_B$ is the parity of $|A\cap(a-B)|$, where
+$a-B=\{a-b:b\in B\}$. Hence
+\begin{equation}\label{eq:wtprod}
+\wt(r_Ar_B)=\sum_{a\in\Fp}\pi\big(|A\cap(a-B)|\big),\qquad
+\pi(m)=m\bmod 2\in\{0,1\}.
+\end{equation}
+
+\begin{example}\label{ex:p7arith}
+Let $p=7$, so $Q=\{1,2,4\}$ and $N=\{3,5,6\}$. With $S=\{0,1\}$, $r_S=1+x$ and
+\[
+r_Nr_S=1+x^3+x^4+x^5,\qquad r_Qr_S=x+x^3+x^4+x^5 .
+\]
+Each has weight $4$, in agreement with $\wt(r_Ar_B)\equiv|A||B|=6\equiv0\pmod2$.
+\end{example}
+
+\subsection{Point counts and character sums}
+
+\begin{lemma}[Artin, Hasse, Weil]\label{lem:AHW}
+Let $S\subseteq\Fp$ be non-empty and $\Sigma_S=\sum_{x\in\Fp}\chi(f_S(x))$.
+\begin{enumerate}
+\item If $|S|$ is even, $\X_S=p+2+\Sigma_S$, and $X_S$ has genus $g=(|S|-2)/2$.
+\item If $|S|$ is odd, $\X_S=p+1+\Sigma_S$, and $X_S$ has genus $g=(|S|-1)/2$.
+\item In both cases $|\X_S-(p+1)|\le 2g\sqrt p$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Each $x\in\Fp$ contributes $1+\chi(f_S(x))$ affine points. Because $f_S$ is monic,
+the smooth model has two rational points at infinity when $\deg f_S$ is even and one
+when it is odd. Part~3 is Weil's theorem~\cite{We48}; see~\cite[\S2.11]{Sc04}.
+\end{proof}
+
+Part~3 is only informative when $|S|$ is small compared with $\sqrt p$. Note also the
+trivial bounds, valid for all non-empty $S$:
+\begin{equation}\label{eq:trivial}
+|S|+1\ \le\ \X_S\ \le\ 2p-|S|+2 .
+\end{equation}
+
+\begin{example}\label{ex:p7points}
+Take $p=7$ and $S=\{0,1\}$, so $f_S(x)=x(x-1)$. The values $\chi(f_S(x))$ for
+$x=0,1,\dots,6$ are $0,0,1,-1,-1,-1,1$. So $\Sigma_S=-1$ and $\X_S=7+2-1=8$. The
+curve has genus $0$ and indeed $\X_S=p+1$.
+\end{example}
+
+\subsection{A quadratic-twist identity}
+
+The following identity pairs curves with many points and curves with few points.
+
+\begin{lemma}[Twist identity]\label{lem:twist}
+Let $T\subseteq\Fp$ be non-empty of even size, let $a\in\Fp\setminus T$, and put
+\[
+\varepsilon=\chi(f_T(a))\in\{\pm1\},\qquad T'=\{(t-a)^{-1}: t\in T\}.
+\]
+Then $|T'|=|T|$, and
+\[
+\X_T=\X_{T'}\ \text{ if }\varepsilon=1,\qquad
+\X_T+\X_{T'}=2p+2\ \text{ if }\varepsilon=-1 .
+\]
+\end{lemma}
+
+\begin{proof}
+For $u\ne0$ write $x=a+u^{-1}$. Then
+$x-t=u^{-1}\big((a-t)u+1\big)=u^{-1}(a-t)\big(u-(t-a)^{-1}\big)$, so
+\[
+f_T(a+u^{-1})=u^{-|T|}\,f_T(a)\,f_{T'}(u).
+\]
+As $|T|$ is even, $\chi(f_T(a+u^{-1}))=\varepsilon\,\chi(f_{T'}(u))$. The map
+$u\mapsto a+u^{-1}$ is a bijection $\Fp^\times\to\Fp\setminus\{a\}$. Also
+$f_{T'}(0)=\prod_{t}(t-a)^{-1}=f_T(a)^{-1}$ (as $|T|$ is even), so
+$\chi(f_{T'}(0))=\varepsilon$. Hence
+\[
+\Sigma_T=\varepsilon+\varepsilon\big(\Sigma_{T'}-\varepsilon\big)
+=\varepsilon\,\Sigma_{T'}+\varepsilon-1 .
+\]
+By Lemma~\ref{lem:AHW}(1), $\X_T=p+2+\Sigma_T$ and $\X_{T'}=p+2+\Sigma_{T'}$.
+If $\varepsilon=1$ this gives $\X_T=\X_{T'}$; if $\varepsilon=-1$ it gives
+$\X_T=p-\Sigma_{T'}=2p+2-\X_{T'}$.
+\end{proof}
+
+Geometrically, $X_T$ is isomorphic to $w^2=\varepsilon f_{T'}(u)$, which is $X_{T'}$
+or its quadratic twist.
+
+\begin{example}\label{ex:twist}
+Let $p=11$ and $T=\{1,2,3,4\}$. Here $f_T(0)=24\equiv2$ and $\chi(2)=-1$ since
+$11\equiv3\pmod8$. With $a=0$ we get $T'=\{1,6,4,3\}=\{1,3,4,6\}$. Direct counting
+gives $\X_T=8$ and $\X_{T'}=16$, and $8+16=24=2p+2$.
+\end{example}
+
+For $p$ odd put
+\[
+M_p=\max\{\X_T:\ T\subseteq\Fp,\ |T|\text{ even},\ T\ne\emptyset\},\qquad
+m_p=\min\{\X_T:\ T\subseteq\Fp,\ |T|\text{ even},\ T\ne\emptyset\}.
+\]
+
+\begin{corollary}\label{cor:Mm}
+For every odd prime $p$, $M_p+m_p\ge 2p+2$.
+\end{corollary}
+
+\begin{proof}
+Let $T$ attain $m_p$. If $\chi(f_T(a))=-1$ for some $a\notin T$, then
+Lemma~\ref{lem:twist} gives $M_p\ge\X_{T'}=2p+2-m_p$. Otherwise
+$\chi(f_T(a))=1$ for all $a\notin T$, so $\Sigma_T=p-|T|$ and
+$m_p=\X_T=2p+2-|T|\ge p+3$. Then $M_p\ge m_p\ge p+3$ and $M_p+m_p\ge 2p+6$.
+\end{proof}
+
+%======================================================================
+\section{Quasi-quadratic residue codes}
+\label{sec:QQR}
+
+\begin{definition}\label{def:QQR}
+The \emph{quasi-quadratic residue code} (QQR code) is
+\[
+\CNQ=\{\,c_S=(r_Nr_S,\ r_Qr_S):\ S\subseteq\Fp\,\}\subseteq R\oplus R\cong\F_2^{2p}.
+\]
+Equivalently, $\CNQ$ is the image of the $\F_2$-linear map $\varphi:R\to R\oplus R$,
+$u\mapsto(r_Nu,r_Qu)$. It is a pure double-circulant code (a quasi-cyclic code of
+index~$2$) with generator matrix $[\,\mathrm{circ}(r_N)\mid\mathrm{circ}(r_Q)\,]$.
+\end{definition}
+
+\begin{proposition}[Dimension]\label{prop:dim}
+$\ker\varphi=\{0\}$ if $p\equiv3\pmod 4$ and $\ker\varphi=\{0,J\}$ if
+$p\equiv1\pmod4$. Hence $\dim\CNQ=p$ or $p-1$ respectively. Every codeword has
+even weight.
+\end{proposition}
+
+\begin{proof}
+If $r_Nu=r_Qu=0$ then $0=(r_N+r_Q)u=(1+J)u=u+\wt(u)J$, so $u\in\{0,J\}$. Moreover
+$\varphi(J)=(|N|J,|Q|J)$ vanishes iff $|N|=(p-1)/2$ is even, that is, iff
+$p\equiv1\pmod4$. Finally
+$\wt(c_S)\equiv|N||S|+|Q||S|=(p-1)|S|\equiv0\pmod2$.
+\end{proof}
+
+\begin{example}\label{ex:dim}
+For $p=5$ the codeword $c_{\F_5}=(r_NJ,r_QJ)=(2J,2J)=0$, so $\dim C_{NQ}=4$. For
+$p=7$, $c_{\F_7}=(3J,3J)=(J,J)$ is the all-ones word of length $14$, and
+$\dim C_{NQ}=7$.
+\end{example}
+
+\subsection{Duality}
+
+\begin{theorem}\label{thm:duality}
+\begin{enumerate}
+\item If $p\equiv3\pmod4$, then $\CNQ$ is a self-dual $[2p,p]$ code. It contains the
+all-ones word, and $\wt(c_S)\equiv2|S|\pmod4$ for every $S$. In particular
+$\CNQ$ is singly-even (Type~I), and its doubly-even subcode is
+$\{c_S:|S|\text{ even}\}$.
+\item If $p\equiv1\pmod4$, then $\CNQ\cap\CNQ^\perp=\{0\}$, so
+$\F_2^{2p}=\CNQ\oplus\CNQ^\perp$; that is, $\CNQ$ is an LCD code.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+For $u,v\in R$,
+\begin{equation}\label{eq:ip}
+\langle\varphi(u),\varphi(v)\rangle
+=\ct\big(u\,v^-\,(r_Nr_N^-+r_Qr_Q^-)\big).
+\end{equation}
+(1) By~\eqref{eq:minus}, $r_Nr_N^-+r_Qr_Q^-=2r_Nr_Q=0$, so $\CNQ$ is
+self-orthogonal; it has dimension $p$, so it is self-dual. The all-ones word is
+$c_{\Fp}$ (Example~\ref{ex:dim}). In a self-orthogonal binary code
+$\wt(x+y)=\wt x+\wt y-2\wt(x\wedge y)$ with $\wt(x\wedge y)$ even, so weight
+modulo~4 is additive. Since $c_S=\sum_{i\in S}c_{\{i\}}$ and
+$\wt(c_{\{i\}})=|N|+|Q|=p-1\equiv2\pmod4$, we get $\wt(c_S)\equiv2|S|\pmod 4$.
+
+(2) By~\eqref{eq:minus}, $r_Nr_N^-+r_Qr_Q^-=r_N^2+r_Q^2=(r_N+r_Q)^2=(1+J)^2=1+J$.
+So $\varphi(u)\perp\CNQ$ iff $\ct(u(1+J)v^-)=0$ for all $v$, iff $u(1+J)=0$, iff
+$u\in\{0,J\}=\ker\varphi$. Hence $\CNQ\cap\CNQ^\perp=\{0\}$.
+\end{proof}
+
+\begin{remark}
+Part~(1) is also noted by Boston and Hao~\cite{BH17}. In the 2006 version of this
+paper both parts were stated as a conjecture.
+\end{remark}
+
+\subsection{Weights and point counts}
+
+\begin{proposition}\label{prop:main}
+Let $S\subseteq\Fp$ and write $S^c=\Fp\setminus S$.
+\begin{enumerate}
+\item[(a)] If $|S|$ is even and $S\neq\emptyset$: $\wt(c_S)=p-\Sigma_S=2p+2-\X_S$.
+\item[(b)] If $|S|$ is odd, $S\ne\Fp$, and $p\equiv1\pmod4$:
+$\wt(c_S)=p-\Sigma_{S^c}=2p+2-\X_{S^c}$.
+\item[(c)] If $|S|$ is odd, $S\ne\Fp$, and $p\equiv3\pmod4$:
+$\wt(c_S)=p+\Sigma_{S^c}=\X_{S^c}-2$.
+\end{enumerate}
+In every case the set appearing on the right has even size.
+\end{proposition}
+
+\begin{proof}
+By~\eqref{eq:wtprod},
+\[
+p-\wt(c_S)=\sum_{a\in\Fp}T_a(S),\qquad
+T_a(S)=1-\pi\big(|Q\cap(a-S)|\big)-\pi\big(|N\cap(a-S)|\big).
+\]
+\emph{$|S|$ even, $a\in S$.} Then $0\in a-S$, so
+$|Q\cap(a-S)|+|N\cap(a-S)|=|S|-1$ is odd. The two parities differ, so
+$T_a(S)=0=\chi(f_S(a))$.
+
+\emph{$|S|$ even, $a\notin S$.} The two counts sum to $|S|$, so they have equal
+parity. Then $T_a(S)=1$ if both are even and $T_a(S)=-1$ if both are odd. In
+either case $T_a(S)=(-1)^{|N\cap(a-S)|}=\prod_{s\in S}\chi(a-s)=\chi(f_S(a))$.
+
+So for $|S|$ even, $p-\wt(c_S)=\Sigma_S$, which is~(a) by Lemma~\ref{lem:AHW}.
+
+\emph{$|S|$ odd.} Since $x\mapsto a-x$ is a bijection, $a-S$ and $a-S^c$ partition
+$\Fp$. So $|Q\cap(a-S)|+|Q\cap(a-S^c)|=|Q|$, and similarly for $N$. If
+$p\equiv1\pmod4$ then $|Q|=|N|$ is even, the parities agree, and
+$T_a(S)=T_a(S^c)$. If $p\equiv3\pmod4$ they are odd, each parity flips, and
+$T_a(S)=-T_a(S^c)$. As $|S^c|$ is even, the even case applies to $S^c$, giving~(b)
+and~(c).
+\end{proof}
+
+The excluded cases are $c_\emptyset=0$ and $c_{\Fp}$, which is $0$ for
+$p\equiv1\pmod4$ and the all-ones word for $p\equiv3\pmod 4$.
+
+\begin{example}\label{ex:p7weights}
+For $p=7$ and $S=\{0,1\}$, Example~\ref{ex:p7arith} gives $\wt(c_S)=8$ and
+Example~\ref{ex:p7points} gives $\X_S=8$, so $2p+2-\X_S=8$, as in~(a). For
+$S=\{0,1,3\}$, $S^c=\{2,4,5,6\}$ and a direct count gives $\X_{S^c}=12$. Part~(c)
+predicts $\wt(c_S)=10$, which is what one finds.
+\end{example}
+
+\begin{example}\label{ex:p11}
+Let $p=11$, so $Q=\{1,3,4,5,9\}$. For $S=\{1,2,3,4\}$,
+\[
+c_S=(x^{10}+x^9+x^7+x^6+x^5+x^4+x^2+1,\ \ x^{10}+x^9+x^7+x^6+x^5+x^3+x+1),
+\]
+the vector $(1,0,1,0,1,1,1,1,0,1,1,\ 1,1,0,1,0,1,1,1,0,1,1)$ of weight $16$. Here
+$\Sigma_S=-5$ and $\X_S=8$, and indeed $16=p-\Sigma_S=2p+2-\X_S$. For $S=\{1,2,3\}$,
+\[
+c_S=(x^9+x^7+x^5+x^4+x^3+x^2+x,\ \ x^{10}+x^8+x^6+x^3+x^2+x+1)
+\]
+has weight $14$, and $\Sigma_{S^c}=3$, matching $14=p+\Sigma_{S^c}$.
+\end{example}
+
+\subsection{The even subcode}
+
+\begin{definition}
+Let $\Cev=\{c_S:\ |S|\text{ even}\}=\varphi(R_{\mathrm{ev}})$, where
+$R_{\mathrm{ev}}=\{u\in R:\wt(u)\text{ even}\}=(1+x)R$.
+\end{definition}
+
+\begin{proposition}\label{prop:Cev}
+For every odd prime $p$, $\Cev$ is a $[2p,\,p-1]$ code, and its nonzero weights are
+exactly the numbers $2p+2-\X_T$ for non-empty $T$ of even size. Hence
+\[
+d(\Cev)=2p+2-M_p .
+\]
+Moreover:
+\begin{enumerate}
+\item if $p\equiv1\pmod4$ then $\Cev=\CNQ$;
+\item if $p\equiv3\pmod4$ then $\Cev$ is the doubly-even subcode of $\CNQ$,
+$\X_T\equiv0\pmod4$ for every non-empty $T$ of even size, and
+$d(\CNQ)=\min(2p+2-M_p,\ m_p-2)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+The kernel of $\varphi$ is $\{0\}$ or $\{0,J\}$, and $J$ has odd weight, so
+$\varphi$ is injective on $R_{\mathrm{ev}}$, which has dimension $p-1$. The weights
+come from Proposition~\ref{prop:main}(a). If $p\equiv1\pmod4$ then
+$c_S=c_{S^c}$ (as $\varphi(J)=0$), and $S\mapsto S^c$ swaps the two parities, so
+$\Cev=\CNQ$. If $p\equiv3\pmod4$, Theorem~\ref{thm:duality}(1) identifies $\Cev$
+with the doubly-even subcode, so $2p+2-\X_T\equiv0\pmod 4$, which gives
+$\X_T\equiv 2p+2\equiv0\pmod 4$. The formula for $d(\CNQ)$ follows from
+Proposition~\ref{prop:main}(a),(c).
+\end{proof}
+
+\begin{example}\label{ex:Cev11}
+For $p=11$ the even-$S$ codewords of $\CNQ$ have weights $8,12,16$, with
+multiplicities $330,616,77$. The odd-$S$ codewords have weights $6,10,14,22$, with
+multiplicities $77,616,330,1$. So $M_{11}=24-8=16$ and $m_{11}=24-16=8$, and
+$d(\CNQ)=\min(8,6)=6$ is attained only by odd $S$. A weight-$6$ word is
+$c_S$ with $S=\{0,5,6,7,8,9,10\}$: its complement $T=\{1,2,3,4\}$ has $\X_T=8$
+(Example~\ref{ex:twist}).
+\end{example}
+
+\subsection{Weight distributions}
+
+Table~\ref{tab:wd} lists the weight distributions of $\CNQ$ for small $p$, computed by
+exhaustive enumeration. The entries for $p\le 13$ agree with those in the 2006
+version.
+
+\begin{table}[ht]
+\centering\small
+\begin{tabular}{@{}r>{\raggedright\arraybackslash}p{0.8\textwidth}@{}}
+\toprule
+$p$ & nonzero weights $w$ with multiplicities $A_w$\\
+\midrule
+5 & $4^{5}\ 6^{10}$\\
+7 & $4^{14}\ 6^{49}\ 8^{49}\ 10^{14}\ 14^{1}$\\
+11 & $6^{77}\ 8^{330}\ 10^{616}\ 12^{616}\ 14^{330}\ 16^{77}\ 22^{1}$\\
+13 & $8^{273}\ 10^{598}\ 12^{1105}\ 14^{1300}\ 16^{598}\ 18^{182}\ 20^{39}$\\
+17 & $6^{136}\ 8^{170}\ 10^{136}\ 12^{4692}\ 14^{11560}\ 16^{16473}\ 18^{16184}\ 20^{10404}\ 22^{4624}\ 24^{1156}$\\
+19 & $8^{171}\ 10^{1862}\ 12^{10374}\ 14^{36765}\ 16^{84759}\ 18^{128212}\ 20^{128212}\ 22^{84759}\ 24^{36765}\ 26^{10374}\ 28^{1862}\ 30^{171}\ 38^{1}$\\
+23 & $8^{1012}\ 12^{2576}\ 14^{64009}\ 16^{256542}\ 18^{651728}\ 20^{1303456}\ 22^{1914980}\ 24^{1914980}\ 26^{1303456}\ 28^{651728}\ 30^{256542}\ 32^{64009}\ 34^{2576}\ 38^{1012}\ 46^{1}$\\
+\bottomrule
+\end{tabular}
+\caption{Weight distributions of $\CNQ$; $w^{A}$ means $A_w=A$.}
+\label{tab:wd}
+\end{table}
+
+\begin{remark}\label{rem:sqrt}
+If $p\equiv\pm1\pmod8$, then $r_Q$ and $r_N$ are idempotents, and each of the two
+components of $c_S$ lies in a binary quadratic residue code of length $p$. So
+$\CNQ\subseteq\mathrm{QR}\oplus\mathrm{QR}'$, and the square-root bound for QR codes
+gives $d(\CNQ)\ge\sqrt p$. Via Proposition~\ref{prop:main} this yields
+$\X_T\ge\sqrt p+2$ for $p\equiv7\pmod8$ and non-empty even $T$. That point-count
+bound, however, already follows from Lemma~\ref{lem:AHW}(3) together
+with~\eqref{eq:trivial}. If $|T|\ge\sqrt p$, then $\X_T\ge|T|+2$. If
+$|T|<\sqrt p$, then $\X_T\ge p+1-(|T|-2)\sqrt p>2\sqrt p+1$.
+\end{remark}
+
+%======================================================================
+\section{Point-count bounds from coding bounds}
+\label{sec:bounds}
+
+\begin{theorem}\label{thm:goppa}
+Let $c<2\big(1-H^{-1}(1/2)\big)=1.7799\ldots$ and suppose $B_{\mathrm{ev}}(c,p)$
+(that is, $M_p\le cp$) holds for infinitely many primes $p$. Then Goppa's
+conjecture~\ref{conj:goppa} is false.
+\end{theorem}
+
+\begin{proof}
+For such $p$, Proposition~\ref{prop:Cev} makes $\Cev$ a $[2p,p-1,\ge(2-c)p+2]$ code.
+Along these primes the rate tends to $1/2$ and the relative distance is at least
+$\delta_0=1-c/2>H^{-1}(1/2)=0.1100\ldots$. So $\alpha(\delta_0)\ge1/2>1-H(\delta_0)$.
+\end{proof}
+
+\begin{remark}
+The 2006 version assumed $p\equiv1\pmod4$ and used the constant $1.77$; for
+$p\equiv3\pmod4$ it used the longer LQR codes (Remark~\ref{rem:LQR}) and the
+weaker constant $1.57$. Restricting to $\Cev$ removes the congruence condition at
+no cost. Note also that only sets of even size are involved.
+\end{remark}
+
+\begin{theorem}\label{thm:mrrw}
+Let $\delta^*=0.18707\ldots$ be the root in $(0,1/2)$ of
+$H\big(\tfrac12-\sqrt{\delta(1-\delta)}\big)=\tfrac12$, and let
+$c^*=2(1-\delta^*)=1.62584\ldots$. For every $c<c^*$ there is $p_0(c)$ such that
+$M_p>cp$ for all primes $p>p_0(c)$. In particular, for all large $p$ there is a set
+$S$ of even size with $\X_S>1.625p$.
+\end{theorem}
+
+\begin{proof}
+Otherwise $M_p\le cp$ for infinitely many $p$. By Proposition~\ref{prop:Cev}, the
+codes $\Cev$ for those $p$ have rate $\to1/2$ and relative distance at least
+$\delta_0=1-c/2>\delta^*$. The first McEliece--Rodemich--Rumsey--Welch bound
+\cite{MRRW77} (see~\cite[Thm.~2.10.6]{HP03}) gives
+$\limsup R\le H\big(\tfrac12-\sqrt{\delta_0(1-\delta_0)}\big)<\tfrac12$, a
+contradiction. (The right-hand side is decreasing in $\delta_0$ on $(0,1/2)$.)
+\end{proof}
+
+\begin{remark}
+The proof gives no way to compute $p_0(c)$ or $S$. Any improvement of the
+linear-programming bound at rate $1/2$ improves $c^*$.
+\end{remark}
+
+\begin{corollary}\label{cor:53}
+If $p\equiv3\pmod4$ and $p\ge11$, then $M_p\ge\frac53p-6$.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{thm:duality}, $\CNQ$ is a Type~I self-dual code of length
+$n=2p$. Rains' bound~\cite{Ra98} gives $d\le4\lfloor n/24\rfloor+4$, or
+$+6$ if $n\equiv22\pmod{24}$; in all cases $d\le p/3+6$. By
+Proposition~\ref{prop:Cev}, $d=\min(2p+2-M_p,\ m_p-2)$. If $d=2p+2-M_p$ then
+$M_p\ge\frac53p-4$. Otherwise $m_p\le p/3+8$, and Corollary~\ref{cor:Mm} gives
+$M_p\ge2p+2-m_p\ge\frac53p-6$.
+\end{proof}
+
+\begin{example}
+For $p=11,19,23$ the true values are $M_p=16,32,40$, against $\frac53p-6=12.3$,
+$25.7$ and $32.3$. For $p=11$ the minimum weight of $\CNQ$ comes from an odd set
+(Example~\ref{ex:Cev11}). So the second case of the proof really occurs, and the
+argument in the 2006 version, which assumed the first case, was incomplete.
+\end{example}
+
+\begin{remark}\label{rem:LQR}
+The 2006 version also introduced the \emph{long quadratic residue} (LQR) code
+$\{(r_Nr_S,r_Qr_S,r_Nr_S^*,r_Qr_S^*)\}\subseteq\F_2^{4p}$, where
+$r_S^*=r_S+J$. Since $r_Nr_S^*=r_Nr_S+|N|J$, this code is the doubled code
+$\{(u,u):u\in\CNQ\}$ when $p\equiv1\pmod4$. When $p\equiv3\pmod 4$ it is the coset
+$(0,0,J,J)+\{(u,u)\}$ of that doubled code, all of whose words have weight $2p$. Its
+linear span has minimum distance $2\,d(\CNQ)$ and rate about $1/4$. That is the same
+relative distance as $\CNQ$ at half the rate, so it gives nothing that $\Cev$ does
+not, and we omit it.
+\end{remark}
+
+%======================================================================
+\section{Explicit constructions}
+\label{sec:voloch}
+
+The results in this section are due to F.~Voloch~\cite{Vo06}, except for the case
+$p\equiv5\pmod8$ in Theorem~\ref{thm:voloch}, which is new here. They use no coding
+theory.
+
+\begin{theorem}\label{thm:voloch}
+Let $p\ge 11$ be prime.
+\begin{enumerate}
+\item If $p\equiv1\pmod 8$, then $\X_Q=\frac32p+\frac52$.
+\item If $p\equiv3\pmod 8$, then $\X_Q=\frac32p-\frac12$.
+\item If $p\equiv5\pmod 8$, then $\X_{Q\cup\{0\}}=\frac32p+\frac12$.
+\item If $p\equiv7\pmod 8$, then $\X_N=\frac32p+\frac32$.
+\end{enumerate}
+In particular, every prime $p\ge11$ has an explicit $S$ with $\X_S\ge\frac32p-\frac12$.
+\end{theorem}
+
+\begin{proof}
+Since $b^{(p-1)/2}=\chi(b)$ for $b\ne0$, we have $f_Q(x)=x^{(p-1)/2}-1$ and
+$f_N(x)=x^{(p-1)/2}+1$. Write $h=(p-1)/2=|Q|=|N|$.
+
+(1),(2): $f_Q$ vanishes on $Q$, $f_Q(n)=-2$ for $n\in N$, and $f_Q(0)=-1$. So
+$\Sigma_Q=h\,\chi(-2)+\chi(-1)$. Now $\chi(-2)=1$ iff $p\equiv1,3\pmod8$. For
+$p\equiv1\pmod8$, $\Sigma_Q=h+1$ and $|Q|$ is even, so $\X_Q=p+2+h+1$. For
+$p\equiv3\pmod8$, $\Sigma_Q=h-1$ and $|Q|$ is odd, so $\X_Q=p+1+h-1$.
+
+(3): With $S=Q\cup\{0\}$, $f_S(x)=x(x^h-1)$. Then $f_S(n)=-2n$ for $n\in N$, and
+$\chi(-2n)=\chi(-2)\chi(n)=(-1)(-1)=1$ when $p\equiv5\pmod 8$. Also $f_S$ vanishes
+on $S$. So $\Sigma_S=h$, $|S|=h+1$ is odd, and $\X_S=p+1+h$.
+
+(4): $f_N(q)=2$ for $q\in Q$, $\chi(2)=1$, $f_N(0)=1$, and $|N|$ is odd. So
+$\Sigma_N=h+1$ and $\X_N=p+1+h+1$.
+\end{proof}
+
+\begin{example}
+For $p=13\equiv5\pmod 8$, $Q=\{1,3,4,9,10,12\}$ and $S=\{0,1,3,4,9,10,12\}$ gives
+$\X_S=20=\frac32\cdot13+\frac12$. For $p=11$, $\X_Q=16=M_{11}$, so here the explicit
+set is optimal. These values were checked by direct counting for all $p<200$.
+\end{example}
+
+\begin{theorem}[Voloch]\label{thm:chebotarev}
+Fix an integer $\ell\ge2$. There is a set of primes $p\equiv1\pmod\ell$ of positive
+Dirichlet density such that, with $P_\ell\subset\Fp^\times$ the subgroup of $\ell$-th
+powers,
+\[
+\X_{P_\ell}=\Big(2-\frac1\ell\Big)p+O(1),
+\]
+where the $O(1)$ term lies in $[-2,3]$.
+\end{theorem}
+
+\begin{proof}
+Let $\zeta$ be a primitive $\ell$-th root of unity in $\C$ and
+$K=\Q\big(\zeta,\sqrt{\zeta^i-1}:1\le i\le\ell-1\big)$. By Chebotarev's density
+theorem the primes that split completely in $K$ have density $1/[K:\Q]>0$; such
+$p$ satisfy $p\equiv1\pmod\ell$. Choose the reduction of $\zeta$ to be a primitive
+$\ell$-th root $r\in\Fp$. Then $\chi(r^i-1)=1$ for $1\le i\le\ell-1$. Now
+$f_{P_\ell}(x)=x^{(p-1)/\ell}-1$, which takes the value $r^i-1$ on the coset
+where $x^{(p-1)/\ell}=r^i$. So every $x\notin P_\ell\cup\{0\}$ contributes $+1$ to
+$\Sigma_{P_\ell}$. Hence $\Sigma_{P_\ell}=(p-1)(1-1/\ell)+\chi(-1)$, and
+Lemma~\ref{lem:AHW} gives the claim. Effective versions of Chebotarev's
+theorem~\cite{LO77,Se81} make such primes, and hence $S$, computable.
+\end{proof}
+
+\begin{corollary}
+Question~\ref{q:2} has a negative answer: for every $c<2$, there are infinitely many
+primes $p$ (a set of positive density) for which $B(c,p)$ fails.
+\end{corollary}
+
+This does \emph{not} disprove Conjecture~\ref{conj:BM}, which asks for infinitely
+many primes where $B(c,p)$ \emph{holds}.
+
+%======================================================================
+\section{Duursma zeta functions}
+\label{sec:zeta}
+
+Duursma~\cite{Du99,Du01} attached to an $[n,k,d]$ code $C$ over $\F_q$, with dual
+distance $d^\perp\ge2$, a zeta function
+\[
+Z_C(T)=\frac{P_C(T)}{(1-T)(1-qT)},
+\]
+where the \emph{zeta polynomial} $P_C$ has degree $n+2-d-d^\perp$, satisfies
+$P_C(1)=1$, and depends only on the weight enumerator. Concretely, $P_C$ is the
+unique polynomial with
+\[
+W_C=\sum_{i=0}^{n-d-d^\perp+2} [T^i]P_C(T)\cdot M_{n,d+i},
+\]
+where $M_{n,w}$ is the weight enumerator of a (formal) MDS code of length $n$ and
+minimum distance $w$. With genus $\gamma=n+1-k-d$, the MacWilliams identity becomes
+the functional equation
+$P_{C^\perp}(T)=P_C(1/(qT))\,q^{\gamma}T^{\gamma+\gamma^\perp}$.
+For formally self-dual $C$, the zeros of $P_C$ are symmetric about $|T|=q^{-1/2}$,
+and $C$ is said to satisfy the \emph{Riemann hypothesis} (RH) if all of them lie on
+$|T|=q^{-1/2}$. Duursma conjectured that every extremal self-dual code satisfies
+RH~\cite{Du03}. For even binary codes one checks that
+$d=2-\sum_i\rho_i^{-1}$ over the zeros $\rho_i$ of $P_C$, equivalently
+$[T^1]P_C/[T^0]P_C=d-2$.
+
+\begin{example}\label{ex:zeta7}
+For $p=7$, $\CNQ$ is a self-dual $[14,7,4]$ code with
+\[
+P(T)=\tfrac{2}{143}+\tfrac{4}{143}T+\tfrac{19}{429}T^2+\tfrac{28}{429}T^3
++\tfrac{40}{429}T^4+\tfrac{56}{429}T^5+\tfrac{76}{429}T^6+\tfrac{32}{143}T^7
++\tfrac{32}{143}T^8 .
+\]
+The coefficients sum to $1$, the functional equation $p_8=2^4p_0$ holds, and all
+eight zeros have modulus $1/\sqrt2$.
+\end{example}
+
+\subsection{The extended code for $p\equiv1\pmod4$}
+
+\begin{theorem}\label{thm:isodual}
+Let $p\equiv1\pmod4$ and $C'=\CNQ+\langle\mathbf 1\rangle$. Then $\mathbf1\notin\CNQ$,
+$\dim C'=p$, and $C'^\perp=\sigma(C')$, where $\sigma$ swaps the two halves of each
+codeword. So $C'$ is isodual, hence formally self-dual. Its weight distribution is
+$A_w+A_{2p-w}$, where $(A_w)$ is that of $\CNQ$.
+\end{theorem}
+
+\begin{proof}
+If $(r_Nu,r_Qu)=(J,J)$ then $(1+J)u=0$, so $u\in\{0,J\}$ and $\varphi(u)=0$, a
+contradiction. So $\mathbf 1\notin\CNQ$ and $\dim C'=p$. Next,
+$\sigma(\varphi(v))=(r_Qv,r_Nv)$ and
+$\langle\varphi(u),\sigma\varphi(v)\rangle=\ct\big(uv^-(r_Nr_Q^-+r_Qr_N^-)\big)
+=\ct(uv^-\cdot2r_Nr_Q)=0$ by~\eqref{eq:minus}. The word $\mathbf 1$ is orthogonal
+to every even-weight word, and $\langle\mathbf1,\mathbf1\rangle=2p=0$. So
+$\sigma(C')\subseteq C'^\perp$, with equality since both have dimension $p$.
+\end{proof}
+
+\begin{example}\label{ex:zeta13}
+For $p=13$, $C'$ is a $[26,13,6]$ formally self-dual code with weight distribution
+$1,\ 39,\ 455,\ 1196,\ 2405,\ 2405,\ 1196,\ 455,\ 39,\ 1$ in weights
+$0,6,8,\dots,20,26$. Its zeta polynomial has degree $16$:
+\[
+\begin{aligned}
+P(T)={}&\tfrac{3}{17710}+\tfrac{6}{8855}T+\tfrac{611}{336490}T^2+\tfrac{9}{2185}T^3
++\tfrac{3441}{408595}T^4+\tfrac{6448}{408595}T^5+\tfrac{44499}{1634380}T^6
++\tfrac{22539}{520030}T^7\\
+&+\tfrac{66303}{1040060}T^8+\tfrac{22539}{260015}T^9+\tfrac{44499}{408595}T^{10}
++\tfrac{51584}{408595}T^{11}+\tfrac{55056}{408595}T^{12}+\tfrac{288}{2185}T^{13}\\
+&+\tfrac{19552}{168245}T^{14}+\tfrac{768}{8855}T^{15}+\tfrac{384}{8855}T^{16}.
+\end{aligned}
+\]
+Exactly $12$ of its $16$ zeros have modulus $1/\sqrt2$, so $C'$ does not satisfy RH.
+\end{example}
+
+The minimum distance $6$ is the largest possible for an even binary $[26,13]$ code
+if, as we understand the tables~\cite{Gr}, no binary $[26,13,8]$ code exists. We
+have not independently verified this, and the claim of optimality should be read
+with that caveat. Failures of RH for non-extremal self-dual and formally self-dual
+codes are known; see~\cite{Du03,Ch05,Ch18}. The examples here are of interest
+because the codes are structured and have large minimum distance.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{@{}lllcc@{}}
+\toprule
+code & $p$ & parameters & zeros on $|T|=1/\sqrt2$ & RH\\
+\midrule
+$\CNQ$ & 7 & $[14,7,4]$ self-dual & 8 of 8 & yes\\
+$\CNQ$ & 11 & $[22,11,6]$ self-dual & 12 of 12 & yes\\
+$\CNQ$ & 19 & $[38,19,8]$ self-dual & 24 of 24 & yes\\
+$\CNQ$ & 23 & $[46,23,8]$ self-dual & 30 of 32 & no\\
+$C'$ & 13 & $[26,13,6]$ isodual & 12 of 16 & no\\
+$C'$ & 17 & $[34,17,6]$ isodual & 22 of 24 & no\\
+$C'$ & 29 & $[58,29,12]$ isodual & 36 of 36 & yes\\
+\bottomrule
+\end{tabular}
+\caption{The Riemann hypothesis for QQR codes and their extensions.}
+\label{tab:RH}
+\end{table}
+
+The case $p=23$ answers negatively the question, raised in the 2006 version, of
+whether $\CNQ$ always satisfies RH for $p\equiv3\pmod4$. Boston and
+Hao~\cite{BH17} found the same failure independently.
+
+%======================================================================
+\section{Open questions and their difficulty}
+\label{sec:open}
+
+\paragraph{A heuristic.} Suppose $\Cev$ behaved like a random linear code of rate
+$1/2$. Then its minimum distance would be close to the GV value $2p\,H^{-1}(1/2)$,
+and Proposition~\ref{prop:Cev} would give
+$M_p\approx2\big(1-H^{-1}(1/2)\big)p\approx1.78p$. The data in
+Table~\ref{tab:Mp} are consistent with this. Corollary~\ref{cor:Mm} shows that a
+large $M_p$ and a small $m_p$ go together.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+$p$ & 7 & 11 & 13 & 17 & 19 & 23\\
+\midrule
+$M_p$ & 12 & 16 & 20 & 30 & 32 & 40\\
+$m_p$ & 8 & 8 & 8 & 12 & 12 & 16\\
+$M_p/p$ & 1.714 & 1.455 & 1.538 & 1.765 & 1.684 & 1.739\\
+\bottomrule
+\end{tabular}
+\caption{Extreme point counts over even non-empty sets $T$.}
+\label{tab:Mp}
+\end{table}
+
+\paragraph{Question~\ref{q:1} (explicit $S$).} For $c=1.5-o(1)$ it is answered for
+every $p\ge11$ by Theorem~\ref{thm:voloch}. For $c$ close to $2$ it is answered on
+the positive-density sets of primes in Theorem~\ref{thm:chebotarev}. For a fixed
+$c>1.5$ and \emph{all} large $p$ it is open, and we expect it to be hard. When
+$p=2q+1$ is a safe prime, $\Fp^\times$ has no subgroups other than $1$, $Q$ and
+$\Fp^\times$ to exploit. Matching the non-constructive bound of
+Theorem~\ref{thm:mrrw} explicitly looks as hard as making the MRRW-type existence
+argument effective. A cheap experiment worth doing: take $S$ to be a union of cosets
+of an index-$\ell$ subgroup. Choosing the cosets is then a linear-algebra problem
+over $\F_2$ involving the matrix $\big[\chi(r_i-r_j)=-1\big]$ on the $\ell$-th
+roots of unity.
+
+\paragraph{Question~\ref{q:2}.} Answered negatively by
+Theorem~\ref{thm:chebotarev}.
+
+\paragraph{Conjecture~\ref{conj:BM} (Bazzi--Mitter).} Open, and very hard. Any
+$c<2$ would make the QQR family asymptotically good. That is close in spirit to the
+long-open question of whether binary quadratic residue codes are asymptotically good.
+By Corollary~\ref{cor:Mm}, it would also force every split even-degree curve
+$X_T$, of genus up to about $p/2$, to have at least $(2-c)p+2$ points. No known
+method controls Legendre sums of polynomials whose degree is comparable to $p$. The
+heuristic suggests the conjecture holds for every $c$ slightly above $1.78$.
+
+\paragraph{The hypothesis of Theorem~\ref{thm:goppa}.} Open. Heuristically it is
+false, since $1.7799$ is exactly the GV threshold. Proving it would refute Goppa's
+conjecture, and disproving it for this family would require the kind of
+lower bound on Legendre sums just described.
+
+\paragraph{Riemann hypothesis.} The general question for $\CNQ$ is settled
+negatively (Table~\ref{tab:RH}). Whether RH holds whenever $\CNQ$ happens to be
+extremal is a special case of Duursma's conjecture for extremal Type~I codes, which
+is open.
+
+%======================================================================
+\section{Literature}
+\label{sec:lit}
+
+\subsection{Before 2006}
+Quadratic residue codes go back to Prange (1957--1959). Their square-root bound and
+basic theory are in MacWilliams and Sloane~\cite{MS77} and Huffman and
+Pless~\cite{HP03}. Double-circulant codes built from quadratic residues were studied
+by Karlin~\cite{Ka69}. Calderbank~\cite{Ca83} proved a square-root bound for
+quasi-cyclic codes. Chen, Peterson and Weldon~\cite{CPW69} and Kasami~\cite{Ka74}
+showed that quasi-cyclic codes of rate $1/2$ meet the GV bound, which is the origin
+of the random-code heuristic of Section~\ref{sec:open}. Helleseth~\cite{He92}
+related QR codewords to Legendre sums, and Helleseth and Voloch~\cite{HV04} combined
+this with Weil's bound~\cite{We48} to bound the minimum distance of double-circulant
+QR codes by about $2\sqrt p$. Voloch~\cite{Vo} studied the asymptotics of QR code
+minimum distances. Bazzi and Mitter~\cite{BM06} (preprint 2001) introduced the QQR
+codes and Conjecture~\ref{conj:BM}.
+
+On bounds: Gilbert (1952) and Varshamov (1957) gave the GV bound. McEliece, Rodemich,
+Rumsey and Welch~\cite{MRRW77} gave the best known asymptotic upper bounds. Goppa
+stated his conjecture in~\cite{Go93}. Jiang and Vardy~\cite{JV04} improved the GV
+bound on code size by a linear factor, without changing the asymptotic rate.
+
+For self-dual codes: Gleason's theorem and the Mallows--Sloane bound~\cite{MS73}
+constrain weight enumerators, and Rains~\cite{Ra98} sharpened the Type~I bound via
+shadows. Massey~\cite{Ma92} introduced LCD codes. Duursma defined zeta functions
+for codes~\cite{Du99,Du01}, formulated the Riemann hypothesis analog and studied
+extremal enumerators~\cite{Du03}. Chinen~\cite{Ch05} extended the theory to formal
+weight enumerators. Character sums and curves over finite fields are treated in
+Schmidt~\cite{Sc04} and Tsfasman and Vl\u{a}du\c{t}~\cite{TV91}. Effective
+Chebotarev theorems are due to Lagarias and Odlyzko~\cite{LO77} and Serre~\cite{Se81}.
+
+\subsection{2006 and after}
+A revised version of this paper appeared in 2008~\cite{Jo08}. Joyner and
+Kim~\cite{JK11} treated the subject at book length, with chapters on the Riemann
+hypothesis for codes and on hyperelliptic curves and QR codes. Boston and
+Hao~\cite{BH17} showed that $\mathrm{PSL}_2(p)$ acts on extended QQR codes. They
+proved divisibility results for QQR weight polynomials, used them to compute
+weight distributions efficiently, found the $p=23$ failure of RH, and showed that a
+symmetrized point-count distribution for a family of the curves $X_T$ tends to the
+normal distribution. Chinen~\cite{Ch18} gave extremal invariant polynomials that
+violate RH. Alahmadi, \"Ozdemir and Sol\'e~\cite{AOS18} showed that self-dual
+double-circulant codes are dihedral and that the family is asymptotically good, in
+part assuming the generalized Riemann hypothesis via Artin's primitive root
+conjecture. Shi, Xu and Sol\'e~\cite{SXS21} introduced double Toeplitz codes, which
+are isodual like our $C'$, and constructed some arbitrarily close to the GV bound at
+rate $1/2$. None of these results settles Conjecture~\ref{conj:BM} for the specific
+QQR family.
+
+%======================================================================
+\section*{Acknowledgements}
+The first author thanks Amin Shokrollahi for helpful advice, Felipe Voloch for
+allowing his constructions to be included, and his former student Greg Coy, whose
+honors project~\cite{Coy06} contains parts of Proposition~\ref{prop:main}.
+
+This revision was prepared with Claude (Anthropic). Claude refereed the 2006 text
+and proposed and wrote the following, which the first author has reviewed: the
+proofs of Theorems~\ref{thm:duality} and~\ref{thm:isodual}; the twist identity
+(Lemma~\ref{lem:twist}) and Corollary~\ref{cor:Mm}; the use of $\Cev$ in
+Theorems~\ref{thm:goppa} and~\ref{thm:mrrw}; the repaired Corollary~\ref{cor:53};
+case~(3) of Theorem~\ref{thm:voloch}; and the computations in
+Tables~\ref{tab:wd}--\ref{tab:Mp}. The Python code used to verify every numerical
+claim is in the repository accompanying this paper.
+
+%======================================================================
+\begin{thebibliography}{99}\small
+
+\bibitem{AOS18} A. Alahmadi, F. \"Ozdemir and P. Sol\'e, On self-dual double
+circulant codes, \emph{Des.\ Codes Cryptogr.} 86 (2018), 1257--1265.
+
+\bibitem{BM06} L. Bazzi and S. Mitter, Some randomized code constructions from
+group actions, \emph{IEEE Trans.\ Inform.\ Theory} 52 (2006), 3210--3219
+(preprint 2001).
+
+\bibitem{BH17} N. Boston and J. Hao, The weight distribution of quasi-quadratic
+residue codes, arXiv:1705.06413 (2017).
+
+\bibitem{Ca83} R. Calderbank, A square root bound on the minimum weight in
+quasi-cyclic codes, \emph{IEEE Trans.\ Inform.\ Theory} 29 (1983), 332--337.
+
+\bibitem{CPW69} C.~L. Chen, W.~W. Peterson and E.~J. Weldon, Some results on
+quasi-cyclic codes, \emph{Inform.\ Control} 15 (1969), 407--423.
+
+\bibitem{Ch05} K. Chinen, Zeta functions for formal weight enumerators and the
+extremal property, \emph{Proc.\ Japan Acad.\ Ser.\ A} 81 (2005), 168--173.
+
+\bibitem{Ch18} K. Chinen, Extremal invariant polynomials not satisfying the Riemann
+hypothesis, arXiv:1709.03389 (2017).
+
+\bibitem{Coy06} G. Coy, \emph{Long quadratic residue codes}, Honors Project,
+Mathematics Dept., U.S. Naval Academy, 2005--2006.
+
+\bibitem{Du99} I. Duursma, Weight distributions of geometric Goppa codes,
+\emph{Trans.\ Amer.\ Math.\ Soc.} 351 (1999), 3609--3639.
+
+\bibitem{Du01} I. Duursma, From weight enumerators to zeta functions,
+\emph{Discrete Appl.\ Math.} 111 (2001), 55--73.
+
+\bibitem{Du03} I. Duursma, Extremal weight enumerators and ultraspherical
+polynomials, \emph{Discrete Math.} 268 (2003), 103--127.
+
+\bibitem{Go93} V.~D. Goppa, Bounds for codes, \emph{Dokl.\ Akad.\ Nauk} 333 (1993),
+423.
+
+\bibitem{Gr} M. Grassl, Bounds on the minimum distance of linear codes and quantum
+codes, online tables, \url{http://www.codetables.de}.
+
+\bibitem{He92} T. Helleseth, Legendre sums and codes related to QR codes,
+\emph{Discrete Appl.\ Math.} 35 (1992), 107--113.
+
+\bibitem{HV04} T. Helleseth and J.~F. Voloch, Double circulant quadratic residue
+codes, \emph{IEEE Trans.\ Inform.\ Theory} 50 (2004), 2154--2155.
+
+\bibitem{HP03} W.~C. Huffman and V. Pless, \emph{Fundamentals of Error-Correcting
+Codes}, Cambridge Univ.\ Press, 2003.
+
+\bibitem{JV04} T. Jiang and A. Vardy, Asymptotic improvement of the
+Gilbert--Varshamov bound on the size of binary codes, \emph{IEEE Trans.\ Inform.\
+Theory} 50 (2004), 1655--1664.
+
+\bibitem{Jo08} D. Joyner, On quadratic residue codes and hyperelliptic curves,
+\emph{Discrete Math.\ Theor.\ Comput.\ Sci.} 10:1 (2008),
+\url{https://doi.org/10.46298/dmtcs.429}; arXiv:math/0609562.
+
+\bibitem{JK11} D. Joyner and J.-L. Kim, \emph{Selected Unsolved Problems in Coding
+Theory}, Birkh\"auser, 2011.
+
+\bibitem{Ka69} M. Karlin, New binary coding results by circulants, \emph{IEEE
+Trans.\ Inform.\ Theory} 15 (1969), 81--92.
+
+\bibitem{Ka74} T. Kasami, A Gilbert--Varshamov bound for quasi-cyclic codes of rate
+1/2, \emph{IEEE Trans.\ Inform.\ Theory} 20 (1974), 679.
+
+\bibitem{LO77} J.~C. Lagarias and A.~M. Odlyzko, Effective versions of the
+Chebotarev density theorem, in \emph{Algebraic Number Fields}, A.~Fr\"ohlich (ed.),
+Academic Press, 1977, 409--464.
+
+\bibitem{MS77} F.~J. MacWilliams and N.~J.~A. Sloane, \emph{The Theory of
+Error-Correcting Codes}, North-Holland, 1977.
+
+\bibitem{MS73} C.~L. Mallows and N.~J.~A. Sloane, An upper bound for self-dual
+codes, \emph{Inform.\ Control} 22 (1973), 188--200.
+
+\bibitem{Ma92} J.~L. Massey, Linear codes with complementary duals, \emph{Discrete
+Math.} 106/107 (1992), 337--342.
+
+\bibitem{MRRW77} R.~J. McEliece, E.~R. Rodemich, H. Rumsey and L.~R. Welch, New
+upper bounds on the rate of a code via the Delsarte--MacWilliams inequalities,
+\emph{IEEE Trans.\ Inform.\ Theory} 23 (1977), 157--166.
+
+\bibitem{Ra98} E.~M. Rains, Shadow bounds for self-dual codes, \emph{IEEE Trans.\
+Inform.\ Theory} 44 (1998), 134--139.
+
+\bibitem{Sc04} W. Schmidt, \emph{Equations over Finite Fields: An Elementary
+Approach}, 2nd ed., Kendrick Press, 2004.
+
+\bibitem{Se81} J.-P. Serre, Quelques applications du th\'eor\`eme de densit\'e de
+Chebotarev, \emph{Publ.\ Math.\ IH\'ES} 54 (1981), 123--201.
+
+\bibitem{SXS21} M. Shi, L. Xu and P. Sol\'e, On isodual double Toeplitz codes,
+arXiv:2102.09233 (2021).
+
+\bibitem{TV91} M.~A. Tsfasman and S.~G. Vl\u{a}du\c{t}, \emph{Algebraic-Geometric
+Codes}, Kluwer, Dordrecht, 1991.
+
+\bibitem{Vo} J.~F. Voloch, Asymptotics of the minimal distance of quadratic residue
+codes, preprint.
+
+\bibitem{Vo06} J.~F. Voloch, personal communication, May 2006.
+
+\bibitem{We48} A. Weil, On some exponential sums, \emph{Proc.\ Nat.\ Acad.\ Sci.\
+U.S.A.} 34 (1948), 204--207.
+
+\end{thebibliography}
+
+%======================================================================
+\appendix
+\section{Glossary}
+\label{app:glossary}
+
+\begin{description}\small
+\item[Asymptotically good] A family of codes of length $n\to\infty$ whose rate and
+relative distance both stay bounded away from $0$.
+
+\item[$B(c,p)$, $B_{\mathrm{ev}}(c,p)$] The statement that $\X_S\le cp$ for all
+non-empty $S\subseteq\Fp$ (respectively, all such $S$ of even size);
+Definition~\ref{def:B}.
+
+\item[{Binary linear code; $[n,k,d]$}] A $k$-dimensional subspace of $\F_2^n$ with
+minimum nonzero Hamming weight $d$.
+
+\item[$c_S$] The QQR codeword $(r_Nr_S,r_Qr_S)$.
+
+\item[$\CNQ$] The quasi-quadratic residue code; Definition~\ref{def:QQR}.
+
+\item[$\Cev$] The subcode $\{c_S:|S|\text{ even}\}$ of $\CNQ$, of dimension $p-1$;
+its weights are $2p+2-\X_T$.
+
+\item[$C'$] For $p\equiv1\pmod4$, the code $\CNQ+\langle\mathbf1\rangle$; it is
+isodual (Theorem~\ref{thm:isodual}).
+
+\item[Character sum $\Sigma_S$] $\sum_{x\in\Fp}\chi(f_S(x))$; it determines $\X_S$
+by Lemma~\ref{lem:AHW}.
+
+\item[Chebotarev density theorem] For a finite Galois extension $K/\Q$, the primes
+whose Frobenius lies in a given conjugacy class have natural density proportional
+to the size of that class. In particular, the primes that split completely have
+density $1/[K:\Q]$.
+
+\item[Double-circulant code] A code with generator matrix $[A\mid B]$, where $A,B$
+are $p\times p$ circulant matrices; a quasi-cyclic code of index $2$.
+
+\item[Doubly-even, singly-even] A binary code is doubly-even if all its weights are
+divisible by $4$, and singly-even if it is even but not doubly-even.
+
+\item[Dual code $C^\perp$] $\{v:\langle v,c\rangle=0\ \forall c\in C\}$ with the
+standard inner product.
+
+\item[Duursma zeta function, zeta polynomial] $Z_C(T)=P_C(T)/((1-T)(1-qT))$, where
+$P_C$ is determined by the weight enumerator; Section~\ref{sec:zeta}.
+
+\item[Entropy function $H$] $H(\delta)=-\delta\log_2\delta-(1-\delta)\log_2(1-\delta)$.
+
+\item[Extremal code] A self-dual code whose minimum distance meets the relevant
+upper bound (Mallows--Sloane for Type~II, Rains for Type~I).
+
+\item[$f_S$] The monic polynomial $\prod_{a\in S}(x-a)\in\Fp[x]$.
+
+\item[Formally self-dual] A code with the same weight enumerator as its dual.
+
+\item[Genus of a code] Duursma's $\gamma=n+1-k-d$, which measures the distance from
+the Singleton bound.
+
+\item[Genus of $X_S$] $\lfloor(|S|-1)/2\rfloor$.
+
+\item[Gilbert--Varshamov (GV) bound] The guarantee of codes with
+$k\ge n-\log_2V(n,d-1)$; asymptotically, rate $1-H(\delta)$.
+
+\item[Goppa's conjecture] The conjecture that the asymptotic GV bound is tight for
+binary codes; Conjecture~\ref{conj:goppa}.
+
+\item[Hamming weight, distance] $\wt(v)$ is the number of nonzero coordinates of
+$v$, and $d(u,v)=\wt(u-v)$.
+
+\item[Hyperelliptic curve $X_S$] The smooth projective curve with affine equation
+$y^2=f_S(x)$.
+
+\item[Idempotent] An element $e$ of $R$ with $e^2=e$; it generates a cyclic code.
+
+\item[Isodual] Equivalent to its own dual by a coordinate permutation. Isodual
+codes are formally self-dual.
+
+\item[$J$] The all-ones polynomial $1+x+\dots+x^{p-1}=r_{\Fp}$ in $R$.
+
+\item[LCD code] A code $C$ with $C\cap C^\perp=\{0\}$ (linear complementary dual).
+
+\item[Legendre symbol $\chi$] $\chi(b)=b^{(p-1)/2}\in\{0,\pm1\}$ in $\Fp$.
+
+\item[LQR code] The length-$4p$ code of the 2006 version; Remark~\ref{rem:LQR}.
+
+\item[$M_p$, $m_p$] The maximum and minimum of $\X_T$ over non-empty $T$ of even
+size.
+
+\item[MacWilliams identity] The relation $W_{C^\perp}(x,y)=|C|^{-1}W_C(x+y,x-y)$
+between weight enumerators.
+
+\item[MDS code] A code meeting the Singleton bound $d=n-k+1$.
+
+\item[MRRW bound] The McEliece--Rodemich--Rumsey--Welch linear-programming upper
+bounds; the first one is $R\le H(\frac12-\sqrt{\delta(1-\delta)})$.
+
+\item[$\#X_S$] The number of $\Fp$-points of the smooth projective model of $X_S$,
+including the points at infinity.
+
+\item[$N$, $Q$] The non-squares and the nonzero squares in $\Fp^\times$.
+
+\item[Optimal code] A code whose minimum distance is the largest possible for its
+length and dimension, within a stated class of codes.
+
+\item[Points at infinity] The points of the smooth model of $y^2=f(x)$ not in the
+affine plane. There are two when $\deg f$ is even and $f$ is monic, and one when
+$\deg f$ is odd.
+
+\item[QR code] A binary cyclic code of prime length $p\equiv\pm1\pmod8$ generated by
+an idempotent built from $r_Q$ or $r_N$.
+
+\item[Quadratic twist] For $y^2=h(x)$, the curve $y^2=\nu h(x)$ with $\nu$ a
+non-square. The two point counts sum to $2p+2$ when $\deg h$ is even.
+
+\item[Quasi-cyclic code] A code invariant under a simultaneous cyclic shift of
+blocks of coordinates.
+
+\item[$R$] The ring $\F_2[x]/(x^p-1)$.
+
+\item[$r_S$] The polynomial $\sum_{i\in S}x^i\in R$.
+
+\item[Rains bound] For singly-even self-dual codes of length $n$,
+$d\le4\lfloor n/24\rfloor+4$, or $+6$ if $n\equiv22\pmod{24}$.
+
+\item[Rate, relative distance] For an $[n,k,d]$ code these are $k/n$ and $d/n$.
+
+\item[Riemann hypothesis (for codes)] For a formally self-dual code over $\F_q$, the
+property that all zeros of $P_C$ lie on $|T|=q^{-1/2}$.
+
+\item[Safe prime] A prime $p$ such that $(p-1)/2$ is also prime.
+
+\item[Self-dual, self-orthogonal] $C=C^\perp$, respectively $C\subseteq C^\perp$.
+
+\item[Shadow] For a singly-even self-dual code $C$ with doubly-even subcode $C_0$,
+the set $C_0^\perp\setminus C$. Its weight enumerator constrains that of $C$.
+
+\item[Type I, Type II] Singly-even, respectively doubly-even, binary self-dual codes.
+
+\item[Weil bound] $|\X(\F_q)-(q+1)|\le2g\sqrt q$ for a smooth projective curve of
+genus $g$.
+
+\item[Weight distribution, weight enumerator] The numbers $A_w$ of codewords of
+weight $w$, and $W_C(x,y)=\sum_wA_wx^{n-w}y^w$.
+\end{description}
+
+\end{document}
