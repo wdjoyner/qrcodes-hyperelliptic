@@ -35,7 +35,7 @@
 \large (revised version)}
 \author{David Joyner\thanks{\texttt{wdjoyner@gmail.com}}
 \and Claude\thanks{An AI model developed by Anthropic (Claude Opus~5.5). Contributions to this revision are described in the Acknowledgements and in the accompanying revision log.}}
-\date{Original submission: 20 October 2006. Revised: November 2026.}
+\date{November 2026}
 
 \begin{document}
 \maketitle
@@ -70,6 +70,11 @@ Duursma zeta function.\\
 \section{Introduction}
 \label{sec:intro}
 
+This section sets the scene. We recall the coding-theory and curve-counting
+background needed to state our results, formulate the two conjectures that
+motivate the paper (Goppa's and Bazzi--Mitter's), summarize what we prove, and
+pose the two questions that the later sections address.
+
 Finding explicit families of binary linear codes that are asymptotically good,
 let alone ones that beat the Gilbert--Varshamov bound, is a long-standing problem.
 This paper studies one attack on it, through a dictionary between certain
@@ -79,6 +84,9 @@ studied by Helleseth~\cite{He92}, Bazzi and Mitter~\cite{BM06}, Voloch~\cite{Vo}
 and Helleseth and Voloch~\cite{HV04}.
 
 \subsection{Codes}
+Here we fix the basic vocabulary of linear codes and state the Gilbert--Varshamov
+bound, which is the benchmark every asymptotic result below is measured against.
+
 A binary linear $[n,k,d]$ code is a $k$-dimensional subspace $C\subseteq\F_2^n$
 whose smallest nonzero Hamming weight is $d$. Writing $V(n,r)$ for the size of a
 Hamming ball of radius $r$, the Gilbert--Varshamov (GV) bound guarantees an
@@ -97,6 +105,10 @@ $\alpha(\delta)=1-H(\delta)$ for $0\le\delta\le 1/2$.
 \end{conjecture}
 
 \subsection{Curves}
+Here we introduce the curves $X_S$ attached to subsets $S$ of $\Fp$ and the
+statement $B(c,p)$, an upper bound on their point counts that plays the role of a
+minimum-distance bound throughout the paper.
+
 For a polynomial $h\in\Fp[x]$ with distinct roots, $X:\ y^2=h(x)$ denotes the
 smooth projective curve with that affine equation, and $\X(\Fp)$ its number of
 $\Fp$-rational points (affine points plus the points at infinity).
@@ -119,6 +131,10 @@ There is $c\in(0,2)$ such that $B(c,p)$ holds for infinitely many primes $p$.
 \end{conjecture}
 
 \subsection{Results}
+This subsection lists the main results, with pointers to where each is proved. The
+reader who wants only the statements can stop here and turn to
+Section~\ref{sec:open}.
+
 The QQR code $\CNQ\subseteq\F_2^{2p}$ (Section~\ref{sec:QQR}) has dimension $p$ or
 $p-1$, and Proposition~\ref{prop:main} expresses each codeword weight as
 $2p+2-\X_T$ or $\X_T-2$ for a set $T$ of even size. Our main results are:
@@ -145,6 +161,10 @@ $p=7,11,19$ but not for $p=23$, and that of the extended code fails for $p=13,17
 \end{enumerate}
 
 \subsection{Questions}
+Two natural questions arise from the results above: one asks for explicit curves
+with many points, and the other asks whether point counts are bounded uniformly
+below $2p$.
+
 \begin{question}\label{q:1}
 For each large prime $p$, is there an \emph{effectively computable} $S\subseteq\Fp$
 with $\X_S>cp$ for a fixed $c>1$?
@@ -153,21 +173,18 @@ with $\X_S>cp$ for a fixed $c>1$?
 Is there $c<2$ such that $\X_S<cp$ for all sufficiently large $p$ and all
 $S\subseteq\Fp$?
 \end{question}
-Item~6 above answers Question~\ref{q:1} for $c=1.5-o(1)$. Voloch's Chebotarev
+Item~6 above answers Question~\ref{q:1} affirmatively for $c=1.5-o(1)$. Voloch's Chebotarev
 construction (Theorem~\ref{thm:chebotarev}) answers Question~\ref{q:2} negatively.
 Section~\ref{sec:open} discusses what remains open and how hard it appears.
-
-\subsection{About this revision}
-This is a revision of the version submitted to \emph{Discrete Mathematics and
-Theoretical Computer Science} on 20 October 2006. A different revision was
-published as~\cite{Jo08} (see also arXiv:math/0609562). The present text corrects
-several errors in the 2006 version, replaces some arguments, proves two statements
-that were stated as conjectures, and adds examples, a literature survey and a
-glossary. A separate revision log lists every change.
 
 %======================================================================
 \section{Notation and background}
 \label{sec:notation}
+
+This section collects the tools used in the rest of the paper. We first describe
+arithmetic in the group algebra $\F_2[x]/(x^p-1)$, where the codes live. Next we
+relate the point count of $X_S$ to a Legendre character sum. Finally we prove a
+quadratic-twist identity that pairs curves with many points and curves with few.
 
 Throughout, $p$ is an odd prime, $Q\subset\Fp^\times$ the set of nonzero squares,
 $N=\Fp^\times\setminus Q$ the non-squares, and $\chi=\left(\frac{\cdot}{p}\right)$
@@ -175,6 +192,10 @@ the Legendre symbol, with $\chi(0)=0$. Recall $-1\in Q$ iff $p\equiv1\pmod4$ and
 $2\in Q$ iff $p\equiv\pm1\pmod8$.
 
 \subsection{Cyclotomic arithmetic modulo 2}
+Subsets of $\Fp$ are encoded as elements of a binary group algebra. This
+subsection lists the few identities in that algebra that we need, chiefly a formula
+for the weight of a product, \eqref{eq:wtprod}.
+
 Let $R=\F_2[x]/(x^p-1)$. For $S\subseteq\Fp$ put $r_S=\sum_{i\in S}x^i\in R$
 (so $r_\emptyset=0$), and let $J=r_{\Fp}=1+x+\dots+x^{p-1}$. We identify $u\in R$
 with its coefficient vector in $\F_2^p$, so $\wt(r_S)=|S|$. Then:
@@ -209,6 +230,9 @@ Each has weight $4$, in agreement with $\wt(r_Ar_B)\equiv|A||B|=6\equiv0\pmod2$.
 \end{example}
 
 \subsection{Point counts and character sums}
+The number of points on $X_S$ is $p$ plus a correction given by a sum of Legendre
+symbols. This subsection states that relation, Weil's bound on the sum, and the
+trivial bounds that hold when $|S|$ is large.
 
 \begin{lemma}[Artin, Hasse, Weil]\label{lem:AHW}
 Let $S\subseteq\Fp$ be non-empty and $\Sigma_S=\sum_{x\in\Fp}\chi(f_S(x))$.
@@ -239,7 +263,10 @@ curve has genus $0$ and indeed $\X_S=p+1$.
 
 \subsection{A quadratic-twist identity}
 
-The following identity pairs curves with many points and curves with few points.
+A change of variables $x=a+1/u$ turns $X_T$ into another curve of the same shape,
+or into its quadratic twist. The resulting identity pairs curves with many points
+and curves with few points. It is the key new ingredient in
+Corollary~\ref{cor:53}.
 
 \begin{lemma}[Twist identity]\label{lem:twist}
 Let $T\subseteq\Fp$ be non-empty of even size, let $a\in\Fp\setminus T$, and put
@@ -302,6 +329,12 @@ $m_p=\X_T=2p+2-|T|\ge p+3$. Then $M_p\ge m_p\ge p+3$ and $M_p+m_p\ge 2p+6$.
 \section{Quasi-quadratic residue codes}
 \label{sec:QQR}
 
+This section defines the quasi-quadratic residue code $\CNQ$ and develops its
+structure. We compute its dimension and determine its dual. We then prove the
+central dictionary (Proposition~\ref{prop:main}), which turns each codeword weight
+into a point count. Finally we single out the even subcode $\Cev$, on which all the
+later bounds rest, and tabulate weight distributions.
+
 \begin{definition}\label{def:QQR}
 The \emph{quasi-quadratic residue code} (QQR code) is
 \[
@@ -332,6 +365,9 @@ $\dim C_{NQ}=7$.
 \end{example}
 
 \subsection{Duality}
+The behavior of $\CNQ$ under duality depends on whether $-1$ is a square modulo
+$p$. When it is not, the code is self-dual, which brings in the strong bounds for
+self-dual codes. When it is, the code meets its dual only in $0$.
 
 \begin{theorem}\label{thm:duality}
 \begin{enumerate}
@@ -363,11 +399,13 @@ $u\in\{0,J\}=\ker\varphi$. Hence $\CNQ\cap\CNQ^\perp=\{0\}$.
 \end{proof}
 
 \begin{remark}
-Part~(1) is also noted by Boston and Hao~\cite{BH17}. In the 2006 version of this
-paper both parts were stated as a conjecture.
+Part~(1) is also noted by Boston and Hao~\cite{BH17}.
 \end{remark}
 
 \subsection{Weights and point counts}
+Here we prove the dictionary between codewords and curves: the weight of $c_S$ is
+determined by the point count of $X_S$ or of $X_{S^c}$, whichever has even size. Two
+worked examples follow.
 
 \begin{proposition}\label{prop:main}
 Let $S\subseteq\Fp$ and write $S^c=\Fp\setminus S$.
@@ -429,6 +467,9 @@ has weight $14$, and $\Sigma_{S^c}=3$, matching $14=p+\Sigma_{S^c}$.
 \end{example}
 
 \subsection{The even subcode}
+Restricting to sets $S$ of even size gives a subcode whose every nonzero weight is
+$2p+2-\X_S$. A lower bound on its minimum distance is therefore exactly an upper
+bound on point counts. This is what drives the bounds in Section~\ref{sec:bounds}.
 
 \begin{definition}
 Let $\Cev=\{c_S:\ |S|\text{ even}\}=\varphi(R_{\mathrm{ev}})$, where
@@ -472,9 +513,9 @@ $c_S$ with $S=\{0,5,6,7,8,9,10\}$: its complement $T=\{1,2,3,4\}$ has $\X_T=8$
 
 \subsection{Weight distributions}
 
-Table~\ref{tab:wd} lists the weight distributions of $\CNQ$ for small $p$, computed by
-exhaustive enumeration. The entries for $p\le 13$ agree with those in the 2006
-version.
+This subsection records numerical data that illustrate the results above and supply
+the examples of Section~\ref{sec:zeta}. Table~\ref{tab:wd} lists the weight
+distributions of $\CNQ$ for small $p$, computed by exhaustive enumeration.
 
 \begin{table}[ht]
 \centering\small
@@ -482,13 +523,13 @@ version.
 \toprule
 $p$ & nonzero weights $w$ with multiplicities $A_w$\\
 \midrule
-5 & $4^{5}\ 6^{10}$\\
-7 & $4^{14}\ 6^{49}\ 8^{49}\ 10^{14}\ 14^{1}$\\
-11 & $6^{77}\ 8^{330}\ 10^{616}\ 12^{616}\ 14^{330}\ 16^{77}\ 22^{1}$\\
-13 & $8^{273}\ 10^{598}\ 12^{1105}\ 14^{1300}\ 16^{598}\ 18^{182}\ 20^{39}$\\
-17 & $6^{136}\ 8^{170}\ 10^{136}\ 12^{4692}\ 14^{11560}\ 16^{16473}\ 18^{16184}\ 20^{10404}\ 22^{4624}\ 24^{1156}$\\
-19 & $8^{171}\ 10^{1862}\ 12^{10374}\ 14^{36765}\ 16^{84759}\ 18^{128212}\ 20^{128212}\ 22^{84759}\ 24^{36765}\ 26^{10374}\ 28^{1862}\ 30^{171}\ 38^{1}$\\
-23 & $8^{1012}\ 12^{2576}\ 14^{64009}\ 16^{256542}\ 18^{651728}\ 20^{1303456}\ 22^{1914980}\ 24^{1914980}\ 26^{1303456}\ 28^{651728}\ 30^{256542}\ 32^{64009}\ 34^{2576}\ 38^{1012}\ 46^{1}$\\
+5 & $4^{5}$ $6^{10}$\\
+7 & $4^{14}$ $6^{49}$ $8^{49}$ $10^{14}$ $14^{1}$\\
+11 & $6^{77}$ $8^{330}$ $10^{616}$ $12^{616}$ $14^{330}$ $16^{77}$ $22^{1}$\\
+13 & $8^{273}$ $10^{598}$ $12^{1105}$ $14^{1300}$ $16^{598}$ $18^{182}$ $20^{39}$\\
+17 & $6^{136}$ $8^{170}$ $10^{136}$ $12^{4692}$ $14^{11560}$ $16^{16473}$ $18^{16184}$ $20^{10404}$ $22^{4624}$ $24^{1156}$\\
+19 & $8^{171}$ $10^{1862}$ $12^{10374}$ $14^{36765}$ $16^{84759}$ $18^{128212}$ $20^{128212}$ $22^{84759}$ $24^{36765}$ $26^{10374}$ $28^{1862}$ $30^{171}$ $38^{1}$\\
+23 & $8^{1012}$ $12^{2576}$ $14^{64009}$ $16^{256542}$ $18^{651728}$ $20^{1303456}$ $22^{1914980}$ $24^{1914980}$ $26^{1303456}$ $28^{651728}$ $30^{256542}$ $32^{64009}$ $34^{2576}$ $38^{1012}$ $46^{1}$\\
 \bottomrule
 \end{tabular}
 \caption{Weight distributions of $\CNQ$; $w^{A}$ means $A_w=A$.}
@@ -510,6 +551,13 @@ $|T|<\sqrt p$, then $\X_T\ge p+1-(|T|-2)\sqrt p>2\sqrt p+1$.
 \section{Point-count bounds from coding bounds}
 \label{sec:bounds}
 
+This section applies the dictionary of Section~\ref{sec:QQR} in both directions.
+A hypothetical upper bound on point counts would produce codes beating the GV
+bound (Theorem~\ref{thm:goppa}). Conversely, known upper bounds on codes force the
+existence of curves with many points: the MRRW bound gives Theorem~\ref{thm:mrrw},
+and Rains' bound for self-dual codes gives Corollary~\ref{cor:53}. The section ends
+by explaining why a longer variant of the code yields nothing new.
+
 \begin{theorem}\label{thm:goppa}
 Let $c<2\big(1-H^{-1}(1/2)\big)=1.7799\ldots$ and suppose $B_{\mathrm{ev}}(c,p)$
 (that is, $M_p\le cp$) holds for infinitely many primes $p$. Then Goppa's
@@ -523,10 +571,10 @@ $\delta_0=1-c/2>H^{-1}(1/2)=0.1100\ldots$. So $\alpha(\delta_0)\ge1/2>1-H(\delta
 \end{proof}
 
 \begin{remark}
-The 2006 version assumed $p\equiv1\pmod4$ and used the constant $1.77$; for
-$p\equiv3\pmod4$ it used the longer LQR codes (Remark~\ref{rem:LQR}) and the
-weaker constant $1.57$. Restricting to $\Cev$ removes the congruence condition at
-no cost. Note also that only sets of even size are involved.
+Working with $\Cev$ rather than with all of $\CNQ$ is what makes the theorem hold
+for every prime. When $p\equiv3\pmod 4$, the codewords $c_S$ with $|S|$ odd have
+weights $\X_{S^c}-2$, which an upper bound on point counts does not control. Note
+also that only sets of even size are involved.
 \end{remark}
 
 \begin{theorem}\label{thm:mrrw}
@@ -567,28 +615,35 @@ $M_p\ge2p+2-m_p\ge\frac53p-6$.
 \begin{example}
 For $p=11,19,23$ the true values are $M_p=16,32,40$, against $\frac53p-6=12.3$,
 $25.7$ and $32.3$. For $p=11$ the minimum weight of $\CNQ$ comes from an odd set
-(Example~\ref{ex:Cev11}). So the second case of the proof really occurs, and the
-argument in the 2006 version, which assumed the first case, was incomplete.
+(Example~\ref{ex:Cev11}). So the second case of the proof, which needs the twist
+identity, really occurs.
 \end{example}
 
 \begin{remark}\label{rem:LQR}
-The 2006 version also introduced the \emph{long quadratic residue} (LQR) code
-$\{(r_Nr_S,r_Qr_S,r_Nr_S^*,r_Qr_S^*)\}\subseteq\F_2^{4p}$, where
-$r_S^*=r_S+J$. Since $r_Nr_S^*=r_Nr_S+|N|J$, this code is the doubled code
-$\{(u,u):u\in\CNQ\}$ when $p\equiv1\pmod4$. When $p\equiv3\pmod 4$ it is the coset
-$(0,0,J,J)+\{(u,u)\}$ of that doubled code, all of whose words have weight $2p$. Its
-linear span has minimum distance $2\,d(\CNQ)$ and rate about $1/4$. That is the same
-relative distance as $\CNQ$ at half the rate, so it gives nothing that $\Cev$ does
-not, and we omit it.
+One might hope to do better with the \emph{long quadratic residue} (LQR) code
+\[
+L=\{(r_Nr_S,\ r_Qr_S,\ r_Nr_S^*,\ r_Qr_S^*):\ S\subseteq\Fp\}\subseteq\F_2^{4p},
+\qquad r_S^*=r_S+J .
+\]
+It does not help. Since $r_Nr_S^*=r_Nr_S+|N|J$, when $p\equiv1\pmod4$ the code $L$
+is the doubled code $\{(u,u):u\in\CNQ\}$. When $p\equiv3\pmod 4$, $L$ is the coset
+$(0,0,J,J)+\{(u,u)\}$ of that doubled code, and all of its words have weight $2p$.
+In both cases the linear span of $L$ has minimum distance $2\,d(\CNQ)$ and rate
+about $1/4$. That is the same relative distance as $\CNQ$ at half the rate, so $L$
+gives nothing that $\Cev$ does not.
 \end{remark}
 
 %======================================================================
 \section{Explicit constructions}
 \label{sec:voloch}
 
-The results in this section are due to F.~Voloch~\cite{Vo06}, except for the case
-$p\equiv5\pmod8$ in Theorem~\ref{thm:voloch}, which is new here. They use no coding
-theory.
+The bounds of Section~\ref{sec:bounds} prove that curves with many points exist,
+but say nothing about how to find them. This section gives explicit sets $S$ built
+from subgroups of $\Fp^\times$. The results are due to F.~Voloch~\cite{Vo06}, except
+for the case $p\equiv5\pmod8$ in Theorem~\ref{thm:voloch}, which is new here. They
+use no coding theory. The first construction works for every prime and gives about
+$1.5p$ points. The second gives nearly $2p$ points, but only for primes in a set of
+positive density.
 
 \begin{theorem}\label{thm:voloch}
 Let $p\ge 11$ be prime.
@@ -659,6 +714,12 @@ many primes where $B(c,p)$ \emph{holds}.
 \section{Duursma zeta functions}
 \label{sec:zeta}
 
+This section turns from point counts to a different invariant of the codes,
+Duursma's zeta function. We recall its definition and the analog of the Riemann
+hypothesis. We then prove that the extension $C'$ of $\CNQ$ is isodual when
+$p\equiv1\pmod 4$, so that the Riemann hypothesis makes sense for it. Finally we
+tabulate which of our codes satisfy it.
+
 Duursma~\cite{Du99,Du01} attached to an $[n,k,d]$ code $C$ over $\F_q$, with dual
 distance $d^\perp\ge2$, a zeta function
 \[
@@ -693,6 +754,10 @@ eight zeros have modulus $1/\sqrt2$.
 \end{example}
 
 \subsection{The extended code for $p\equiv1\pmod4$}
+When $p\equiv1\pmod4$ the code $\CNQ$ is not self-dual, so the Riemann hypothesis
+does not directly apply to it. Adjoining the all-ones word repairs this. This
+subsection proves that the resulting code is equivalent to its dual, works out the
+case $p=13$, and collects the results for all our examples in Table~\ref{tab:RH}.
 
 \begin{theorem}\label{thm:isodual}
 Let $p\equiv1\pmod4$ and $C'=\CNQ+\langle\mathbf 1\rangle$. Then $\mathbf1\notin\CNQ$,
@@ -754,13 +819,18 @@ $C'$ & 29 & $[58,29,12]$ isodual & 36 of 36 & yes\\
 \label{tab:RH}
 \end{table}
 
-The case $p=23$ answers negatively the question, raised in the 2006 version, of
-whether $\CNQ$ always satisfies RH for $p\equiv3\pmod4$. Boston and
-Hao~\cite{BH17} found the same failure independently.
+The case $p=23$ shows that $\CNQ$ need not satisfy RH when $p\equiv3\pmod4$, even
+though it does for $p=7$, $11$ and $19$. Boston and Hao~\cite{BH17} found the same
+failure independently.
 
 %======================================================================
 \section{Open questions and their difficulty}
 \label{sec:open}
+
+This section takes stock of what remains open. We first give a heuristic for the
+true size of the largest point count $M_p$, then go through the questions and
+conjectures of Section~\ref{sec:intro} one at a time. For each, we say what is known
+and how hard it appears.
 
 \paragraph{A heuristic.} Suppose $\Cev$ behaved like a random linear code of rate
 $1/2$. Then its minimum distance would be close to the GV value $2p\,H^{-1}(1/2)$,
@@ -821,7 +891,14 @@ is open.
 \section{Literature}
 \label{sec:lit}
 
+This section places the paper in context. The first part surveys the work this
+paper builds on, and the second surveys later developments on the same codes and
+questions. The split at 2006 is only for convenience.
+
 \subsection{Before 2006}
+The background falls into three strands: quadratic residue and double-circulant
+codes, bounds on codes, and the theory of self-dual codes and their zeta functions.
+
 Quadratic residue codes go back to Prange (1957--1959). Their square-root bound and
 basic theory are in MacWilliams and Sloane~\cite{MS77} and Huffman and
 Pless~\cite{HP03}. Double-circulant codes built from quadratic residues were studied
@@ -850,6 +927,11 @@ Schmidt~\cite{Sc04} and Tsfasman and Vl\u{a}du\c{t}~\cite{TV91}. Effective
 Chebotarev theorems are due to Lagarias and Odlyzko~\cite{LO77} and Serre~\cite{Se81}.
 
 \subsection{2006 and after}
+Later work has refined the weight distributions of QQR codes, tested the Riemann
+hypothesis for codes, and studied double-circulant codes in general. None of it
+settles the central question of whether this specific family is asymptotically
+good.
+
 A revised version of this paper appeared in 2008~\cite{Jo08}. Joyner and
 Kim~\cite{JK11} treated the subject at book length, with chapters on the Riemann
 hypothesis for codes and on hyperelliptic curves and QR codes. Boston and
@@ -863,8 +945,16 @@ double-circulant codes are dihedral and that the family is asymptotically good, 
 part assuming the generalized Riemann hypothesis via Artin's primitive root
 conjecture. Shi, Xu and Sol\'e~\cite{SXS21} introduced double Toeplitz codes, which
 are isodual like our $C'$, and constructed some arbitrarily close to the GV bound at
-rate $1/2$. None of these results settles Conjecture~\ref{conj:BM} for the specific
-QQR family.
+rate $1/2$.
+
+%======================================================================
+\section*{About this revision}
+{\sloppy This is a revision of the version submitted to \emph{Discrete Mathematics and
+Theoretical Computer Science} on 20 October 2006. A different revision was
+published as~\cite{Jo08} (see also arXiv:math/0609562). The present text corrects
+several errors in the 2006 version, replaces some arguments, proves two statements
+that were stated as conjectures, and adds examples, a literature survey and a
+glossary. A separate revision log lists every change.\par}
 
 %======================================================================
 \section*{Acknowledgements}
@@ -872,14 +962,167 @@ The first author thanks Amin Shokrollahi for helpful advice, Felipe Voloch for
 allowing his constructions to be included, and his former student Greg Coy, whose
 honors project~\cite{Coy06} contains parts of Proposition~\ref{prop:main}.
 
-This revision was prepared with Claude (Anthropic). Claude refereed the 2006 text
+This revision was prepared with Claude (Anthropic). Claude refereed the earlier text
 and proposed and wrote the following, which the first author has reviewed: the
 proofs of Theorems~\ref{thm:duality} and~\ref{thm:isodual}; the twist identity
 (Lemma~\ref{lem:twist}) and Corollary~\ref{cor:Mm}; the use of $\Cev$ in
 Theorems~\ref{thm:goppa} and~\ref{thm:mrrw}; the repaired Corollary~\ref{cor:53};
 case~(3) of Theorem~\ref{thm:voloch}; and the computations in
 Tables~\ref{tab:wd}--\ref{tab:Mp}. The Python code used to verify every numerical
-claim is in the repository accompanying this paper.
+claim is in the repository accompanying this paper. Every change from the earlier
+text, with the reason for it, is recorded in the separate revision log
+(\texttt{revision-log.tex}) in the same repository.
+
+%======================================================================
+\appendix
+\section{Glossary}
+\label{app:glossary}
+
+This glossary collects, in alphabetical order, the terms and notation used in the
+paper. It is meant for readers who come from only one of the two sides, coding
+theory or arithmetic geometry. Where a term is defined precisely in the text, the
+entry points there.
+
+\begin{description}\small
+\item[Asymptotically good] A family of codes of length $n\to\infty$ whose rate and
+relative distance both stay bounded away from $0$.
+
+\item[$B(c,p)$, $B_{\mathrm{ev}}(c,p)$] The statement that $\X_S\le cp$ for all
+non-empty $S\subseteq\Fp$ (respectively, all such $S$ of even size);
+Definition~\ref{def:B}.
+
+\item[{Binary linear code; $[n,k,d]$}] A $k$-dimensional subspace of $\F_2^n$ with
+minimum nonzero Hamming weight $d$.
+
+\item[$c_S$] The QQR codeword $(r_Nr_S,r_Qr_S)$.
+
+\item[$\CNQ$] The quasi-quadratic residue code; Definition~\ref{def:QQR}.
+
+\item[$\Cev$] The subcode $\{c_S:|S|\text{ even}\}$ of $\CNQ$, of dimension $p-1$;
+its weights are $2p+2-\X_T$.
+
+\item[$C'$] For $p\equiv1\pmod4$, the code $\CNQ+\langle\mathbf1\rangle$; it is
+isodual (Theorem~\ref{thm:isodual}).
+
+\item[Character sum $\Sigma_S$] $\sum_{x\in\Fp}\chi(f_S(x))$; it determines $\X_S$
+by Lemma~\ref{lem:AHW}.
+
+\item[Chebotarev density theorem] For a finite Galois extension $K/\Q$, the primes
+whose Frobenius lies in a given conjugacy class have natural density proportional
+to the size of that class. In particular, the primes that split completely have
+density $1/[K:\Q]$.
+
+\item[Double-circulant code] A code with generator matrix $[A\mid B]$, where $A,B$
+are $p\times p$ circulant matrices; a quasi-cyclic code of index $2$.
+
+\item[Doubly-even, singly-even] A binary code is doubly-even if all its weights are
+divisible by $4$, and singly-even if it is even but not doubly-even.
+
+\item[Dual code $C^\perp$] $\{v:\langle v,c\rangle=0\ \forall c\in C\}$ with the
+standard inner product.
+
+\item[Duursma zeta function, zeta polynomial] $Z_C(T)=P_C(T)/((1-T)(1-qT))$, where
+$P_C$ is determined by the weight enumerator; Section~\ref{sec:zeta}.
+
+\item[Entropy function $H$] $H(\delta)=-\delta\log_2\delta-(1-\delta)\log_2(1-\delta)$.
+
+\item[Extremal code] A self-dual code whose minimum distance meets the relevant
+upper bound (Mallows--Sloane for Type~II, Rains for Type~I).
+
+\item[$f_S$] The monic polynomial $\prod_{a\in S}(x-a)\in\Fp[x]$.
+
+\item[Formally self-dual] A code with the same weight enumerator as its dual.
+
+\item[Genus of a code] Duursma's $\gamma=n+1-k-d$, which measures the distance from
+the Singleton bound.
+
+\item[Genus of $X_S$] $\lfloor(|S|-1)/2\rfloor$.
+
+\item[Gilbert--Varshamov (GV) bound] The guarantee of codes with
+$k\ge n-\log_2V(n,d-1)$; asymptotically, rate $1-H(\delta)$.
+
+\item[Goppa's conjecture] The conjecture that the asymptotic GV bound is tight for
+binary codes; Conjecture~\ref{conj:goppa}.
+
+\item[Hamming weight, distance] $\wt(v)$ is the number of nonzero coordinates of
+$v$, and $d(u,v)=\wt(u-v)$.
+
+\item[Hyperelliptic curve $X_S$] The smooth projective curve with affine equation
+$y^2=f_S(x)$.
+
+\item[Idempotent] An element $e$ of $R$ with $e^2=e$; it generates a cyclic code.
+
+\item[Isodual] Equivalent to its own dual by a coordinate permutation. Isodual
+codes are formally self-dual.
+
+\item[$J$] The all-ones polynomial $1+x+\dots+x^{p-1}=r_{\Fp}$ in $R$.
+
+\item[LCD code] A code $C$ with $C\cap C^\perp=\{0\}$ (linear complementary dual).
+
+\item[Legendre symbol $\chi$] $\chi(b)=b^{(p-1)/2}\in\{0,\pm1\}$ in $\Fp$.
+
+\item[LQR code] The long quadratic residue code of length $4p$; Remark~\ref{rem:LQR}.
+
+\item[$M_p$, $m_p$] The maximum and minimum of $\X_T$ over non-empty $T$ of even
+size.
+
+\item[MacWilliams identity] The relation $W_{C^\perp}(x,y)=|C|^{-1}W_C(x+y,x-y)$
+between weight enumerators.
+
+\item[MDS code] A code meeting the Singleton bound $d=n-k+1$.
+
+\item[MRRW bound] The McEliece--Rodemich--Rumsey--Welch linear-programming upper
+bounds; the first one is $R\le H(\frac12-\sqrt{\delta(1-\delta)})$.
+
+\item[$\#X_S$] The number of $\Fp$-points of the smooth projective model of $X_S$,
+including the points at infinity.
+
+\item[$N$, $Q$] The non-squares and the nonzero squares in $\Fp^\times$.
+
+\item[Optimal code] A code whose minimum distance is the largest possible for its
+length and dimension, within a stated class of codes.
+
+\item[Points at infinity] The points of the smooth model of $y^2=f(x)$ not in the
+affine plane. There are two when $\deg f$ is even and $f$ is monic, and one when
+$\deg f$ is odd.
+
+\item[QR code] A binary cyclic code of prime length $p\equiv\pm1\pmod8$ generated by
+an idempotent built from $r_Q$ or $r_N$.
+
+\item[Quadratic twist] For $y^2=h(x)$, the curve $y^2=\nu h(x)$ with $\nu$ a
+non-square. The two point counts sum to $2p+2$ when $\deg h$ is even.
+
+\item[Quasi-cyclic code] A code invariant under a simultaneous cyclic shift of
+blocks of coordinates.
+
+\item[$R$] The ring $\F_2[x]/(x^p-1)$.
+
+\item[$r_S$] The polynomial $\sum_{i\in S}x^i\in R$.
+
+\item[Rains bound] For singly-even self-dual codes of length $n$,
+$d\le4\lfloor n/24\rfloor+4$, or $+6$ if $n\equiv22\pmod{24}$.
+
+\item[Rate, relative distance] For an $[n,k,d]$ code these are $k/n$ and $d/n$.
+
+\item[Riemann hypothesis (for codes)] For a formally self-dual code over $\F_q$, the
+property that all zeros of $P_C$ lie on $|T|=q^{-1/2}$.
+
+\item[Safe prime] A prime $p$ such that $(p-1)/2$ is also prime.
+
+\item[Self-dual, self-orthogonal] $C=C^\perp$, respectively $C\subseteq C^\perp$.
+
+\item[Shadow] For a singly-even self-dual code $C$ with doubly-even subcode $C_0$,
+the set $C_0^\perp\setminus C$. Its weight enumerator constrains that of $C$.
+
+\item[Type I, Type II] Singly-even, respectively doubly-even, binary self-dual codes.
+
+\item[Weil bound] $|\X(\F_q)-(q+1)|\le2g\sqrt q$ for a smooth projective curve of
+genus $g$.
+
+\item[Weight distribution, weight enumerator] The numbers $A_w$ of codewords of
+weight $w$, and $W_C(x,y)=\sum_wA_wx^{n-w}y^w$.
+\end{description}
+
 
 %======================================================================
 \begin{thebibliography}{99}\small
@@ -991,150 +1234,5 @@ codes, preprint.
 U.S.A.} 34 (1948), 204--207.
 
 \end{thebibliography}
-
-%======================================================================
-\appendix
-\section{Glossary}
-\label{app:glossary}
-
-\begin{description}\small
-\item[Asymptotically good] A family of codes of length $n\to\infty$ whose rate and
-relative distance both stay bounded away from $0$.
-
-\item[$B(c,p)$, $B_{\mathrm{ev}}(c,p)$] The statement that $\X_S\le cp$ for all
-non-empty $S\subseteq\Fp$ (respectively, all such $S$ of even size);
-Definition~\ref{def:B}.
-
-\item[{Binary linear code; $[n,k,d]$}] A $k$-dimensional subspace of $\F_2^n$ with
-minimum nonzero Hamming weight $d$.
-
-\item[$c_S$] The QQR codeword $(r_Nr_S,r_Qr_S)$.
-
-\item[$\CNQ$] The quasi-quadratic residue code; Definition~\ref{def:QQR}.
-
-\item[$\Cev$] The subcode $\{c_S:|S|\text{ even}\}$ of $\CNQ$, of dimension $p-1$;
-its weights are $2p+2-\X_T$.
-
-\item[$C'$] For $p\equiv1\pmod4$, the code $\CNQ+\langle\mathbf1\rangle$; it is
-isodual (Theorem~\ref{thm:isodual}).
-
-\item[Character sum $\Sigma_S$] $\sum_{x\in\Fp}\chi(f_S(x))$; it determines $\X_S$
-by Lemma~\ref{lem:AHW}.
-
-\item[Chebotarev density theorem] For a finite Galois extension $K/\Q$, the primes
-whose Frobenius lies in a given conjugacy class have natural density proportional
-to the size of that class. In particular, the primes that split completely have
-density $1/[K:\Q]$.
-
-\item[Double-circulant code] A code with generator matrix $[A\mid B]$, where $A,B$
-are $p\times p$ circulant matrices; a quasi-cyclic code of index $2$.
-
-\item[Doubly-even, singly-even] A binary code is doubly-even if all its weights are
-divisible by $4$, and singly-even if it is even but not doubly-even.
-
-\item[Dual code $C^\perp$] $\{v:\langle v,c\rangle=0\ \forall c\in C\}$ with the
-standard inner product.
-
-\item[Duursma zeta function, zeta polynomial] $Z_C(T)=P_C(T)/((1-T)(1-qT))$, where
-$P_C$ is determined by the weight enumerator; Section~\ref{sec:zeta}.
-
-\item[Entropy function $H$] $H(\delta)=-\delta\log_2\delta-(1-\delta)\log_2(1-\delta)$.
-
-\item[Extremal code] A self-dual code whose minimum distance meets the relevant
-upper bound (Mallows--Sloane for Type~II, Rains for Type~I).
-
-\item[$f_S$] The monic polynomial $\prod_{a\in S}(x-a)\in\Fp[x]$.
-
-\item[Formally self-dual] A code with the same weight enumerator as its dual.
-
-\item[Genus of a code] Duursma's $\gamma=n+1-k-d$, which measures the distance from
-the Singleton bound.
-
-\item[Genus of $X_S$] $\lfloor(|S|-1)/2\rfloor$.
-
-\item[Gilbert--Varshamov (GV) bound] The guarantee of codes with
-$k\ge n-\log_2V(n,d-1)$; asymptotically, rate $1-H(\delta)$.
-
-\item[Goppa's conjecture] The conjecture that the asymptotic GV bound is tight for
-binary codes; Conjecture~\ref{conj:goppa}.
-
-\item[Hamming weight, distance] $\wt(v)$ is the number of nonzero coordinates of
-$v$, and $d(u,v)=\wt(u-v)$.
-
-\item[Hyperelliptic curve $X_S$] The smooth projective curve with affine equation
-$y^2=f_S(x)$.
-
-\item[Idempotent] An element $e$ of $R$ with $e^2=e$; it generates a cyclic code.
-
-\item[Isodual] Equivalent to its own dual by a coordinate permutation. Isodual
-codes are formally self-dual.
-
-\item[$J$] The all-ones polynomial $1+x+\dots+x^{p-1}=r_{\Fp}$ in $R$.
-
-\item[LCD code] A code $C$ with $C\cap C^\perp=\{0\}$ (linear complementary dual).
-
-\item[Legendre symbol $\chi$] $\chi(b)=b^{(p-1)/2}\in\{0,\pm1\}$ in $\Fp$.
-
-\item[LQR code] The length-$4p$ code of the 2006 version; Remark~\ref{rem:LQR}.
-
-\item[$M_p$, $m_p$] The maximum and minimum of $\X_T$ over non-empty $T$ of even
-size.
-
-\item[MacWilliams identity] The relation $W_{C^\perp}(x,y)=|C|^{-1}W_C(x+y,x-y)$
-between weight enumerators.
-
-\item[MDS code] A code meeting the Singleton bound $d=n-k+1$.
-
-\item[MRRW bound] The McEliece--Rodemich--Rumsey--Welch linear-programming upper
-bounds; the first one is $R\le H(\frac12-\sqrt{\delta(1-\delta)})$.
-
-\item[$\#X_S$] The number of $\Fp$-points of the smooth projective model of $X_S$,
-including the points at infinity.
-
-\item[$N$, $Q$] The non-squares and the nonzero squares in $\Fp^\times$.
-
-\item[Optimal code] A code whose minimum distance is the largest possible for its
-length and dimension, within a stated class of codes.
-
-\item[Points at infinity] The points of the smooth model of $y^2=f(x)$ not in the
-affine plane. There are two when $\deg f$ is even and $f$ is monic, and one when
-$\deg f$ is odd.
-
-\item[QR code] A binary cyclic code of prime length $p\equiv\pm1\pmod8$ generated by
-an idempotent built from $r_Q$ or $r_N$.
-
-\item[Quadratic twist] For $y^2=h(x)$, the curve $y^2=\nu h(x)$ with $\nu$ a
-non-square. The two point counts sum to $2p+2$ when $\deg h$ is even.
-
-\item[Quasi-cyclic code] A code invariant under a simultaneous cyclic shift of
-blocks of coordinates.
-
-\item[$R$] The ring $\F_2[x]/(x^p-1)$.
-
-\item[$r_S$] The polynomial $\sum_{i\in S}x^i\in R$.
-
-\item[Rains bound] For singly-even self-dual codes of length $n$,
-$d\le4\lfloor n/24\rfloor+4$, or $+6$ if $n\equiv22\pmod{24}$.
-
-\item[Rate, relative distance] For an $[n,k,d]$ code these are $k/n$ and $d/n$.
-
-\item[Riemann hypothesis (for codes)] For a formally self-dual code over $\F_q$, the
-property that all zeros of $P_C$ lie on $|T|=q^{-1/2}$.
-
-\item[Safe prime] A prime $p$ such that $(p-1)/2$ is also prime.
-
-\item[Self-dual, self-orthogonal] $C=C^\perp$, respectively $C\subseteq C^\perp$.
-
-\item[Shadow] For a singly-even self-dual code $C$ with doubly-even subcode $C_0$,
-the set $C_0^\perp\setminus C$. Its weight enumerator constrains that of $C$.
-
-\item[Type I, Type II] Singly-even, respectively doubly-even, binary self-dual codes.
-
-\item[Weil bound] $|\X(\F_q)-(q+1)|\le2g\sqrt q$ for a smooth projective curve of
-genus $g$.
-
-\item[Weight distribution, weight enumerator] The numbers $A_w$ of codewords of
-weight $w$, and $W_C(x,y)=\sum_wA_wx^{n-w}y^w$.
-\end{description}
 
 \end{document}
