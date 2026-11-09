@@ -3,3 +3,4 @@
 *.out
 *.toc
 __pycache__/
+.DS_Store

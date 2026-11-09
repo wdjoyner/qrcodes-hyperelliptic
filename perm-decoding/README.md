@@ -18,12 +18,24 @@ problems.
 
 ## Contents
 
+**Current version**
+
 | Path | Description |
 |---|---|
-| `paper/perm_decoding_step2_revision.tex` | LaTeX source (12pt Times) |
-| `paper/perm_decoding_step2_revision.pdf` | Compiled paper |
+| `paper/perm_decoding_step2_revision.tex` / `.pdf` | The corrected and expanded version (12pt Times), including the p = 23 results |
 | `scripts/pd_affine.py` | Exhaustive test of AGL(1,p) as a full PD-set for RS(F_p, k) |
 | `results/agl_pd_p*.txt` | Output of `pd_affine.py` for p = 5, 7, 11, 13, 17, 19, 23 |
+
+**History**
+
+| Path | Description |
+|---|---|
+| `perm_decoding1.tex`, `perm_decoding2.tex` (+ `.dvi`) | Earlier drafts of the 2005 note |
+| `perm_decoding3.tex` / `.pdf` (+ `.dvi`) | The 2005 note, the starting point for the 2026 revision |
+| `perm_decoding_step1_mathematical_revision.tex` / `.pdf` | Step 1: first mathematical revision, prepared with ChatGPT |
+| `perm-decoding_revision-2026.tex` / `.pdf` | An intermediate Step 2 draft (before the title was restored and the p = 23 results were added); superseded by `paper/` |
+
+The Step 1 revision was refereed by Claude. ChatGPT's response to that report and the referee's corrections were then combined into Step 2, the version in `paper/`.
 
 ## The computation
 
