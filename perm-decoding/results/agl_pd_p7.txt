@@ -1,0 +1,5 @@
+p = 7, |AGL(1,p)| = 42
+k= 2 t= 2  failing orbits     0/     1  failing info sets        0/      21  counting bound ok  (0.0s)
+k= 3 t= 2  failing orbits     0/     2  failing info sets        0/      35  counting bound ok  (0.0s)
+k= 4 t= 1  failing orbits     0/     2  failing info sets        0/      35  counting bound ok  (0.0s)
+k= 5 t= 1  failing orbits     0/     1  failing info sets        0/      21  counting bound ok  (0.0s)

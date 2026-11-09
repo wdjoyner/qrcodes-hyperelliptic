@@ -1,0 +1,897 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsgen}
+\usepackage{amsfonts}
+
+\newtheorem{theorem}{Theorem} 
+\newtheorem{corollary}[theorem]{Corollary} 
+\newtheorem{conjecture}[theorem]{Conjecture} 
+\newtheorem{lemma}[theorem]{Lemma} 
+\newtheorem{proposition}[theorem]{Proposition} 
+\newtheorem{definition}[theorem]{Definition} 
+\newtheorem{example}[theorem]{Example} 
+\newtheorem{exercise}[theorem]{Exercise} 
+\newtheorem{axiom}{Axiom} 
+\newtheorem{remark}{Remark} 
+
+\numberwithin{equation}{section}
+
+\def\ppp{{\mathbb{P}}}
+\def\aaa{{\mathbb{A}}}
+\def\fff{{\mathbb{F}}}
+\def\qqq{\mathbb{Q}}
+\def\rrr{\mathbb{R}}
+\def\ccc{\mathbb{C}}
+\def\zzz{\mathbb{Z}}
+\def\nnn{\mathbb{N}}
+\def\Aut{{\rm{Aut}}}
+\def\supp{{\rm{Supp}}}
+\def\Stab{{\rm{Stab}}}
+\def\eval{{\rm{eval}}}
+\def\wt{{\rm{wt}}}
+\def\pf{\noindent {\bf Proof}:\ }
+\def\qed{$\Box$}
+
+\begin{document}
+
+\author{David Joyner\thanks{Mathematics Dept, 
+US Naval Academy, Annapolis, MD 21402,
+wdj@usna.edu}}
+
+\title{Conjectural permutation decoding of some AG 
+codes\thanks{MSC 2000: 
+14H37, 94B27,20C20,11T71,14G50,05E20,14Q05}}
+
+\maketitle
+
+\begin{abstract}
+We study the action of a finite group on the Riemann-Roch
+space of certain divisors on a specific hyperelliptic curve
+$X$ defined over a finite field with ``large'' automorphism group
+$G$. If $D$ and $E=P_1+...+P_n$ 
+are $G$-equivariant divisors on $X$ ($P_i\in X(F)$)
+then $G$ acts on associated AG code $C=C(D,E)$ 
+by permuting coordinates.
+This note discusses the permutation decoding of these AG codes.
+The main ``results'' are conjectures regarding the complexity of 
+the permutation decoding of these hyperelliptic codes. 
+The open source GAP error-correcting codes package GUAVA
+is used to compute examples.
+\end{abstract}
+
+
+\section{Introduction}
+
+Let $X$ be a plane curve defined over a finite field
+$F=GF(q)$ by means of some polynomial equation $f(x,y)=0$,
+where $f$ has coefficients in $F$.
+(Though strictly speaking we are identifying,
+by abuse of notation, $X$ with the associated projective 
+algebraic curve.) 
+Let $D$ be a formal integer linear
+combination of $F$-rational
+points in $X(F)$, 
+$D=d_1Q_1+...d_rQ_r$. The Riemann-Roch
+space $L(D)$ is an $F$-vector space of rational functions 
+in $x,y$ on $X$ whose zero/pole at $Q_i$ is
+controlled by $d_i$, $1\leq i\leq r$. (See Stichtenoth
+\cite{Sti} or Hartshorne \cite{H} for a precise definition.)
+Let $E=P_1+...+P_n$ be a sum of distinct distinct 
+whose support is disjoint from that of $D$. 
+The {\it AG code} $C=C_X(D,E)$ associated to $X$ is 
+defined by 
+
+\begin{equation}
+\label{eqn:AGcode}
+C=\{(f(P_1),...,f(P_n))\ |\ f\in L(D)\}.
+\end{equation}
+This is the image of $L(D)$ under the evaluation map
+
+\begin{equation}
+\label{eqn:eval}
+\begin{array}{c}
+\eval_E:L(D)\rightarrow F^n,\\
+f \longmapsto (f(P_1),...,f(P_n)).
+\end{array}
+\end{equation}
+These codes were originally introduced by Goppa in the 
+1980s and have proven to be a rich source of 
+efficient error-correcting linear block codes.
+The special case where $D$ is a multiple of a single 
+point in $X(F)$ (often the point at infinity, if
+it is unique, and then $E$ is usually the sum of the remaining 
+points) is called a {\it one-point AG code}.
+
+We say that the divisor $D$ above is {\it $G$-equivariant}
+if the action of $G$ on $X(F)$ leaves $D$ invariant.
+(Therefore, $D$ must in fact be an integer linear combination
+of $G$-orbits of $X(F)$.) If $D$ is $G$-equivariant
+then $L(D)$, and hence $C$, is a $G$-module.
+
+This paper investigates one small class of such AG codes
+which seems to have an unusually large amount of
+symmetry. The hope is that this symmetry can be used to 
+create a class of codes which has a very efficient
+decoding procedure.
+
+Some of these ideas are part of joint research with 
+Amy Ksir and Will Traves.
+For related research, see Joyner and Ksir \cite{JK1}.
+See \cite{JK2} and \cite{JT} for further background.
+
+{\it Acknowledgements}: The author thanks Bob
+Guralnick for the proof of Proposition \ref{prop:orbits}, 
+and an anonymous referee for many helpful
+comments.
+
+\section{AG codes associated to $y^2=x^p-x$}
+
+Properties of $y^2=x^p-x$ are discussed for example in 
+G\"ob \cite{G}.
+
+\subsection{Background on the curve}
+
+In general, if $X$ is a curve defined over a field $F$
+with finite automorphism group $G=\Aut_F(X)$ then we call
+$G$ {\bf large} if $|G|>|X(F)|$.
+
+\begin{lemma}
+\label{lemma:large}
+If $G$ is large then every point of $X(F)$
+is ramified for the covering $X\rightarrow X/G$.
+\end{lemma}
+
+\pf
+Suppose $P\in X(F)$ is not ramified, so the stabilizer of $P$,
+$G_P$, is trivial. In this case,
+$|G\cdot P|= |G|/|G_P|= |G|$. But $G\cdot P\subset X(F)$
+so $|G\cdot P|\leq |X(F)|$, a contradiction. \qed
+
+\subsubsection{Case $F=GF(p)$}
+\label{sec:F=GF(p)}
+
+Let $p\geq 3$ be a prime,
+$F=GF(p)$, and let $X$ denote the curve defined by
+
+\[
+y^2=x^p-x.
+\]
+This has genus $\frac{p-1}{2}$ and $p+1$ $F$-rational
+points\footnote{Indeed, say $P\in X(F)$ is not
+the point at infinity, so $P=(x,y)$,
+for some $x,y\in F$. By Fermat's
+Little Theorem, $x^p-x=0$, so $y=0$. 
+There are $p$ such points.}. 
+We assume that the automorphism group $G=\Aut_F(X)$ is
+a central 2-fold cover of $PSL(2,p)$,
+we have a short exact sequence,
+
+\begin{equation}
+\label{eqn:*}
+1\rightarrow Z \rightarrow G\rightarrow PSL_2(p)\rightarrow 1,
+\end{equation}
+where $Z$ denotes the center of $G$ 
+($Z$ is generated by the hyperelliptic involution).
+The following transformations are elements of
+$G$:
+
+\begin{equation}
+\label{eqn:3.2}
+\begin{array}{cc}
+\gamma_1=
+\left\{
+\begin{array}{c}
+x\longmapsto x,\\
+y\longmapsto -y,
+\end{array}
+\right. ,
+&
+\gamma_2=\gamma_2(a)=
+\left\{
+\begin{array}{c}
+x\longmapsto a^2x,\\
+y\longmapsto ay,
+\end{array}
+\right.\\
+\gamma_3=
+\left\{
+\begin{array}{c}
+x\longmapsto x+1,\\
+y\longmapsto y,
+\end{array}
+\right. ,
+&
+\gamma_4=
+\left\{
+\begin{array}{c}
+x\longmapsto -1/x,\\
+y\longmapsto y/x^{\frac{p+1}{2}},
+\end{array}
+\right. 
+\end{array}
+\end{equation}
+where $a\in F^\times$ is a primitive $(p-1)^{st}$ root of unity.
+This group acts transitively on $X(F)$,
+so it has an orbit of size $|X(F)|=p+1$.
+
+Let $P_1=(1:0:1)$ and let $H$ be its stabilizer in $G$.
+A counting argument shows that $H$ is a solvable group of order 
+$2p(p-1)$ generated by 
+$\gamma_1$, $\gamma_2(a)$ and $\gamma_3$.
+By Lemma \ref{lemma:large}, every point in 
+
+\[
+X(F)=\{(1:0:0),(0:0:1),(1:0:1),...,(p-1:0:1)  \}
+\]
+is ramified over the covering $X\rightarrow X/G$
+in the sense that each stabilizer $G_P=\Stab_G(P)$
+is non-trivial, $P\in X(F)$. 
+
+It is known (Proposition VI.4.1, \cite{Sti}) that, 
+for each $m\geq 1$, the Riemann-Roch space
+of $D=mP_1$ has a basis consisting of monomials,
+
+\[
+x^iy^j,\ \ \ \ \ \ 
+0\leq i\leq p-1,\ j\geq 0,\ 2i+pj\leq m.
+\]
+
+\begin{lemma}
+The semisimplification $\rho_{ss}$ of 
+the representation $\rho$ of $H$ acting on $L(D)$ 
+is the direct sum of 
+one-dimensional representations of $G$.
+\end{lemma}
+
+\pf The generator $\gamma_1$ acts trivially on the 
+basis of $L(D)$, whereas
+\[
+\gamma_2(a):
+\left(
+\begin{array}{c}
+1\\
+x\\
+\vdots \\
+x^ry^s
+\end{array}
+\right)
+\longmapsto 
+\left(
+\begin{array}{c}
+1\\
+a^2x\\
+\vdots \\
+a^{2r+s}x^ry^s
+\end{array}
+\right)
+=
+\left(
+\begin{array}{cccc}
+1 & 0 & ...& 0\\
+0 & a^2 & ...& \vdots\\
+\vdots &\ddots  & &0 \\
+0 & ... & 0 & a^{2r+s}
+\end{array}
+\right)
+\left(
+\begin{array}{c}
+1\\
+x\\
+\vdots \\
+x^ry^s
+\end{array}
+\right),
+\]
+and
+
+\[
+\gamma_3:
+\left(
+\begin{array}{c}
+1\\
+x\\
+\vdots \\
+x^ry^s
+\end{array}
+\right)
+\longmapsto 
+\left(
+\begin{array}{c}
+1\\
+x+1\\
+\vdots \\
+(x+1)^ry^s
+\end{array}
+\right)
+=
+\left(
+\begin{array}{cccc}
+1 & 0 & ...& 0\\
+1 & 1 & ...& \vdots\\
+\vdots &\ddots  & &0 \\
+0 & ... & r & 1
+\end{array}
+\right)
+\left(
+\begin{array}{c}
+1\\
+x\\
+\vdots \\
+x^ry^s
+\end{array}
+\right),
+\]
+where the non-zero terms in the
+bottom row of the matrix representation of
+$\gamma_3$ are in the last $r+1$ row entries and
+consist of the binomial coefficients $\frac{r!}{(r-j)!j!}$,
+$0\leq j\leq r$.
+Therefore, the group generated by these matrices is 
+lower-triangular, hence solvable. \qed
+
+\subsubsection{Case $F=GF(p^2)$}
+\label{sec:gfp2}
+
+Let $F=GF(p^2)$ and let $F_0=GF(p)$.
+
+The automorphism group $G=\Aut_F(X)$ is
+a central 2-fold cover of $PGL(2,p)$ and
+we have a short exact sequence,
+
+\begin{equation}
+\label{eqn:**}
+1\rightarrow Z \rightarrow G
+\stackrel{\tau}{\rightarrow} PGL_2(p)\rightarrow 1,
+\end{equation}
+where $Z$ denotes the subgroup of $G$ generated by 
+the hyperelliptic
+involution (which coincides with the center of $G$), 
+by G\"ob \cite{G}.
+The group $G$ has order $2|PGL(2,p)|=2p(p^2-1)$.
+The following transformations generate $G$:
+
+\[
+\begin{array}{cc}
+\gamma_1=
+\left\{
+\begin{array}{c}
+x\longmapsto x,\\
+y\longmapsto -y,
+\end{array}
+\right. ,
+&
+\gamma_2=\gamma_2(a)=
+\left\{
+\begin{array}{c}
+x\longmapsto a^2x,\\
+y\longmapsto ay,
+\end{array}
+\right.\\
+\gamma_3=
+\left\{
+\begin{array}{c}
+x\longmapsto x+1,\\
+y\longmapsto y,
+\end{array}
+\right. ,
+&
+\gamma_4=
+\left\{
+\begin{array}{c}
+x\longmapsto -1/x,\\
+y\longmapsto y/x^{\frac{p+1}{2}},
+\end{array}
+\right. 
+\end{array}
+\]
+where $a\in F^\times$ is a primitive $2(p-1)^{st}$ root
+of unity.
+
+
+\begin{proposition}
+\label{prop:orbits} 
+Let $p>3$ be a prime.
+\begin{itemize}
+\item[(a)] Case $p\equiv 3\, ({\rm mod}\, 4)$:
+
+Let $P_1=(1:0:1)$ and fix some $P_2\in X(F)-X(F_0)$.
+The set of rational points $X(F)$ decomposes into
+a disjoint union
+
+\[
+O_1=X(F_0)=G\cdot P_1,\ \ \ \ \ \ 
+O_2=X(F)-X(F_0)=G\cdot P_2,
+\]
+with $|O_1|=p+1$ and $|O_2|=2p(p-1)$.
+
+\item[(b)] Case $p\equiv 1\, ({\rm mod}\, 4)$:
+
+The automorphism group of $X/F$ acts transitively
+on $X(F)$ and the stabilizer of any point is
+a group of order $2p(p-1)$.
+
+\end{itemize}
+\end{proposition}
+
+\begin{remark}
+The proof of this proposition is omitted.
+It has been proven by Bob Guralnick \cite{Gu}.
+\end{remark}
+
+
+This and Lemma \ref{lemma:large} imply 
+every point in $X(F)$ is ramified for the covering
+$X\rightarrow X/G$.
+
+Let $P_1,P_2$ be as above and 
+let $H_i$ be the stabilizer of $P_i$ in $G$ (for $i=1,2$).
+We have already seen that $H_1$ is a solvable group of order 
+$2p(p-1)$ generated by 
+$\gamma_1$, $\gamma_2=\gamma_2(a)$, and $\gamma_3$, where 
+$a\in F^\times$ is a primitive $2(p-1)^{st}$ root
+of unity. As a consequence,
+$|O_1|=|G\cdot P_1|=|G|/|H_1|=p+1$. 
+In fact,
+if $B$ denotes the (``Borel'') upper-triangular subgroup
+of $PGL(2,p)$ then $H_1=\tau^{-1}(B)$.
+Since $B$ is solvable and any abelian cover of a solvable group is
+solvable, $H_1$ is solvable.
+Since $B$ is not normal in $PGL_2(p)$, $H_1$ is not normal in $G$.
+
+Using $H_1=\langle \gamma_1,\gamma_2,\gamma_3\rangle $ and the 
+explicit expressions for the $\gamma_i$, it can be checked
+directly that no $g\in H_1$, $g\not= 1$, fixes any
+$P\in O_2$. Therefore, $H_1\cap H_2=\{1\}$.
+According to the proposition, 
+the stabilizer $H_2$ of $P_2$ has order $p+1$.
+This and $|G|=|H_1|\cdot |H_2|$ implies $G=H_1\cdot H_2$.
+In other words, $H_2$ is a complement of $H_1$ in $G$.
+(As {\it sets}, $G/H_1\cong PGL_2(p)/B\cong \ppp^1(F_0)$.)
+
+By the proposition, the divisor 
+$D_2=\sum_{P\in O_2}P$ associated to $O_2$ 
+has degree $2p(p-1)>2g$, so by the Riemann-Roch theorem, 
+${\rm dim}(L(D_2))=2p(p-1)+1-\frac{p-1}{2}$. 
+
+\section{AG code constructions}
+
+
+Throughout this section, we assume $X$, $G$, and $D$ are
+as above and that $F$ is finite.
+
+Let $P_1,...,P_n\in X(F)$ be distinct points
+and $E=P_1+...+P_n\in Div(X)$ be stabilized by $G$. 
+This implies that $G$ acts on the support
+$\supp(E)$ by permutation.
+Assume $\supp(D)\cap \supp(E)=\emptyset$.
+Let $C=C(D,E)$ denote the AG code
+(\ref{eqn:AGcode}).
+The group $G$ acts on $C$ by $g\in G$ sending
+$c=(f(P_1),...,f(P_n))\in C$ to 
+$c'=(f(g^{-1}(P_1)),...,f(g^{-1}(P_n)))$,
+where $f\in L(D)$.
+First, we observe that this map, denoted $\phi(g)$, 
+is well-defined.
+In other words, if $\eval_E$ is not injective and
+$c$ is also represented by $f'\in L(D)$, so
+$c=(f'(P_1),...,f'(P_n))\in C$, then we can verify
+$
+(f(g^{-1}(P_1)),...,f(g^{-1}(P_n)))=
+(f'(g^{-1}(P_1)),...,f'(g^{-1}(P_n))).
+$
+(Indeed, $G$ acts on the set
+$\supp(E)$ by permutation.)
+This map $\phi(g)$ induces a homomorphism of 
+$G$ into the permutation
+automorphism group of the code ${\rm \Aut}(C)$, denoted 
+
+\begin{equation}
+\label{eqn:phi}
+\phi:G\rightarrow {\rm \Aut}(C) 
+\end{equation}
+(Prop. VII.3.3, \cite{Sti}).
+
+The papers \cite{W}, \cite{JT}, \cite{JK1} 
+investigate $\phi$ in more detail.
+
+\subsection{The kernel of $\phi$}
+
+To investigate the kernel of this map $\phi$, 
+we recall the following 
+notion. Let $H\in Div(X)$ be any divisor.
+We say that the space $L(H)$ {\bf separates points} if for
+all points $P,Q\in X$,
+$f(P)=f(Q)$ (for all $f\in L(H)$) 
+implies $P=Q$ (see \cite{H}, chapter II, \S 7). 
+Recall that if $D$ is ample then $L(D)$ separates points \cite{H}.
+
+If $G$ is a group of automorphisms of $X$ defined over $F$
+then $G$ induces an automorphism on the image of 
+the evaluation map $\eval_E : L(D)\rightarrow F^n$.
+For this discussion, let us assume this is an injection.
+(This is not a serious assumption.) 
+To understand the kernel of this map $\phi$ in (\ref{eqn:phi}),
+we'd like to know whether or not
+$(f(P_1),...,f(P_n))=(f(g^{-1}P_1),...,f(g^{-1}P_n))$
+implies $P_i=g^{-1}P_i$, for $1\leq i\leq n$.
+In general, if $L(D)$ separates points then
+\[
+{\rm Ker}(\phi)=\{g\in G\ |\ g(P_i)=P_i,\ 1\leq i\leq n\}.
+\]
+It is known (see the proof of Prop. VII3.3, \cite{Sti}) that
+if $n>2g+2$ then $\{g\in G\ |\ g(P_i)=P_i,\ 1\leq i\leq n\}$
+is trivial. Therefore, if $n>2g+2$ and 
+$D$ is ample then $\phi$ is injective.
+
+\subsection{Permutation representations}
+
+In this subsection, we show how theorems about AG codes
+can, in some cases, give theorems about representations on
+Riemann-Roch spaces.
+
+Assume that $X/F$ is a hyperelliptic curve defined 
+over a finite field $F$ 
+of characteristic $p>2$ with automorphism 
+group $G=\Aut_F(X)$. 
+Let $D$ be a $G$-equivariant
+divisor on $X$, let ${\cal O}\subset X(F)$ be a 
+$G$-orbit disjoint from the support of $D$, and let
+$E=\sum_{P\in {\cal O}}P$. 
+Let $P$ be the permutation automorphism
+group of the code $C=C(D,E)$ defined in 
+(\ref{eqn:AGcode}). 
+
+Theorem 4.6 in \cite{W} (see \cite{JK1} for a more
+general treatment)
+implies that if $n={\rm deg}(E)$ and
+$t={\rm deg}(D)$ satisfy $n>{\rm max}(2t,2g+2)$ then
+the map $\phi:G\rightarrow P$ is an isomorphism.
+Using this, we regard $C$ as a $G$-module.
+In particular, the (bijective) evaluation map 
+$\eval_E:L(D)\rightarrow C$ in (\ref{eqn:eval})
+is $G$-equivariant.
+Since $G$ acts (via its isomorphism with $P$) as a permutation
+on $C$, we have proven the following result.
+
+\begin{proposition}
+Under the conditions above, the representation 
+$\rho$ of $G$ on $L(D)$
+is equivalent to a representation $\rho'$ with with property that,
+for all $g\in G$, $\rho'(g)$ is a permutation matrix.
+
+\end{proposition}
+
+The decomposition of $L(D)$ (and hence also $C$) into
+indecomposable $G$-modules, when $p$ divides the order
+of $G$, is an interesting open question.
+For a discussion of a situation
+related to the case when $D$ is the canonical divisor, 
+see \cite{S}.
+ 
+\subsection{Permutation decoding application}
+
+If $C$ is a linear code with non-trivial permutation group
+then this extra symmetry of the code may be useful in 
+decoding.
+Permutation decoding is discussed, for example, in 
+Huffman and Pless \cite{HP}. It has also been implemented
+in version 2.0 of the error-correcting codes computer
+algebra package GUAVA \cite{GUAVA}. We recall briefly, for the
+convenience of the reader, the main ideas.
+
+We shall assume that $C$ is in standard form.
+Let $C$ be a $[n,k,d]$ linear code over $F$,
+let $t=[(d-1)/2]$, and let $G=(I_k,A)$ denote the generator matrix
+in standard form. From this matrix $G$, it is well-known and easy to
+show that one can compute
+an encoder $E:F^k\rightarrow F^n$ with
+image $C$, and a parity check matrix $H=(B,I_{n-k})$ 
+in standard form, $B=-A^t$.
+
+The key lemma is the following result: 
+Suppose $v=c+e$, where $c\in C$ and $e\in F^n$
+is an error vector with Hamming weight $\wt (e)\leq t$. 
+Under the above conditions,
+the information symbols of $v$ are correct if and only if 
+$\wt (Hv)\leq t$. 
+
+Let $P$ denote the permutation automorphism group of $C$. 
+The permutation decoding algorithm is:
+
+\begin{enumerate}
+\item
+For each $p\in P$, compute $\wt (H(pv))$ until one with
+$\wt (H(pv))\leq t$ is found (if none is found, the 
+algorithm fails).
+
+\item
+Extract the information symbols from $pv$,
+and use $E$ to compute codeword $c_p$ from them.
+
+\item
+Return $p^{-1}c_p={\rm Decode}(v)$. 
+\end{enumerate}
+For example, if $P$ acts transitively then 
+permutation decoding will correct at least one error. 
+
+The key problem is 
+to find a set of permutations in $P$ which moves 
+the non-zero positions in every possible error vector
+of weight $\leq t$ out of the information positions.
+(This set, called a {\it PD-set}, will be used in step
+1 above instead of the entire set $P$.)
+
+\begin{example}
+We give an example using \cite{GUAVA} of an
+AG code for which permutation decoding seems to
+apply.
+
+This is an example of a $[7,3,5]$ one-point AG
+code over $GF(7)$ arising from the hyperelliptic curve
+$y^2=x^7-x$. The following GUAVA (version 2.0)
+commands help investigate this example.
+
+{\small{
+\begin{verbatim}
+p:=7;
+F:=GF(p);
+R := PolynomialRing(F,2);
+indets := IndeterminatesOfPolynomialRing(R);x:=indets[1]; y:=indets[2];
+Pts:=AffinePointsOnCurve(y^2-x^p+x,R,F);; Length(P);
+C:=OnePointAGCode(y^2-x^p+x,Pts,4,R);
+MinimumDistance(C);
+G:=GeneratorMat(C);
+PutStandardForm(G);
+Display(G);
+P:=PermutationAutomorphismGroup(C); 
+IdGroup(P);
+Wt2:=ConstantWeightSubcode(WholeSpaceCode(p,GF(p)),2);
+for c in C do
+ e:=Random(Wt2);; v:=PermutationDecode(C,c+e);
+ if c<>v then Print("\n Decoding fails. c,v = ",c," ",v,"\n"); if;
+od;
+\end{verbatim}
+}}
+After many runs, no decoding failures were found, 
+in support for Conjecture \ref{conj:1} below.
+This code has generator matrix in standard form given by
+
+\[
+G=
+\left(
+\begin{array}{ccccccc}
+1 &0 &0 &6 &4 &6 &4\\
+0 &1 &0 &6 &3 &3 &1\\
+0 &0 &1 &3 &1 &6 &3
+\end{array}
+\right).
+\]
+Moreover, the permutation automorphism group of the 
+code is a group
+of order $42$ generated by
+$(1,5,4)(2,3,7)$ and $(1,3,2,6,7,4)$.
+The elements of $P-\{1\}$ can be used as a PD-set.
+
+The reader may experiment him/herself by using
+similar GUAVA commands to compute other 
+examples\footnote{The GUAVA command
+{\tt PermutationAutomorphismGroup(C)},
+written in GAP's own interpretive language, 
+is probably too slow for $p>11$, as the case $p=13$ took
+over 1 day on an AMD64 bit linux machine. 
+The command 
+{\tt ConstantWeightSubcode(WholeSpaceCode(p,GF(p)),2)} 
+is much faster on a suitably configured 
+linux/unix machine since in that case GUAVA can call on
+relatively fast binary programs written in C.}.
+\end{example}
+
+Define a {\it codeword operation}
+to be either 
+\begin{itemize}
+\item
+a syndrome computation
+(i.e., $Hv$, where $H$ is a parity check matrix and $v$
+is a received word),
+
+\item
+a vector comparison
+(i.e., evaluating a Boolean $v=v'$, 
+where $v,v'$ are two vectors),
+
+\item
+a permutation of coordinates (i.e., $pv$, where
+$p\in S_n$ is an element of the symmetric group
+on $n$ letters and $v\in F^n$),
+
+\item
+a Hamming weight computation (i.e., $\wt (v)$).
+\end{itemize}
+ 
+\begin{conjecture} 
+\label{conj:1}
+For one-point AG codes $C$ 
+in standard form associated
+to $y^2=x^p-x$ over $GF(p)$ of length $n=p$,
+permutation decoding always applies.
+Its complexity in codeword operations is
+at worst the size of the permutation group of $C$, 
+which is $O(p^2)=O(g^2)=O(n^2)$.
+\end{conjecture}
+
+Note that the size of the alphabet is changing 
+as $n\rightarrow \infty$. This conjectured complexity
+is to be compared with the 
+decoding complexity of $O(n^3)$ field operations 
+for the well-known interpolation algorithm 
+(see for example \S 3.3.1 of \cite{TV} or \cite{Sti}
+or \cite{HvLP}).
+
+\begin{conjecture}
+\label{conj:2}
+Assume $p\equiv 3\pmod 4$, $p>3$.
+For one-point AG codes $C=C(m\cdot (1:0:0),O_2)$ 
+of length $n=2p(p-1)$ in standard form associated
+to the hyperelliptic curve $X$ over $GF(p^2)$ defined
+by $y^2=x^p-x$, permutation decoding always applies.
+We conjecture that, if the points
+in $X(F)$ are arranged suitably then the image of 
+$\Stab_G((1:0:0))\subset G=\Aut_F(X)$ 
+in the permutation group of $C$ may be used
+as a PD-set. Its complexity in codeword operations is
+at worst $O(p^2)=O(g^2)=O(n)$.
+\end{conjecture}
+
+If true\footnote{GUAVA computations indicate that this
+conjecture is false when $p=3$.}, 
+this seems to beat the complexity of other
+decoding algorithms, such as those surveyed
+in \cite{HvLP}. 
+(When comparing estimates, note other complexity 
+bounds of decoding algorithms usually assume 
+the size of the ground field $q$ is fixed. Here it is a
+variable.)
+
+Finally, we observe that known methods for 
+computing the automorphism group of a linear code 
+in general are
+not very efficient (see for example Leon \cite{L}).
+However, the equations (\ref{eqn:3.2}) 
+allow one to compute in this case an action
+of $G$ on the code efficiently.
+
+\begin{thebibliography}{99}  
+
+%\bibitem[Bo1]{Bo1} N. Borne, {\it Une formule de Riemann-Roch
+%equivariante pour des courbes,} preprint
+%1999
+%
+%\bibitem[Bo2]{Bo2} -----, {\it Structure de groupe de Grothendieck
+%\'equivariant d'une courbe et modules galoisiens,} preprint
+%
+%\bibitem[Bo3]{Bo3} -----,{\it Modules galoisiens sur les courbes: 
+%une introduction,} S\'em. et Congr\`es, SMF \underline{5}(2001)147-159.
+%
+%\bibitem[B]{B} T. Breuer, {Characters and automorphism
+%groups of Riemann surfaces}, London Math. Soc.
+%Lecture Notes, 1999.
+%
+%\bibitem[CR]{CR} C. Curtis, I. Reiner, {Methods of 
+%representation theory, I}, Wiley-Interscience, 1981.
+% 
+%\bibitem[F]{F} W. Fulton, {Algebraic curves},
+%Benjamin, 1969.
+%
+%\bibitem[FH]{FH} ------ and J. Harris, {Representation theory:
+%a first course}, Springer-Verlag, 1991.
+
+%\bibitem[GAP]{GAP4}
+%The GAP~Group, \emph{GAP -- Groups, Algorithms, and Programming, 
+%Version 4.3}; 2002, (\verb+http://www.gap-system.org+).
+
+\bibitem[G]{G} N. G\"ob, ``Computing the automorphism groups of
+hyperelliptic function fields,'' available at
+\verb+http://front.math.ucdavis.edu/math.NT/0305284+.
+
+\bibitem[GUAVA]{GUAVA}
+GUAVA package for GAP 4.4 (\verb+http://www.gap-system.org+),
+available at
+\verb+http://cadigweb.ew.usna.edu/~wdj/gap/GUAVA/+
+or
+\newline
+\verb+http://www.gap-system.org/Packages/guava.html+
+
+\bibitem[Gu]{Gu} R. Guralnick, private communication, 2004.
+
+\bibitem[H]{H} R. Hartshorne, {\it Algebraic geometry},
+Springer-Verlag, 1977.
+
+\bibitem[HvLP]{HvLP}
+T. H\o holdt, J. van Lint, R. Pellikaan
+``Algebraic-geometric codes,''
+in the {\it Handbook of coding theory}, vol 1, pp. 871-961,
+(V.S. Pless, W.C. Huffman and R.A. Brualdi Eds.),
+Elsevier, Amsterdam 1998.
+
+\bibitem[HP]{HP} W. C. Huffman and V. Pless, 
+{\it Fundamentals of 
+error-correcting codes}, Cambridge Univ. Press, 2003.
+
+\bibitem[JK1]{JK1} D. Joyner and A. Ksir, 
+``Automorphism groups of some AG codes'' available at
+\verb+http://front.math.ucdavis.edu/math.AG/0412459+
+
+\bibitem[JK2]{JK2} D. Joyner and A. Ksir, 
+``Representations of finite groups on Riemann-Roch
+spaces, II'' available at
+\verb+http://front.math.ucdavis.edu/math.AG/0312383+
+
+\bibitem[JT]{JT} D. Joyner and W. Traves, 
+``Representations of finite groups on Riemann-Roch
+spaces'' available at
+\verb+http://front.math.ucdavis.edu/math.AG/0210408+
+
+%\bibitem[Ka]{Ka} E. Kani, 
+%{\it The Galois-module structure of the 
+%space of holomorphic differential forms on a curve,}
+%J. reine angew. Math \underline{367}(1986)187-206.
+%
+%\bibitem[K]{K} B. K\"ock, {\it Galois structure of 
+%Zariski cohomology 
+%for weakly ramified covers of curves,} 
+%math.AG/0207124, available at
+%\verb+http://front.math.ucdavis.edu/+
+%
+
+\bibitem[L]{L} J. Leon, ``Computing automorphism 
+groups of error-correcting codes,'' IEEE Trans. 
+Inform. Theory 28(1982)496--511
+
+%\bibitem[L]{L} D. Lorenzini, {An invitation to arithmetic 
+%geometry}, Grad. Studies in Math, AMS, 1996.
+
+%\bibitem[MAGMA]{M} 
+%W. Bosma, J. Cannon, C. Playoust,
+%``The MAGMA algebra system, I: 
+%The user language,''
+%J. Symb. Comp., \underline{24}(1997)235-265.
+%\newline
+%(\verb+http://www.maths.usyd.edu.au:8000/u/magma/+).
+
+%\bibitem[MP]{MP} I. Morrison and H. Pinkham,
+%{\it Galois Weierstass points and Hurwitz characters},
+%Annals of Math., \underline{124}(1986)591-625.
+%
+%\bibitem[N]{N} S. Nakajima, {\it Galois module structure of
+%cohomology groups of an algebraic variety},
+%Inv. Math. \underline{75}(1984)1-8
+%
+
+\bibitem[S]{S}
+C. Schoen, ``On certain modular representations 
+in the cohomology 
+of algebraic curves,'' J. Alg. \underline{135}(1990)1-18.
+
+
+%\bibitem[Se]{Se} J.-P. Serre, {Linear representations of 
+%finite groups}, Springer-Verlag, 1977.
+%
+%\bibitem[St]{St} S. Stepanov, {Codes on algebraic curves},
+%Kluwer, NY, 1999.
+
+\bibitem[Sti]{Sti} H. Stichtenoth, {\it Algebraic function
+fields and codes}, Springer-Verlag, 1993.
+
+\bibitem[TV]{TV}
+M. A. Tsfasman and S. G. Vladut, {\it Algebraic-geometric codes},
+Mathematics and its Applications, 
+Kluwer Academic Publishers, Dordrechet, 1991.
+
+\bibitem[W]{W} S. Wesemeyer, 
+``On the automorphism group of 
+various Goppa codes,''
+IEEE Trans. Info. Theory., 44(1998)630-643.
+\end{thebibliography}
+
+\end{document}

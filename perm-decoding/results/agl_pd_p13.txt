@@ -1,0 +1,11 @@
+p = 13, |AGL(1,p)| = 156
+k= 2 t= 5  failing orbits     0/     1  failing info sets        0/      78  counting bound ok  (0.0s)
+k= 3 t= 5  failing orbits     0/     3  failing info sets        0/     286  counting bound ok  (0.0s)
+k= 4 t= 4  failing orbits     0/     7  failing info sets        0/     715  counting bound ok  (0.0s)
+k= 5 t= 4  failing orbits     0/    10  failing info sets        0/    1287  counting bound ok  (0.0s)
+k= 6 t= 3  failing orbits     0/    14  failing info sets        0/    1716  counting bound ok  (0.0s)
+k= 7 t= 3  failing orbits     0/    14  failing info sets        0/    1716  counting bound ok  (0.0s)
+k= 8 t= 2  failing orbits     0/    10  failing info sets        0/    1287  counting bound ok  (0.0s)
+k= 9 t= 2  failing orbits     0/     7  failing info sets        0/     715  counting bound ok  (0.0s)
+k=10 t= 1  failing orbits     0/     3  failing info sets        0/     286  counting bound ok  (0.0s)
+k=11 t= 1  failing orbits     0/     1  failing info sets        0/      78  counting bound ok  (0.0s)

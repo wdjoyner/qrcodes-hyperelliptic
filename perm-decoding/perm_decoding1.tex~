@@ -1,0 +1,54 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsgen}
+\usepackage{amsfonts}
+
+\newtheorem{theorem}{Theorem} 
+\newtheorem{corollary}[theorem]{Corollary} 
+\newtheorem{conjecture}[theorem]{Conjecture} 
+\newtheorem{lemma}[theorem]{Lemma} 
+\newtheorem{proposition}[theorem]{Proposition} 
+\newtheorem{definition}[theorem]{Definition} 
+\newtheorem{example}[theorem]{Example} 
+\newtheorem{exercise}[theorem]{Exercise} 
+\newtheorem{axiom}{Axiom} 
+\newtheorem{remark}{Remark} 
+
+\numberwithin{equation}{section}
+
+\def\ppp{{\mathbb{P}}}
+\def\aaa{{\mathbb{A}}}
+\def\fff{{\mathbb{F}}}
+\def\qqq{\mathbb{Q}}
+\def\rrr{\mathbb{R}}
+\def\ccc{\mathbb{C}}
+\def\zzz{\mathbb{Z}}
+\def\nnn{\mathbb{N}}
+\def\pf{\noindent {\bf Proof}:\ }
+\def\qed{$\Box$}
+
+\begin{document}
+
+\author{David Joyner\thanks{Mathematics Dept, 
+US Naval Academy, Annapolis, MD 21402,
+wdj@usna.edu}}
+
+\title{Conjectural permutation decoding of some AG codes\thanks{MSC 2000: 
+14H37, 94B27,20C20,11T71,14G50,05E20,14Q05}}
+
+\maketitle
+
+\begin{abstract}
+We study the action of a finite group on the Riemann-Roch
+space of certain divisors on a specific hyperelliptic curve
+$X$ defined over a finite field with ``large'' automorphism group
+$G$. If $D$ is a divisor on $X$ left stable by $G$ then 
+the natural representation of $G$ on the Riemann-Roch space 
+$L(D)=L_X(D)$. If $E=P_1+...+P_n$ is another
+divisor on $X$ left stable by $G$ then this representation on
+$L(D)$ induces a permutation representation on the
+associated AG code $C=C(D,E)$ (defined below).
+This note discusses the permutation decoding of these AG codes.
+
+\end{abstract}

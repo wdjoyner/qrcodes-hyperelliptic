@@ -1,0 +1,21 @@
+p = 17, |AGL(1,p)| = 272
+k= 2 t= 7  failing orbits     0/     1  failing info sets        0/     136  counting bound ok  (0.0s)
+k= 3 t= 7  failing orbits     0/     3  failing info sets        0/     680  counting bound ok  (0.0s)
+k= 4 t= 6  failing orbits     0/    11  failing info sets        0/    2380  counting bound ok  (0.0s)
+k= 5 t= 6  failing orbits     0/    25  failing info sets        0/    6188  counting bound ok  (0.0s)
+k= 6 t= 5  failing orbits     0/    49  failing info sets        0/   12376  counting bound ok  (0.0s)
+k= 7 t= 5  failing orbits     3/    75  failing info sets      680/   19448  counting bound ok  (0.0s)
+      e.g. J = [6, 7, 8, 9, 10, 12, 13, 14, 15, 16]  uncovered T = [0, 1, 2, 5, 14]
+      e.g. J = [4, 6, 7, 8, 9, 10, 11, 13, 15, 16]  uncovered T = [0, 1, 2, 5, 14]
+      e.g. J = [3, 6, 7, 9, 11, 12, 13, 14, 15, 16]  uncovered T = [0, 1, 2, 5, 14]
+k= 8 t= 4  failing orbits     0/    95  failing info sets        0/   24310  counting bound ok  (0.0s)
+k= 9 t= 4  failing orbits     5/    95  failing info sets     1122/   24310  counting bound ok  (0.0s)
+      e.g. J = [6, 7, 9, 12, 13, 14, 15, 16]  uncovered T = [0, 1, 4, 5]
+      e.g. J = [5, 7, 8, 9, 12, 13, 14, 16]  uncovered T = [0, 1, 2, 3]
+      e.g. J = [4, 8, 9, 10, 11, 12, 14, 16]  uncovered T = [0, 1, 4, 5]
+k=10 t= 3  failing orbits     0/    75  failing info sets        0/   19448  counting bound ok  (0.0s)
+k=11 t= 3  failing orbits     0/    49  failing info sets        0/   12376  counting bound ok  (0.0s)
+k=12 t= 2  failing orbits     0/    25  failing info sets        0/    6188  counting bound ok  (0.0s)
+k=13 t= 2  failing orbits     0/    11  failing info sets        0/    2380  counting bound ok  (0.0s)
+k=14 t= 1  failing orbits     0/     3  failing info sets        0/     680  counting bound ok  (0.0s)
+k=15 t= 1  failing orbits     0/     1  failing info sets        0/     136  counting bound ok  (0.0s)
