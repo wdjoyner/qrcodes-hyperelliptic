@@ -6,8 +6,10 @@
 \usepackage{longtable,booktabs,array}
 \usepackage[hidelinks]{hyperref}
 
+\newcommand{\F}{\mathbb{F}}
 \newcommand{\Fp}{\mathbb{F}_p}
 \newcommand{\X}{\#X}
+\newcommand{\wt}{\operatorname{wt}}
 \newcommand{\CNQ}{C_{NQ}}
 \newcommand{\Cev}{C_{\mathrm{ev}}}
 
@@ -147,7 +149,8 @@ Theorem 5, $c=1.57$).
 $\X_S=1.5p+\frac12$. Every prime $p\ge11$ now has an explicit $S$ with
 $\X_S\ge1.5p-\frac12$.
 \item New data: weight distributions for $p=17,19,23$ (Table~1), the RH status of
-seven codes (Table~2), and $M_p$, $m_p$ for $p\le23$ (Table~3).
+seven codes (Table~2), and $M_p$, $m_p$ for $p\le23$ (Table~4; Table~3 before
+the addition of 10 November 2026).
 \end{enumerate}
 
 \section{Material removed}\label{sec:removed}
@@ -171,9 +174,11 @@ for $p=13$, and zeta polynomials.
 \item Proofs were rewritten in full, including the dimension count
 (Proposition~3.2) and Lemma~2.2 (Artin--Hasse--Weil) with the trivial
 bounds~(3).
-\item Section~7, \emph{Open questions and their difficulty}: a random-code
+\item Section~8 (Section~7 before 10 November 2026), \emph{Open questions and
+their difficulty}: a random-code
 heuristic ($M_p\approx1.78p$) and an assessment of each open question.
-\item Section~8, \emph{Literature}, in two parts: before 2006 and 2006 and after.
+\item Section~9 (formerly Section~8), \emph{Literature}, in two parts: before 2006
+and 2006 and after.
 \item Appendix~A, \emph{Glossary}: 54 entries with a short introduction. It is
 placed after the Acknowledgements and before the bibliography.
 \item An introductory paragraph was added at the start of every section and
@@ -201,6 +206,52 @@ polynomials''. The ``Wage'' remark on $|S|=2,3$ was dropped.
 checked against the publishers' pages before submission.
 \end{enumerate}
 
+\section{Additions of 10 November 2026}\label{sec:nov10}
+{\sloppy
+These changes came out of a further discussion of the Bazzi--Mitter conjecture.
+They add a section and some data; nothing earlier was withdrawn.
+\begin{enumerate}
+\item New Section~7, \emph{The split by $p$ modulo 8}. It is placed before
+\emph{Open questions}, so the later sections are renumbered: Open questions is now
+Section~8, Literature Section~9.
+\begin{itemize}
+\item Proposition~7.1: for $p\equiv\pm1\pmod8$, $\Cev$ is the direct sum of two
+even-like binary QR codes, so $M_p=2p+2-d(\widehat{\mathcal Q}_p)$ exactly.
+\item Proposition~7.2: for $p\equiv\pm3\pmod8$, $\Cev$ is $\F_4$-linear and is the
+binary image of an even-like quaternary QR code, with $d_4\le d(\Cev)\le\frac43d_4$.
+The bordered analog is due to Karlin, Bhargava and Tavares (1978).
+\item Remark~7.3: the pure and bordered codes can differ ($p=13$: $d(\Cev)=8$,
+$d(B_{13})=6$).
+\item Theorem~7.4: Conjecture~1.3 implies linear minimum distance for binary or
+quaternary QR codes along an infinite set of primes.
+\item Conjecture~7.5 (new, refined): there is $c<2$ with $M_p\le cp$ for infinitely
+many $p\equiv\pm3\pmod8$. Remark~7.6 records that it is equivalent to linear
+distance for quaternary QR codes, that $c<1.7799$ would refute Goppa's conjecture,
+and a stronger form for safe primes $p\equiv3\pmod8$.
+\item Table~3 (new): exact $d(\Cev)$ and $M_p$ for all $p\equiv\pm3\pmod8$ with
+$p\le83$, bounds for $p=107$, and exact $M_p$ for $p\equiv\pm1\pmod8$, $p<200$,
+from the extended-QR distances of Tomlinson et al.\ (2017, Table~9.4).
+\item Remark~7.7: the Legendre-symbol form $\X_T=|T|+2+2N_+(T)$, and the
+outline of a possible proof that separates structured from unstructured sets.
+\end{itemize}
+\item Abstract: a closing sentence on the new section. List of results: item~8.
+After Conjecture~1.3: a pointer to Section~7.
+\item Open questions: the heuristic paragraph now says that the $1.78p$ heuristic
+fits only $p\equiv\pm3\pmod8$. The Bazzi--Mitter paragraph cites Theorem~7.4. New
+paragraphs on Conjecture~7.5 and on analytic hypotheses (GRH, Hooley).
+\item Literature: Karlin--Bhargava--Tavares 1978 and Gaborit 2002 (before 2006);
+Tomlinson--Tjhai--Ambroze--Ahmed--Jibril 2017 (after 2006). The About-this-revision
+paragraph and the Acknowledgements mention the new section.
+\item Glossary: new entries \emph{Binary image}, \emph{Bordered double-circulant
+code}, \emph{Even-like code}, $N_\pm(T)$; the entry \emph{QR code} now covers
+quaternary QR codes.
+\item Bibliography: added Gaborit 2002, Hooley 1967, Karlin--Bhargava--Tavares 1978,
+Tomlinson et al.\ 2017.
+\item Code: \texttt{code/check\_mod8.py} checks Propositions~7.1 and~7.2 for small
+$p$; \texttt{code/dmin\_cev.c} computes $d(\Cev)$ exactly for
+$p\equiv\pm3\pmod8$ (Table~3).
+\end{enumerate}\par}
+
 \section{Map of results}\label{sec:map}
 \begin{longtable}{@{}p{0.42\textwidth}p{0.52\textwidth}@{}}
 \toprule
@@ -222,6 +273,8 @@ Section 4: Theorem 4, Theorem 5, Lemmas 5--7 & Remark 4.7 (removed)\\
 Lemma 8 (Voloch) & Theorem 5.1 (with new case $p\equiv5\bmod8$)\\
 Theorem 6 (Voloch, Chebotarev) & Theorem 5.3\\
 --- & Lemma 2.4, Corollary 2.6, Proposition 3.10, Theorem 6.2 (new)\\
+Conjecture (Bazzi--Mitter), restated & Conjecture 7.5 (refined, $p\equiv\pm3\bmod 8$)\\
+--- & Propositions 7.1, 7.2, Theorem 7.4 (new, 10 November 2026)\\
 \bottomrule
 \end{longtable}
 
