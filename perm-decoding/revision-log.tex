@@ -34,23 +34,28 @@ Name used here & File\\
 \midrule
 2005 note & \texttt{perm\_decoding3.tex}, the source of D.~Joyner's note in
 \emph{ACM SIGSAM Bulletin} 39(1) (2005), 26--32\\
-Step 1 & \texttt{perm\_decoding\_step1\_mathematical\_revision.tex}, by
+Draft 0 & \texttt{perm\_decoding\_step1\_mathematical\_revision.tex}, by
 D.~Joyner and ChatGPT\\
-Intermediate draft & \texttt{perm-decoding\_revision-2026.tex}\\
-Draft 1 & \texttt{paper/perm\_decoding\_step2\_revision.tex} as committed on
-November 9, 2026 (commit \texttt{188d526})\\
-Draft 2 & the same file as revised on November 12, 2026\\
+Intermediate draft & \texttt{perm-decoding\_revision-2026.tex} as committed on
+November 9, 2026 (commit \texttt{188d526}). It is no longer in the folder and
+can be recovered from the git history.\\
+Draft 1 & \texttt{paper/perm\_decoding\_step2\_revision.tex} (November 9, 2026)\\
+Draft 2 & \texttt{perm-decoding\_revision-2026.tex} (November 12, 2026)\\
 \bottomrule
 \end{tabular}
 \end{center}
-The file name of the paper was kept in Draft~2 so that existing links to it stay
-valid. The draft number appears on the title page.
+Draft~2 was first committed in place of Draft~1 (commit \texttt{bae43d8}). At
+D.~Joyner's request it was then moved to \texttt{perm-decoding\_revision-2026.tex},
+where it replaced the intermediate draft, and Draft~1 was restored unchanged to
+its own file. The draft number appears on the title page of Draft~2. In the
+history of the folder and in the file names, Draft~0 is called ``Step~1'' and
+Draft~1 is called ``Step~2''.
 
 \medskip
 \noindent\textbf{How this log was made.} No revision log was kept before
 Draft~2. Section~\ref{sec:draft1} is a reconstruction. Claude wrote it on November
 12, 2026 by comparing the files listed above and by reading the Acknowledgments and
-the \texttt{README.md} of the folder. The referee report on Step~1 and ChatGPT's
+the \texttt{README.md} of the folder. The referee report on Draft~0 and ChatGPT's
 response to it are not in the repository and were not consulted. Where
 Section~\ref{sec:draft1} says who found something, the source is the
 Acknowledgments of the paper. Section~\ref{sec:draft2} is a direct record of the
@@ -68,10 +73,10 @@ numbers. Section~\ref{sec:conc} gives the concordance between Draft~1 and Draft~
 
 \subsection{Stages}
 \begin{enumerate}
-\item \emph{Step 1.} ChatGPT revised the mathematics of the 2005 note. The result
+\item \emph{Draft 0.} ChatGPT revised the mathematics of the 2005 note. The result
 had the title ``Permutation decoding of codes from $y^2=x^p-x$: corrected results,
 counterexamples, and partial decoding'' and the authors D.~Joyner and ChatGPT.
-\item \emph{Referee report.} Claude refereed Step~1.
+\item \emph{Referee report.} Claude refereed Draft~0.
 \item \emph{Intermediate draft.} ChatGPT's response to the report and the
 referee's corrections were combined. Claude was added as third author.
 \item \emph{Draft 1.} The original title was restored, with the subtitle
@@ -87,7 +92,7 @@ section, with \verb|\label| and \verb|\ref| throughout.
 after 2007), a summary, a list of open problems, a glossary and two appendices
 were added. The appendices hold the GUAVA session of the 2005 note and a
 verification script.
-\item The bibliography grew from 30 entries (2005 note) to 32 (Step~1) to 59
+\item The bibliography grew from 30 entries (2005 note) to 32 (Draft~0) to 59
 (Draft~1).
 \item The GUAVA session of the 2005 note was kept, with two typos corrected:
 \texttt{Length(P)} became \texttt{Length(Pts)}, and the closing \texttt{if;} became
@@ -110,7 +115,7 @@ acts by $-1$ on the monomials that involve $y$ (proof of Proposition~4.5).
 \item \emph{Lifting of M\"obius transformations.} The paper states and proves the
 criterion that a class in $\mathrm{PGL}_2(p)$ lifts to an $\F_p$-automorphism
 exactly when its determinant is a square (Section~4.1). According to the
-Acknowledgments, the referee found an error in the lift criterion of Step~1.
+Acknowledgments, the referee found an error in the lift criterion of Draft~0.
 \item \emph{Ample divisors and separation of points.} The 2005 note says that an
 ample divisor $D$ has $L(D)$ separating points. On a curve this is false in
 general (Remark~5.2).
@@ -130,15 +135,15 @@ fixed and used throughout (equation~(3.1)).
 \begin{enumerate}
 \item Conjecture~6 of the 2005 note, called (C1) in the paper, is false as a
 universal statement. At $p=37$ and $k=17$ no information set works
-(Theorem~7.8). The counterexample is already in Step~1.
+(Theorem~7.8). The counterexample is already in Draft~0.
 \item Conjecture~7 of the 2005 note, called (C2), is false as a universal
-statement. Step~1 gave one counterexample, at $p=7$ (its Theorem on the
+statement. Draft~0 gave one counterexample, at $p=7$ (its Theorem on the
 $[84,42,\ge40]$ code). Draft~1 replaced it by a general obstruction for regular
 groups (Theorem~8.1) and an infinite family (Corollary~8.2). The case $p=7$
 became Example~8.3.
 \end{enumerate}
 
-\subsection{Changes between Step 1 and Draft 1}
+\subsection{Changes between Draft 0 and Draft 1}
 \begin{enumerate}
 \item The original title was restored, and Claude was added as third author.
 \item The Background and Literature review sections, the Glossary and
@@ -354,8 +359,8 @@ would change the mathematics.
 and open problems), the appendices and the Glossary. An example there would add
 nothing.
 \item Rule~1.7 for the key \texttt{GUAVA}, which is software cited by name.
-\item Rule~8.3 as a change of file name. The file is still
-\texttt{perm\_decoding\_step2\_revision.tex}.
+\item Rule~8.3 as a draft number in the file name. The draft number is on the
+title page only.
 \item Rule~1.6, second sentence (unnumbered subsections). Rule~3.8 in existing
 text. Rules~3.6 and~3.7, where no violation was looked for. Rule~6.6, since no
 status label was added.
@@ -393,10 +398,10 @@ recorded in the repository.
 %======================================================================
 \section{AI usage}\label{sec:ai}
 \begin{enumerate}
-\item \emph{ChatGPT (OpenAI): first reviser.} It prepared Step~1 and responded to
+\item \emph{ChatGPT (OpenAI): first reviser.} It prepared Draft~0 and responded to
 the referee report. The Acknowledgments of the paper list its contributions.
 \item \emph{Claude (Anthropic): referee, co-author and reviser.} It refereed
-Step~1, carried out the exhaustive computations of Proposition~7.5, wrote the
+Draft~0, carried out the exhaustive computations of Proposition~7.5, wrote the
 scripts in \texttt{scripts/}, and prepared Draft~1, including the Background,
 the Literature review and the Glossary. The Acknowledgments list its
 contributions.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Checks every number in the examples added in Draft 2 of
-paper/perm_decoding_step2_revision.tex (Examples 1.1, 3.1-3.6, 4.8, 6.5, 9.1).
+perm-decoding_revision-2026.tex (Draft 2) (Examples 1.1, 3.1-3.6, 4.8, 6.5, 9.1).
 
 Run:  python3 check_examples_draft2.py
 Needs only the Python 3 standard library.  Every check is exhaustive and exact.

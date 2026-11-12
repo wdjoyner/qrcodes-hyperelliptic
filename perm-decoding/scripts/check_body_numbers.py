@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Rechecks numerical statements in the body of
-paper/perm_decoding_step2_revision.tex that pd_affine.py does not cover:
+perm-decoding_revision-2026.tex (Draft 2) that pd_affine.py does not cover:
 Example 7.7, Theorem 7.8, Remark 7.9, the table after Corollary 8.2 and
 Example 8.3.  Standard library only.  Run:  python3 check_body_numbers.py
 """

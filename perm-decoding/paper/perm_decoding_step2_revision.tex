@@ -1,9 +1,12 @@
-\documentclass[12pt,letterpaper]{article}
+\documentclass[12pt]{article}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amsthm}
-\usepackage{newtxtext,newtxmath}
+% Times text and math: newtx if available, otherwise mathptmx.
+\IfFileExists{newtxmath.sty}%
+  {\usepackage{newtxtext,newtxmath}}%
+  {\usepackage{amssymb}\usepackage{mathptmx}}
 \usepackage{array,booktabs}
-\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage[margin=1in]{geometry}
 \usepackage{url}
 \usepackage[hidelinks]{hyperref}
 
@@ -41,12 +44,11 @@
 
 \begin{document}
 
-\title{Conjectural permutation decoding of some AG codes\thanks{This is a
-corrected and expanded version of the note~\cite{Jo05}, published in the
-\emph{ACM SIGSAM Bulletin} in 2005. This version, Draft~2, is dated
-November 12, 2026.}\\[4pt]
-\large Corrected and expanded version. Draft 2}
-\author{David Joyner\thanks{Original author. \texttt{wdjoyner@gmail.com}}
+\title{Conjectural permutation decoding of some AG codes\\[4pt]
+\large Corrected and expanded version}
+\author{David Joyner\thanks{Original author.
+Mathematics Department, U.S.\ Naval Academy, Annapolis, MD 21402
+(affiliation at the time of \cite{Jo05}); \texttt{wdjoyner@gmail.com}.}
 \and ChatGPT (OpenAI)\thanks{AI system: first mathematical revision,
 proof checking, and exposition.  Listed as an author at the request
 of the first author.}
@@ -54,14 +56,11 @@ of the first author.}
 verification, exhaustive computations, literature review, and preparation
 of this version.  Listed as an author at the request of the first author.
 See the Acknowledgments for a description of each contribution.}}
-\date{Original draft: 2005. Corrected and expanded draft: 2026.}
+\date{November 2026}
 \maketitle
 
 \begin{abstract}
-This paper was revised with the help of two AI systems, ChatGPT (OpenAI)
-and Claude (Anthropic), which are also listed as co-authors. The
-Acknowledgments give further details.
-The paper revisits the permutation-decoding conjectures of
+This AI-aided paper revisits the permutation-decoding conjectures of
 the first author (2005) for algebraic-geometric codes associated with the
 hyperelliptic curves $y^2=x^p-x$.  The one-point codes of length $p$ over
 $\F_p$ turn out to be full-length Reed--Solomon codes, whose permutation
@@ -87,11 +86,6 @@ review, and a glossary are included.
 
 %======================================================================
 \section{Introduction}\label{sec:intro}
-
-This section states the problem and recalls the two conjectures of the
-note~\cite{Jo05}. It then gives a small example, summarizes what this
-paper proves about the conjectures, and describes how the paper is
-organized.
 
 Let $X$ be a smooth projective curve over a finite field $F$, let $D$ be
 a divisor on $X$, and let $E=P_1+\cdots+P_n$ be a sum of distinct
@@ -126,16 +120,6 @@ paper settles both conjectures in the negative, as universal statements,
 and replaces them with precise positive results, explicit obstructions,
 and open problems.
 
-\begin{example}\label{ex:intro-p7}
-Let $p=7$. The curve $y^2=x^7-x$ has genus $3$. Over $\F_7$ its affine
-rational points are the seven points $(a,0)$ with $a\in\F_7$. Evaluating
-the functions $1$, $x$ and $x^2$ at these points gives a code of length
-$7$ and dimension $3$ over $\F_7$. This is the $[7,3,5]$ code studied
-in~\cite{Jo05}. It corrects two errors, and its permutation group has
-order $42$. The whole group is a full permutation-decoding set for this
-code (Example~\ref{ex:7-3-5}).
-\end{example}
-
 \paragraph{Summary of results.}
 \begin{enumerate}
 \item The codes in (C1) are full-length Reed--Solomon codes, with
@@ -168,29 +152,118 @@ separation of points), and Section~\ref{subsec:not-perm} (permutation
 modules).
 
 \paragraph{Organization.}
+Section~\ref{sec:background} recalls the background needed later.
 Section~\ref{sec:lit} reviews the literature before and after 2007.
-Section~\ref{sec:background} recalls the background needed later and ends
-with a table of notation.
 Sections~\ref{sec:curve}--\ref{sec:fp2-codes} contain the mathematics,
 Section~\ref{sec:complexity} discusses complexity, and
-Section~\ref{sec:problems} summarizes the results and lists open problems.
-The appendices contain
+Section~\ref{sec:problems} lists open problems.  The appendices contain
 the historical GUAVA session and a short verification script.  A glossary
-of technical terms precedes the Acknowledgments and the references.
+of technical terms precedes the references.
+
+%======================================================================
+\section{Background}\label{sec:background}
+
+This section collects standard facts, with references, so that the rest
+of the paper can be read with modest prerequisites.  Proofs are omitted.
+
+\subsection{Linear codes}
+A \emph{linear code} $C$ of length $n$ over $F=\F_q$ is a subspace of
+$F^n$.  The \emph{Hamming weight} $\wt(v)$ of $v\in F^n$ is the number of
+nonzero coordinates of $v$.  The \emph{minimum distance} $d$ of $C\neq0$
+is the least weight of a nonzero codeword.  We say $C$ is an $[n,k,d]$
+code if $\dim C=k$.  Such a code corrects any $t=\lfloor(d-1)/2\rfloor$
+errors.  The Singleton bound $d\le n-k+1$ holds, and codes attaining it
+are called \emph{maximum distance separable} (MDS) \cite{HP,MS77}.
+
+An \emph{information set} is a set $\cI$ of $k$ coordinates such that
+projection $C\to F^{\cI}$ is an isomorphism.  The complementary set
+$\cJ$ of $r=n-k$ coordinates is the set of \emph{check positions}.  For
+an MDS code, every $k$-subset is an information set \cite[Ch.~11]{MS77}.
+After reordering coordinates so that $\cI$ comes first, $C$ has a
+\emph{systematic} generator matrix $\Gsys=(I_k\mid A)$ and parity-check
+matrix $\Hsys=(-A^{\mathsf T}\mid I_r)$.  The \emph{syndrome} of
+$v\in F^n$ is $\Hsys v^{\mathsf T}$.
+
+The symmetric group $S_n$ acts on $F^n$ by
+$(\sigma v)_i=v_{\sigma^{-1}(i)}$.  The \emph{permutation automorphism
+group} of $C$ is
+$\PAut(C)=\{\sigma\in S_n:\sigma(C)=C\}$.
+(Monomial automorphisms, which also rescale coordinates, will not be
+needed.)
+
+\subsection{Reed--Solomon codes and the affine group}
+For $1\le k\le q$, the full-length Reed--Solomon code
+\[
+\RS(\F_q,k)=\{(f(a))_{a\in\F_q}:\ f\in\F_q[x],\ \deg f<k\}
+\]
+is a $[q,k,q-k+1]$ MDS code.  The \emph{affine group}
+$\AGL(1,q)=\{x\mapsto ux+b:\ u\in\F_q^\times,\ b\in\F_q\}$, of order
+$q(q-1)$, acts on the coordinates by substitution and preserves every
+$\RS(\F_q,k)$.  It is \emph{sharply $2$-transitive}: for distinct
+$a_1,a_2$ and distinct $b_1,b_2$ there is exactly one affine map with
+$a_i\mapsto b_i$.
+
+\subsection{Curves, divisors, and Riemann--Roch spaces}
+We follow Stichtenoth \cite{Sti} and Hartshorne \cite{H}.  Let $X/F$ be a
+smooth, projective, geometrically irreducible curve of genus $g$.  A
+\emph{divisor} is a finite formal sum $D=\sum n_PP$ of points, with
+degree $\deg D=\sum n_P\deg P$.  For a nonzero function $f$,
+$\operatorname{div}(f)=\sum\ord_P(f)P$ has degree $0$.  The
+\emph{Riemann--Roch space} is
+\[
+L(D)=\{f\in F(X)^\times:\ \operatorname{div}(f)+D\ge0\}\cup\{0\},
+\qquad \ell(D)=\dim_F L(D).
+\]
+The Riemann--Roch theorem gives $\ell(D)\ge\deg D+1-g$, with equality
+when $\deg D>2g-2$ \cite[Thm.~I.5.17]{Sti}.  If
+$E=P_1+\dots+P_n$ consists of rational points outside $\supp D$, the
+evaluation map $\ev_E:L(D)\to F^n$, $f\mapsto(f(P_i))_i$, has image the
+\emph{AG code} $C_X(D,E)$ \cite{Go81,TVZ82}.  If $\deg D<n$ then $\ev_E$ is
+injective, and $C_X(D,E)$ is an $[n,\ell(D),\ge n-\deg D]$ code
+\cite[Thm.~II.2.2]{Sti}.  When $D=mQ$ for a single point $Q$, the code is
+called a \emph{one-point code}.
+
+\subsection{Hyperelliptic curves and point counts}
+A curve of genus $g\ge2$ is \emph{hyperelliptic} if it admits a degree-two
+map $x:X\to\PP^1$.  The associated \emph{hyperelliptic involution}
+$\iota$ is central in $\Aut(X)$.  Its fixed points are the
+\emph{Weierstrass points}, which are the ramification (branch) points of
+$x$.  Every automorphism of $X$ therefore induces an automorphism of
+$\PP^1$ that permutes the branch locus \cite{BrS86,G}.  Over $F=\F_q$, the
+\emph{Hasse--Weil bound} says
+\[
+|\,|X(\F_q)|-(q+1)\,|\le 2g\sqrt q.
+\]
+Curves attaining the upper (respectively lower) bound are called
+\emph{maximal} (respectively \emph{minimal}) \cite[Thm.~V.2.3]{Sti}.
+
+\subsection{Group actions and modules}
+A finite group $G$ acting on a finite set $\Omega$ satisfies
+$|G\cdot\omega|=|G|/|G_\omega|$ (orbit--stabilizer).  The action is
+\emph{regular} if it is transitive with trivial stabilizers, in which
+case $|G|=|\Omega|$.  The \emph{permutation module} $F^\Omega$ has basis
+$\Omega$ permuted by $G$.  A submodule of a permutation module need not be
+a permutation module.  A finite-dimensional $F[G]$-module $V$ has a
+composition series, and the direct sum of its composition factors is its
+\emph{semisimplification}.
+
+If $G\le\Aut_F(X)$ preserves $D$, then $G$ acts on $L(D)$.  Throughout
+this paper we use the convention
+\begin{equation}\label{eq:convention}
+(g\cdot f)(P)=f(g^{-1}P),\qquad\text{i.e. }g\cdot f=f\circ g^{-1}.
+\end{equation}
+
+\subsection{Projective linear groups}
+$\PGL_2(p)=\GL_2(\F_p)/\F_p^\times$ has order $p(p^2-1)$ and acts sharply
+$3$-transitively on $\PP^1(\F_p)$.  Its subgroup $\PSL_2(p)$ of index two
+consists of the classes of matrices with square determinant.  The
+stabilizer of $\infty$ in $\PGL_2(p)$ is the \emph{Borel subgroup}
+$B\cong\AGL(1,p)$ of upper-triangular classes.
 
 %======================================================================
 \section{Literature review}\label{sec:lit}
 
-This section places the paper in context. It is split at 2007 only for
-convenience. The first subsection covers work up to the time of the
-note~\cite{Jo05} and the two years after it. The second covers later
-work.
-
 \subsection{Work up to 2007}
-
-The earlier work falls into four strands, treated in turn: permutation
-decoding, AG codes and their automorphisms, representations on
-Riemann--Roch spaces, and the decoding of AG codes.
 
 \paragraph{Permutation decoding.}
 Prange introduced the use of information sets to decode cyclic codes
@@ -204,7 +277,7 @@ below.  Wolfmann found a set of fourteen permutations for the
 $[24,12,8]$ Golay code \cite{Wo83}.  Chabanne extended permutation
 decoding to abelian codes using Gr\"obner bases \cite{Ch92}, and Biglieri
 considered group codes \cite{Bi95}.  Huffman's survey chapter \cite{Hu98}
-and the textbook \cite{HP03} summarize the theory.
+and the textbook \cite{HP} summarize the theory.
 
 The notion of \emph{partial} permutation decoding, using $s$-PD-sets with
 $s<t$, was introduced by Key, McDonough and Mavron \cite{KMM05} and
@@ -217,24 +290,24 @@ permutation group does not by itself guarantee full permutation decoding.
 \paragraph{AG codes and their automorphisms.}
 AG codes were introduced by Goppa \cite{Go81}.  The Tsfasman--Vl\u{a}du\c{t}--Zink
 theorem \cite{TVZ82} showed that they can beat the Gilbert--Varshamov
-bound.  Standard references are \cite{St93,TV91,HvLP98}.  The relation between
+bound.  Standard references are \cite{Sti,TV,HvLP}.  The relation between
 curve automorphisms and code automorphisms was studied by Stichtenoth
-\cite{St90} and by Wesemeyer \cite{We98} for plane curves.  Joyner and Ksir
+\cite{St90} and by Wesemeyer \cite{W} for plane curves.  Joyner and Ksir
 \cite{JK06} showed that, in many cases, $\Aut(X)$ and the permutation
 group of a corresponding AG code coincide.  For genus zero, the
 automorphism groups of (generalized, doubly extended) Reed--Solomon codes
 were determined by D\"ur \cite{Du87}.  The automorphism groups of
 generalized Reed--Muller codes over prime fields, which include the
 full-length Reed--Solomon codes over $\F_p$, were determined by Kn\"orr and
-Willems \cite{KW90} and by Berger and Charpin \cite{BC93}.  Automorphism
+Willems \cite{KW} and by Berger and Charpin \cite{BC93}.  Automorphism
 groups of hyperelliptic curves were classified by Brandt and Stichtenoth
-\cite{BrS86}, and computed algorithmically by G\"ob \cite{Go03}.
+\cite{BrS86}, and computed algorithmically by G\"ob \cite{G}.
 
 \paragraph{Representations on Riemann--Roch spaces.}
 The action of $\Aut(X)$ on $L(D)$ was studied by Joyner and Traves
-\cite{JT02} and by Joyner and Ksir \cite{JK03}, building on modular
-representation theory such as \cite{Sc90}.  The conjectures on permutation
-decoding of codes from $y^2=x^p-x$ first appeared in \cite{JT02} and were
+\cite{JT} and by Joyner and Ksir \cite{JK2}, building on modular
+representation theory such as \cite{S}.  The conjectures on permutation
+decoding of codes from $y^2=x^p-x$ first appeared in \cite{JT} and were
 formulated in \cite{Jo05}.  GUAVA 2.0 implemented permutation decoding
 \cite{GUAVA}.  Shaska and Wang \cite{ShW07} studied automorphism groups of
 AG codes from $C_{a,b}$ curves, motivated in part by the decoding
@@ -245,18 +318,13 @@ Algebraic decoding of AG codes goes back to Justesen et al.\
 \cite{JLJHH89}, Skorobogatov and Vl\u{a}du\c{t} \cite{SV90}, and Feng and
 Rao \cite{FR93}.  List decoding was developed by Sudan \cite{Su97},
 Guruswami and Sudan \cite{GS99}, and Shokrollahi and Wasserman
-\cite{SW99}.  The survey \cite{HvLP98} describes the state of the art around
+\cite{SW99}.  The survey \cite{HvLP} describes the state of the art around
 1998.  These algorithms decode up to (or beyond) half the designed
 distance in polynomial time.  The interest of permutation decoding lies
 in its simplicity: it uses only syndrome computations and coordinate
 permutations.
 
 \subsection{Work after 2007}
-
-Later work has developed partial permutation decoding and clarified the
-permutation groups of Reed--Solomon codes. It has also returned to
-permutation decoding of AG codes of positive genus, which bears most
-directly on this paper.
 
 \paragraph{Partial permutation decoding.}
 Partial PD-sets were constructed for codes from lattice graphs
@@ -271,11 +339,11 @@ permutation decoding of abelian and affine-invariant codes
 \cite{BS13,BS23}.
 
 \paragraph{Permutation groups of Reed--Solomon codes.}
-Camps-Moreno, Lau, L\'opez and Santos gave an elementary proof \cite{CLLS25}
+Camps-Moreno, Lau, L\'opez and Santos \cite{CLLS} gave an elementary proof
 that the permutation group of a Reed--Solomon code on an arbitrary
 evaluation set consists of the affine maps preserving that set, away from
 exceptional dimensions.  This recovers the case of the full field used in
-Theorem~\ref{thm:RS}.  Joyner, Ksir and Traves \cite{JKT08} revisited
+Theorem~\ref{thm:RS}.  Joyner, Ksir and Traves \cite{JKT} revisited
 automorphism groups of AG codes on $\PP^1$ using algebraic-geometric
 methods.
 
@@ -302,250 +370,7 @@ the codes of Section~\ref{sec:fp2-codes} is raised in
 Problem~\ref{prob:burst}.
 
 %======================================================================
-\section{Background}\label{sec:background}
-
-This section collects standard facts, with references, so that the rest
-of the paper can be read with modest prerequisites.  Proofs are omitted.
-Each subsection ends with an example, and all of these examples use the
-prime $p=7$. The section closes with a table of notation.
-
-\subsection{Linear codes}\label{subsec:bg-codes}
-This subsection fixes the vocabulary of linear codes: weight, minimum
-distance, information sets, systematic matrices and permutation
-automorphisms. Permutation decoding is defined in these terms in
-Section~\ref{sec:PD}.
-
-A \emph{linear code} $C$ of length $n$ over $F=\F_q$ is a subspace of
-$F^n$.  The \emph{Hamming weight} $\wt(v)$ of $v\in F^n$ is the number of
-nonzero coordinates of $v$.  The \emph{minimum distance} $d$ of $C\neq0$
-is the least weight of a nonzero codeword.  We say $C$ is an $[n,k,d]$
-code if $\dim C=k$.  Such a code corrects any $t=\lfloor(d-1)/2\rfloor$
-errors.  The Singleton bound $d\le n-k+1$ holds, and codes attaining it
-are called \emph{maximum distance separable} (MDS) \cite{HP03,MS77}.
-
-An \emph{information set} is a set $\cI$ of $k$ coordinates such that
-projection $C\to F^{\cI}$ is an isomorphism.  The complementary set
-$\cJ$ of $r=n-k$ coordinates is the set of \emph{check positions}.  For
-an MDS code, every $k$-subset is an information set \cite[Ch.~11]{MS77}.
-After reordering coordinates so that $\cI$ comes first, $C$ has a
-\emph{systematic} generator matrix $\Gsys=(I_k\mid A)$ and parity-check
-matrix $\Hsys=(-A^{\mathsf T}\mid I_r)$.  The \emph{syndrome} of
-$v\in F^n$ is $\Hsys v^{\mathsf T}$.
-
-The symmetric group $S_n$ acts on $F^n$ by
-$(\sigma v)_i=v_{\sigma^{-1}(i)}$.  The \emph{permutation automorphism
-group} of $C$ is
-$\PAut(C)=\{\sigma\in S_n:\sigma(C)=C\}$.
-(Monomial automorphisms, which also rescale coordinates, will not be
-needed.)
-
-\begin{example}\label{ex:bg-codes}
-The matrix $\Gsys$ of Example~\ref{ex:7-3-5} generates a $[7,3,5]$ code
-$C$ over $\F_7$. It has the form $(I_3\mid A)$, so the first three
-coordinates form an information set $\cI$ and the last four are the check
-positions $\cJ$. Here $r=4$ and $t=2$. Since $5=7-3+1$, the code is MDS,
-and every $3$-subset of the coordinates is an information set. The
-parity-check matrix is
-\[
-\Hsys=\begin{pmatrix}
-1&1&4&1&0&0&0\\
-3&4&6&0&1&0&0\\
-1&4&1&0&0&1&0\\
-3&6&4&0&0&0&1
-\end{pmatrix}.
-\]
-The first row $c=(1,0,0,6,4,6,4)$ of $\Gsys$ has weight $5$ and syndrome
-$\Hsys c^{\mathsf T}=0$.
-\end{example}
-
-\subsection{Reed--Solomon codes and the affine group}\label{subsec:bg-rs}
-The codes of length $p$ studied in Section~\ref{sec:RS} turn out to be
-Reed--Solomon codes. This subsection recalls their definition and the
-affine group, which permutes their coordinates.
-
-For $1\le k\le q$, the full-length Reed--Solomon code
-\[
-\RS(\F_q,k)=\{(f(a))_{a\in\F_q}:\ f\in\F_q[x],\ \deg f<k\}
-\]
-is a $[q,k,q-k+1]$ MDS code.  The \emph{affine group}
-$\AGL(1,q)=\{x\mapsto ux+b:\ u\in\F_q^\times,\ b\in\F_q\}$, of order
-$q(q-1)$, acts on the coordinates by substitution and preserves every
-$\RS(\F_q,k)$.  It is \emph{sharply $2$-transitive}: for distinct
-$a_1,a_2$ and distinct $b_1,b_2$ there is exactly one affine map with
-$a_i\mapsto b_i$.
-
-\begin{example}\label{ex:rs7}
-Let $q=7$ and $k=3$. The polynomial $x^2$ gives the codeword
-$(0,1,4,2,2,4,1)$ of $\RS(\F_7,3)$, listed in the order $a=0,1,\dots,6$.
-The polynomial $(x-1)(x-2)$ gives $(2,0,0,2,6,5,6)$, which has weight
-$5=7-3+1$. The group $\AGL(1,7)$ has order $42$. The unique affine map
-with $0\mapsto3$ and $1\mapsto5$ is $x\mapsto2x+3$.
-\end{example}
-
-\subsection{Curves, divisors, and Riemann--Roch spaces}\label{subsec:bg-curves}
-AG codes are built from spaces of functions on a curve with prescribed
-poles. This subsection recalls divisors, Riemann--Roch spaces and the
-evaluation codes built from them.
-
-We follow Stichtenoth \cite{St93} and Hartshorne \cite{Ha77}.  Let $X/F$ be a
-smooth, projective, geometrically irreducible curve of genus $g$.  A
-\emph{divisor} is a finite formal sum $D=\sum n_PP$ of points, with
-degree $\deg D=\sum n_P\deg P$.  For a nonzero function $f$,
-$\operatorname{div}(f)=\sum\ord_P(f)P$ has degree $0$.  The
-\emph{Riemann--Roch space} is
-\[
-L(D)=\{f\in F(X)^\times:\ \operatorname{div}(f)+D\ge0\}\cup\{0\},
-\qquad \ell(D)=\dim_F L(D).
-\]
-The Riemann--Roch theorem gives $\ell(D)\ge\deg D+1-g$, with equality
-when $\deg D>2g-2$ \cite[Thm.~I.5.17]{St93}.  If
-$E=P_1+\dots+P_n$ consists of rational points outside $\supp D$, the
-evaluation map $\ev_E:L(D)\to F^n$, $f\mapsto(f(P_i))_i$, has image the
-\emph{AG code} $C_X(D,E)$ \cite{Go81,TVZ82}.  If $\deg D<n$ then $\ev_E$ is
-injective, and $C_X(D,E)$ is an $[n,\ell(D),\ge n-\deg D]$ code
-\cite[Thm.~II.2.2]{St93}.  When $D=mQ$ for a single point $Q$, the code is
-called a \emph{one-point code}.
-
-\begin{example}\label{ex:bg-p1}
-Let $X=\PP^1$ over $\F_7$, of genus $0$, with coordinate $x$, and let
-$P_\infty$ be the pole of $x$. For $D=2P_\infty$ we get
-$L(D)=\langle1,x,x^2\rangle$ and $\ell(D)=3=\deg D+1-g$. Let $E$ be the
-sum of the seven points $x=a$ with $a\in\F_7$. Then
-$C_X(D,E)=\RS(\F_7,3)$. Since $\deg D=2<7$, the evaluation map is
-injective and the minimum distance is at least $7-2=5$. This matches
-Example~\ref{ex:rs7}.
-\end{example}
-
-\subsection{Hyperelliptic curves and point counts}\label{subsec:bg-hyper}
-The curves of this paper are hyperelliptic. This subsection recalls the
-hyperelliptic involution, the Weierstrass points and the Hasse--Weil
-bound on the number of rational points.
-
-A curve of genus $g\ge2$ is \emph{hyperelliptic} if it admits a degree-two
-map $x:X\to\PP^1$.  The associated \emph{hyperelliptic involution}
-$\iota$ is central in $\Aut(X)$.  Its fixed points are the
-\emph{Weierstrass points}, which are the ramification (branch) points of
-$x$.  Every automorphism of $X$ therefore induces an automorphism of
-$\PP^1$ that permutes the branch locus \cite{BrS86,Go03}.  Over $F=\F_q$, the
-\emph{Hasse--Weil bound} says
-\[
-|\,|X(\F_q)|-(q+1)\,|\le 2g\sqrt q.
-\]
-Curves attaining the upper (respectively lower) bound are called
-\emph{maximal} (respectively \emph{minimal}) \cite[Thm.~V.2.3]{St93}.
-
-\begin{example}\label{ex:bg-hyper}
-Let $X$ be the curve $y^2=x^7-x$ over $\F_7$, which has genus $3$
-(Section~\ref{sec:curve}). The map $x$ has degree two, and $\iota$ is
-$(x,y)\mapsto(x,-y)$. The Weierstrass points are the seven points $(a,0)$
-with $a\in\F_7$ and the point at infinity. That makes $8=2g+2$ points.
-These are also all the $\F_7$-rational points, and $|8-(7+1)|=0$ lies
-within the Hasse--Weil bound $2\cdot3\sqrt7\approx15.9$. Over $\F_{49}$
-the curve has $92$ rational points (Proposition~\ref{prop:orbits}). Since
-$92=49+1+2\cdot3\cdot7$, the curve is maximal over $\F_{49}$.
-\end{example}
-
-\subsection{Group actions and modules}\label{subsec:bg-groups}
-Permutation decoding rests on how a group moves coordinates, and
-Section~\ref{sec:modules} compares two kinds of modules. This subsection
-recalls orbits, regular actions, permutation modules and the convention
-for the action of a group on functions.
-
-A finite group $G$ acting on a finite set $\Omega$ satisfies
-$|G\cdot\omega|=|G|/|G_\omega|$ (orbit--stabilizer).  The action is
-\emph{regular} if it is transitive with trivial stabilizers, in which
-case $|G|=|\Omega|$.  The \emph{permutation module} $F^\Omega$ has basis
-$\Omega$ permuted by $G$.  A submodule of a permutation module need not be
-a permutation module.  A finite-dimensional $F[G]$-module $V$ has a
-composition series, and the direct sum of its composition factors is its
-\emph{semisimplification}.
-
-If $G\le\Aut_F(X)$ preserves $D$, then $G$ acts on $L(D)$.  Throughout
-this paper we use the convention
-\begin{equation}\label{eq:convention}
-(g\cdot f)(P)=f(g^{-1}P),\qquad\text{i.e. }g\cdot f=f\circ g^{-1}.
-\end{equation}
-
-\begin{example}\label{ex:bg-groups}
-Let $G=\AGL(1,7)$ act on $\Omega=\F_7$. The action is transitive. The
-stabilizer of $0$ consists of the six maps $x\mapsto ux$, and $42/6=7$,
-as orbit--stabilizer requires. The action is not regular. The subgroup of
-the seven translations $x\mapsto x+b$ does act regularly.
-
-In the permutation module $F^\Omega$ with $F=\F_7$, the vectors with
-coordinate sum $0$ form a submodule $W$ of dimension $6$. The translation
-$x\mapsto x+1$ has order $7$ and acts nontrivially on $W$. A permutation
-of six basis vectors whose order divides $7$ is the identity. So $W$ is
-not a permutation module for $G$. Example~\ref{ex:not-permutation} uses
-the same argument.
-
-For the convention~\eqref{eq:convention}, let $g$ be the translation
-$x\mapsto x+1$ and let $f$ be the coordinate function $x$. Then
-$g\cdot f=x-1$.
-\end{example}
-
-\subsection{Projective linear groups}\label{subsec:bg-pgl}
-The automorphisms of the curve are governed by the groups $\PGL_2(p)$ and
-$\PSL_2(p)$ (Section~\ref{sec:curve}). This subsection recalls their
-orders and their action on the projective line.
-
-$\PGL_2(p)=\GL_2(\F_p)/\F_p^\times$ has order $p(p^2-1)$ and acts sharply
-$3$-transitively on $\PP^1(\F_p)$.  Its subgroup $\PSL_2(p)$ of index two
-consists of the classes of matrices with square determinant.  The
-stabilizer of $\infty$ in $\PGL_2(p)$ is the \emph{Borel subgroup}
-$B\cong\AGL(1,p)$ of upper-triangular classes.
-
-\begin{example}\label{ex:bg-pgl}
-For $p=7$, $|\PGL_2(7)|=7\cdot48=336$ and $|\PSL_2(7)|=168$. The
-projective line $\PP^1(\F_7)$ has $8$ points, and the Borel subgroup $B$
-has order $336/8=42=|\AGL(1,7)|$. The squares in $\F_7^\times$ are
-$1,2,4$. So the map $x\mapsto2x$, the class of a diagonal matrix of
-determinant $2$, lies in $\PSL_2(7)$. The map $x\mapsto3x$ has
-determinant $3$ and lies in $\PGL_2(7)$ but not in $\PSL_2(7)$.
-\end{example}
-
-\subsection{Table of notation}\label{subsec:notation}
-This subsection collects the main symbols of the paper, each with the
-place where it is introduced. The glossary that precedes the
-Acknowledgments explains the technical terms.
-
-\begin{center}\small
-\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{0.52\textwidth}l@{}}
-\toprule
-Symbol & Meaning & Introduced in\\
-\midrule
-$p$, $g$ & a prime $p\ge5$ and the genus $g=(p-1)/2$ & Section~\ref{sec:curve}\\
-$X$ & the smooth projective model of $y^2=x^p-x$ & \eqref{eq:curve}\\
-$P_\infty$, $P_a$ & the point at infinity and the point $(a,0)$, $a\in\F_p$ & Section~\ref{sec:curve}\\
-$\iota$, $\delta_a$, $\tau_b$, $\omega$ & explicit automorphisms of $X$ & \eqref{eq:generators}\\
-$G_p$, $H_p$ & $\Aut_{\F_p}(X)$ and the stabilizer of $P_\infty$ in it & Section~\ref{subsec:fp}\\
-$G_{p^2}$, $H$ & the automorphism group over $\F_{p^2}$ and the stabilizer of $P_\infty$ in it & Section~\ref{subsec:fp2}\\
-$O_1$, $O_2$ & the orbits of $G_{p^2}$ on $X(\F_{p^2})$ when $p\equiv3\pmod4$ & Proposition~\ref{prop:orbits}\\
-$E_2$ & the sum of the points of $O_2$ & Section~\ref{sec:fp2-codes}\\
-$L(D)$, $\ell(D)$ & the Riemann--Roch space of a divisor $D$ and its dimension & Section~\ref{subsec:bg-curves}\\
-$\ev_E$, $C_X(D,E)$ & evaluation at the points of $E$ and the AG code, its image & Section~\ref{subsec:bg-curves}\\
-$g\cdot f$ & the function $f\circ g^{-1}$ & \eqref{eq:convention}\\
-$\pi_E$, $\rho_C$ & the action of a group on coordinates and its restriction to the code & Section~\ref{sec:modules}\\
-$[n,k,d]$, $t$, $r$ & length, dimension, minimum distance, $t=\lfloor(d-1)/2\rfloor$ and $r=n-k$ & Section~\ref{subsec:bg-codes}\\
-$\wt$ & Hamming weight & Section~\ref{subsec:bg-codes}\\
-$\cI$, $\cJ$ & an information set and the complementary check positions & Section~\ref{subsec:bg-codes}\\
-$\Gsys$, $\Hsys$ & systematic generator and parity-check matrices & Section~\ref{subsec:bg-codes}\\
-$\PAut(C)$ & the permutation automorphism group of $C$ & Section~\ref{subsec:bg-codes}\\
-$\RS(\F_q,k)$, $\AGL(1,q)$ & the full-length Reed--Solomon code and the affine group & Section~\ref{subsec:bg-rs}\\
-$\PGL_2(p)$, $\PSL_2(p)$, $B$ & the projective linear groups and the Borel subgroup & Section~\ref{subsec:bg-pgl}\\
-$s$-PD-set & a set of automorphisms that moves any $s$ errors into $\cJ$ & Definition~\ref{def:pd-set}\\
-(C1), (C2) & the two conjectures of~\cite{Jo05} & Section~\ref{sec:intro}\\
-\bottomrule
-\end{tabular}
-\end{center}
-
-%======================================================================
 \section{The curve and its automorphisms}\label{sec:curve}
-
-This section describes the curve $X$, its rational points and its
-automorphism groups over $\F_p$ and over $\F_{p^2}$. The decoding
-results of Sections~\ref{sec:RS} and~\ref{sec:fp2-codes} depend on the
-orders of these groups and of the stabilizers of $P_\infty$.
 
 Throughout, $p\ge5$ is prime, $g=(p-1)/2\ge2$, and $X$ is the smooth
 projective model of \eqref{eq:curve}.  (For $p=3$ the curve has genus one
@@ -589,7 +414,7 @@ expression $A(x)+yB(x)$.  The monomials in \eqref{eq:monomial-basis}
 have distinct pole orders (even for $x^i$, odd for $x^iy$), so leading
 terms cannot cancel.  It follows that $A+yB\in L(mP_\infty)$ exactly when
 it is a combination of these monomials.  Compare
-\cite[Prop.~VI.4.1]{St93}.
+\cite[Prop.~VI.4.1]{Sti}.
 \end{proof}
 
 \begin{definition}
@@ -606,12 +431,7 @@ $|G|>|X(F)|$, which is impossible.  A nontrivial stabilizer is the
 inertia group of $P$ in the Galois cover $X\to X/G$.
 \end{proof}
 
-\subsection{\texorpdfstring{Automorphisms over $\F_p$}{Automorphisms over F\_p}}\label{subsec:fp}
-
-This subsection determines the automorphism group $G_p$ of $X$ over
-$\F_p$ and the stabilizer $H_p$ of $P_\infty$. The main point is a
-criterion for when a M\"obius transformation of the $x$-line lifts to
-$X$.
+\subsection{Automorphisms over $\F_p$}\label{subsec:fp}
 
 Let $F=\F_p$.  Then $X(\F_p)=\{P_\infty\}\cup\{P_a:a\in\F_p\}$ has
 $p+1$ points, because $x^p-x=0$ for $x\in\F_p$.  For
@@ -642,14 +462,12 @@ $G_p=\Aut_{\F_p}(X)$ fits into an exact sequence
 1\to\langle\iota\rangle\to G_p\to\PSL_2(p)\to1,
 \qquad |G_p|=p(p^2-1),
 \]
-in agreement with \cite{BrS86,Go03}.  Explicit elements are
+in agreement with \cite{BrS86,G}.  Explicit elements are
 \begin{equation}\label{eq:generators}
-\begin{gathered}
-\iota:(x,y)\mapsto(x,-y),\qquad
-\delta_a:(x,y)\mapsto(a^2x,ay),\qquad
-\tau_b:(x,y)\mapsto(x+b,y),\\
+\iota:(x,y)\mapsto(x,-y),\quad
+\delta_a:(x,y)\mapsto(a^2x,ay),\quad
+\tau_b:(x,y)\mapsto(x+b,y),\quad
 \omega:(x,y)\mapsto\bigl(-1/x,\ y/x^{(p+1)/2}\bigr),
-\end{gathered}
 \end{equation}
 for $a\in\F_p^\times$ and $b\in\F_p$.  Note that $\delta_{-1}=\iota$.
 The group $G_p$ is transitive on $X(\F_p)$.
@@ -691,13 +509,8 @@ nontrivially on the basis elements involving $y$; the corresponding
 statement in \cite{Jo05} is incorrect.
 \end{proof}
 
-\subsection{\texorpdfstring{Automorphisms and rational points over $\F_{p^2}$}{Automorphisms and rational points over F\_\{p\textasciicircum 2\}}}
+\subsection{Automorphisms and rational points over $\F_{p^2}$}
 \label{subsec:fp2}
-
-Over $\F_{p^2}$ every M\"obius transformation in $\PGL_2(p)$ lifts, so
-the automorphism group is twice as large. This subsection finds that
-group, counts the rational points and describes the orbits. The regular
-orbit found here carries the codes of Section~\ref{sec:fp2-codes}.
 
 Let $F=\F_{p^2}$.  Every element of $\F_p^\times$ is a square in $F$, so
 every class in $\PGL_2(p)$ lifts by \eqref{eq:lift}, and by the argument
@@ -753,36 +566,14 @@ This agrees with the Hasse--Weil bound.  For $p\equiv3\pmod4$,
 $|X(\F_{p^2})|=2p^2-p+1=p^2+1+2g\,p$, so $X$ is \emph{maximal} over
 $\F_{p^2}$.  For $p\equiv1\pmod4$, $|X(\F_{p^2})|=p+1=p^2+1-2g\,p$, so
 $X$ is \emph{minimal}.  The orbit statement was originally communicated
-by R.~Guralnick \cite{Gu04}; the proof above is self-contained.
+by R.~Guralnick \cite{Gu}; the proof above is self-contained.
 \end{remark}
 
 For $p\equiv3\pmod4$, the invariant divisor $D_2=\sum_{P\in O_2}P$ has
 degree $2p(p-1)>2g-2$, so $\ell(D_2)=2p(p-1)+1-g$.
 
-\begin{example}[The case $p=7$]\label{ex:curve-p7}
-Let $p=7$, so $g=3$. The semigroup $\langle2,7\rangle$ has gaps $1,3,5$.
-By Lemma~\ref{lem:poles}, $L(7P_\infty)$ has basis $\{1,x,x^2,x^3,y\}$
-and $\ell(7P_\infty)=5$. This agrees with Riemann--Roch, since
-$7>2g-2=4$ and $7+1-3=5$.
-
-Over $\F_7$ the curve has $8$ rational points and $|G_7|=7\cdot48=336$.
-Since $336>8$, the group $G_7$ is large. The stabilizer $H_7$ has order
-$42$, and it induces $21$ permutations of the points $P_a$, by
-\eqref{eq:square-affine}.
-
-Over $\F_{49}$ the curve has $92$ rational points and $|G_{49}|=672$, so
-$G_{49}$ is large as well. The orbits have sizes $|O_1|=8$ and
-$|O_2|=84$. The stabilizer $H$ has order $84$ and acts regularly on
-$O_2$. The divisor $D_2$ has degree $84$, and $\ell(D_2)=84+1-3=82$.
-\end{example}
-
 %======================================================================
 \section{AG codes and group representations}\label{sec:modules}
-
-This section relates three actions of a group of automorphisms: on the
-evaluation points, on the code and on the Riemann--Roch space. It then
-shows by example that the last of these need not be a permutation
-representation.
 
 Let $G\le\Aut_F(X)$ be finite, and let $D$ and $E=\sum_{P\in\Omega}P$ be
 $G$-invariant with disjoint supports, where $\Omega$ is a set of rational
@@ -819,18 +610,15 @@ points'' requires correction.  On a curve every divisor of positive
 degree is ample, but its complete linear system need not separate points.
 For example, if $g\ge1$ then $L(P_\infty)=F$ separates no pair of points.
 A standard sufficient condition is $\deg D\ge2g+1$, which makes $D$ very
-ample \cite[Cor.~IV.3.2]{Ha77}.  It is also known that a nontrivial
+ample \cite[Cor.~IV.3.2]{H}.  It is also known that a nontrivial
 automorphism of a curve of genus $g\ge2$ has at most $2g+2$ fixed points,
-so $\pi_E$ is faithful when $n>2g+2$ \cite[\S VII.3]{St93}.
+so $\pi_E$ is faithful when $n>2g+2$ \cite[\S VII.3]{Sti}.
 \end{remark}
 
 \subsection{Invariant submodules need not be permutation modules}
 \label{subsec:not-perm}
 
-This subsection corrects a claim of~\cite{Jo05} about the representation
-on $L(D)$ and gives a counterexample with $p=7$.
-
-The note \cite{Jo05} concluded, from the result of Wesemeyer \cite{We98}
+The note \cite{Jo05} concluded, from the result of Wesemeyer \cite{W}
 under hypotheses such as $n>\max(2\deg D,2g+2)$, that the representation
 of $G$ on $L(D)$ is equivalent to one by permutation matrices.
 Proposition~\ref{prop:actions}(3) only gives a \emph{submodule} of a
@@ -868,16 +656,11 @@ hypotheses of \cite{Jo05} hold.
 If $\ev_E$ is not injective, $C$ is the quotient $L(D)/\ker\ev_E$.  The
 decomposition of these modular representations into indecomposables,
 when $p$ divides $|G|$, remains an interesting problem; see
-\cite{JK03,JT02,Sc90}.
+\cite{JK2,JT,S}.
 \end{remark}
 
 %======================================================================
 \section{Permutation decoding and a counting obstruction}\label{sec:PD}
-
-This section defines permutation-decoding sets, describes the decoding
-algorithm and proves a counting bound that every such set must satisfy.
-The bound is the source of the negative results in
-Sections~\ref{sec:RS} and~\ref{sec:fp2-codes}.
 
 Let $C$ be an $[n,k,d]$ code with $t=\lfloor(d-1)/2\rfloor\ge1$, an
 information set $\cI$ and check set $\cJ$ ($|\cJ|=r=n-k$), and systematic
@@ -932,29 +715,8 @@ example in \cite{KMM05}, is sharper.  It is only a \emph{necessary}
 condition; Example~\ref{ex:p17} shows that it is not sufficient.
 \end{remark}
 
-\begin{example}[A $2$-PD-set of seven translations]\label{ex:pd-translations}
-Let $C=\RS(\F_7,3)$, with coordinates indexed by $\F_7$ as in
-Example~\ref{ex:rs7}. It is a $[7,3,5]$ MDS code, so $t=2$ and every
-$3$-subset is an information set. Take $\cI=\{0,1,2\}$ and
-$\cJ=\{3,4,5,6\}$. Let $S$ be the set of the seven translations
-$x\mapsto x+b$, which lie in $\PAut(C)$ by
-Section~\ref{subsec:bg-rs}. A pair $T=\{a_1,a_2\}$ can be translated
-into $\cJ$ exactly when $\cJ$ contains two elements whose difference is
-$\pm(a_1-a_2)$. The differences $4-3=1$, $5-3=2$ and $6-3=3$ represent
-every nonzero class of $\F_7$ up to sign. A single position can be
-translated to $3$. So $S$ is a $2$-PD-set relative to $\cI$, and hence a
-full PD-set. The counting bound holds with room to spare:
-$7\binom42=42\ge21=\binom72$. The same bound shows that no set of three
-permutations is a $2$-PD-set for this code, since $3\binom42=18<21$.
-\end{example}
-
 %======================================================================
-\section{\texorpdfstring{Codes over $\F_p$}{Codes over F\_p}}\label{sec:RS}
-
-This section treats the codes of conjecture (C1). It identifies them as
-Reed--Solomon codes and proves that two errors can always be corrected by
-permutation decoding. It then reports exhaustive computations for
-$p\le23$ and ends with a counterexample to (C1) at $p=37$.
+\section{Codes over $\F_p$}\label{sec:RS}
 
 Let $E=\sum_{a\in\F_p}P_a$ and $D=mP_\infty$ with $m\ge0$.
 
@@ -972,8 +734,8 @@ at the points $P_a$.  So the code is spanned by the evaluations of
 $1,x,\dots,x^{\lfloor m/2\rfloor}$ on $\F_p$.  Since $x^p\equiv x$ on
 $\F_p$, its dimension is $k$.  The permutation group is the one-variable
 case of the theorem of Kn\"orr and Willems on generalized Reed--Muller
-codes over prime fields \cite{KW90}, whose exceptional cases correspond to
-$k\in\{1,p-1,p\}$; see also \cite{CLLS25,BC93}.
+codes over prime fields \cite{KW}, whose exceptional cases correspond to
+$k\in\{1,p-1,p\}$; see also \cite{CLLS,BC93}.
 \end{proof}
 
 \begin{remark}\label{rem:RSkernel}
@@ -998,7 +760,7 @@ unique affine map with $a_i\mapsto b_i$.  There are $r(r-1)$ such pairs.
 Single errors are handled by transitivity.
 \end{proof}
 
-\begin{example}[{The $[7,3,5]$ code of \cite{Jo05}}]\label{ex:7-3-5}
+\begin{example}[The $[7,3,5]$ code of \cite{Jo05}]\label{ex:7-3-5}
 For $p=7$ and $D=4P_\infty$, $L(D)=\langle1,x,x^2\rangle$ and
 $C=\RS(\F_7,3)$.  The systematic matrix computed in GUAVA \cite{Jo05} is
 \[
@@ -1018,10 +780,7 @@ each pair of error positions.  (The note \cite{Jo05} proposed
 $\PAut(C)\setminus\{1\}$, which also works.)
 \end{example}
 
-\subsection{\texorpdfstring{Exhaustive computations for small $p$}{Exhaustive computations for small p}}
-
-This subsection reports a computer search. For each prime $p\le23$ it
-decides which information sets make $\AGL(1,p)$ a full PD-set.
+\subsection{Exhaustive computations for small $p$}
 
 For $\RS(\F_p,k)$, every $k$-subset of $\F_p$ is an information set, and
 whether $\AGL(1,p)$ is a full PD-set depends only on the
@@ -1074,7 +833,7 @@ information set per $\AGL(1,p)$-orbit, and, for a fixed information set,
 one error pattern $T$ per $\AGL(1,p)$-orbit (if $\sigma(T)\subseteq\cJ$
 then $(\sigma\rho^{-1})(\rho(T))\subseteq\cJ$).  With these, $p=23$
 takes under a minute in Python.  The code and complete output are
-available in the repository \cite{Jo26}; a short check of
+available in the repository \cite{repo}; a short check of
 Example~\ref{ex:p17} is in Appendix~\ref{app:script}.
 
 At $p=23$, failure has become common: for $k=11$ about $79\%$ of all
@@ -1105,9 +864,6 @@ Thus $\AGL(1,17)$ is not a $4$-PD-set relative to $\cI$, although
 
 \subsection{A counterexample to (C1) for every information set}
 
-This subsection shows that (C1) fails. At $p=37$ the counting bound alone
-rules out every information set.
-
 \begin{theorem}\label{thm:counter-RS}
 Let $p=37$ and $D=32P_\infty$, so $C=\RS(\F_{37},17)$ with parameters
 $[37,17,21]$, $r=20$ and $t=10$.  No subset of $\PAut(C)=\AGL(1,37)$ is a
@@ -1125,18 +881,12 @@ counting bound, applied to $\AGL(1,p)$ with $s=t$, rules out a full
 PD-set in some dimension $2\le k\le p-2$.  At $p=37$ this happens exactly
 for $k\in\{17,\dots,25\}\cup\{27\}$, so $k=17$ is the smallest case.  For
 $29\le p\le31$ the counting bound decides nothing, and the exhaustive
-check is beyond a simple Python program; see \cite{Jo26} for what a
+check is beyond a simple Python program; see \cite{repo} for what a
 compiled implementation needs.
 \end{remark}
 
 %======================================================================
-\section{\texorpdfstring{Codes over $\F_{p^2}$}{Codes over F\_\{p\textasciicircum 2\}}}\label{sec:fp2-codes}
-
-This section treats the codes of conjecture (C2), which live on the
-regular orbit $O_2$ of Proposition~\ref{prop:orbits}. The main result is
-that a regular group of permutations can correct only about $\log n$
-errors by permutation decoding. This gives an infinite family of
-counterexamples to (C2).
+\section{Codes over $\F_{p^2}$}\label{sec:fp2-codes}
 
 Assume $p\equiv3\pmod4$ and $p\ge7$.  Put $E_2=\sum_{P\in O_2}P$, so
 $n=2p(p-1)$, and let $D=mP_\infty$ with $m<n$.  The group $H$ of
@@ -1219,7 +969,7 @@ full group $\PAut(C)$, which we have not determined.  The stabilizer of
 $D=mP_\infty$ in $G_{p^2}$ is exactly $H$, so if $\PAut(C)$ is induced by
 automorphisms of $X$ preserving $D$ and $E_2$, then
 $\PAut(C)=\pi_{E_2}(H)$ and Corollary~\ref{cor:family} applies to the full
-permutation group.  The results of \cite{We98,JK06} that give such an
+permutation group.  The results of \cite{W,JK06} that give such an
 identification assume $n$ large compared with $\deg D$, and this fails
 for the half-rate family ($n<2\deg D$).  So the question remains open
 (Problem~\ref{prob:paut}).  In any case Theorem~\ref{thm:regular} shows
@@ -1230,9 +980,6 @@ permutation decoding of only $O(\log n)$ errors at fixed rate.
 %======================================================================
 \section{Complexity and computation of the action}\label{sec:complexity}
 
-This section discusses the cost of permutation decoding for the codes
-above and the cost of finding their automorphisms.
-
 The conjectures of \cite{Jo05} combined a group-size estimate with the
 claim that a group is a full PD-set.  These must be separated.  If
 syndromes are computed with a dense $r\times n$ matrix, one trial costs
@@ -1240,19 +987,11 @@ $O(nr)$ field operations plus $O(n)$ coordinate work.  A worst-case scan
 of $S$ therefore costs $O(|S|\,nr)$ field operations.  The estimates
 $|\AGL(1,p)|=O(p^2)$ and $|H|=O(p^2)$ describe group orders, not total
 costs, and they do not show asymptotic superiority over Reed--Solomon or
-AG decoders \cite{HvLP98,GS99}.  The alphabet sizes $p$ and $p^2$ also grow
+AG decoders \cite{HvLP,GS99}.  The alphabet sizes $p$ and $p^2$ also grow
 with $n$, which matters for bit complexity.
 
-\begin{example}\label{ex:cost}
-For the $[7,3,5]$ code of Example~\ref{ex:7-3-5} we have $n=7$, $r=4$ and
-$|\PAut(C)|=42$. One trial costs about $nr=28$ field operations. A scan of
-the whole group costs at most about $42\cdot28=1176$ field operations.
-For $\RS(\F_{23},11)$ the same count gives $nr=23\cdot12=276$ and
-$506\cdot276=139656$.
-\end{example}
-
 On the other hand, a general algorithm for the automorphism group of a
-linear code, such as Leon's \cite{Le82}, can be expensive.  (The GUAVA
+linear code, such as Leon's \cite{L}, can be expensive.  (The GUAVA
 command \texttt{PermutationAutomorphismGroup} took over a day for $p=13$
 on 2005 hardware \cite{Jo05}.)  For the codes considered here, the
 formulas \eqref{eq:generators} and \eqref{eq:H-affine} give the action
@@ -1260,43 +999,7 @@ of $G_p$, $H$ and $G_{p^2}$ on coordinates directly, at negligible cost.
 This remains a practical advantage of geometric constructions.
 
 %======================================================================
-\section{Summary of results and open problems}\label{sec:problems}
-
-This section gathers up the paper. The first subsection lists the main
-results in one place. The second lists problems that remain open.
-
-\subsection{Summary of results}
-
-Each item below points to the precise statements. The permutation group
-in item~1 is cited from the literature, and item~3 rests in part on the
-computer search of Proposition~\ref{prop:small-p}. Everything else is
-proved in this paper.
-
-\begin{enumerate}
-\item The $\F_p$ codes of length $p$ are full-length Reed--Solomon codes,
-and their permutation group $\AGL(1,p)$ is larger than the geometric
-image (Theorem~\ref{thm:RS}, Remark~\ref{rem:RSkernel}).
-\item $\AGL(1,p)$ always gives $2$-error permutation decoding
-(Theorem~\ref{thm:two-pd}).
-\item Full permutation decoding by $\AGL(1,p)$ depends on the information
-set from $p=17$ on, though for $p\le23$ a good information set always
-exists (Proposition~\ref{prop:small-p}, Example~\ref{ex:p17}), and fails for all information sets at $p=37$
-(Theorem~\ref{thm:counter-RS}).
-\item Over $\F_{p^2}$, regular groups such as the geometric stabilizer
-correct only $O(\log n)$ errors by permutation decoding at fixed rate,
-giving infinitely many counterexamples to (C2)
-(Theorem~\ref{thm:regular}, Corollary~\ref{cor:family}).
-\item Equivariant AG codes are submodules of permutation modules, but the
-Riemann--Roch module need not be a permutation module
-(Example~\ref{ex:not-permutation}).
-\end{enumerate}
-
-\subsection{Open problems}
-
-The four problems below ask what permutation decoding can still do for
-these codes. The first and third concern the codes over $\F_{p^2}$. The
-second concerns the Reed--Solomon codes at the two primes not yet
-decided. The fourth concerns burst errors.
+\section{Open problems}\label{sec:problems}
 
 \begin{problem}[Partial permutation decoding]\label{prob:partial}
 For $C_X(mP_\infty,E_2)$ over $\F_{p^2}$, determine the largest
@@ -1330,6 +1033,59 @@ bound of Theorem~\ref{thm:regular}?
 \end{problem}
 
 %======================================================================
+\section{Summary}
+\begin{enumerate}
+\item The $\F_p$ codes of length $p$ are full-length Reed--Solomon codes,
+and their permutation group $\AGL(1,p)$ is larger than the geometric
+image (Theorem~\ref{thm:RS}, Remark~\ref{rem:RSkernel}).
+\item $\AGL(1,p)$ always gives $2$-error permutation decoding
+(Theorem~\ref{thm:two-pd}).
+\item Full permutation decoding by $\AGL(1,p)$ depends on the information
+set from $p=17$ on, though for $p\le23$ a good information set always
+exists (Proposition~\ref{prop:small-p}, Example~\ref{ex:p17}), and fails for all information sets at $p=37$
+(Theorem~\ref{thm:counter-RS}).
+\item Over $\F_{p^2}$, regular groups such as the geometric stabilizer
+correct only $O(\log n)$ errors by permutation decoding at fixed rate,
+giving infinitely many counterexamples to (C2)
+(Theorem~\ref{thm:regular}, Corollary~\ref{cor:family}).
+\item Equivariant AG codes are submodules of permutation modules, but the
+Riemann--Roch module need not be a permutation module
+(Example~\ref{ex:not-permutation}).
+\end{enumerate}
+
+%======================================================================
+\section*{Acknowledgments}
+\addcontentsline{toc}{section}{Acknowledgments}
+
+The first author thanks Bob Guralnick for the orbit argument behind
+Proposition~\ref{prop:orbits} \cite{Gu}, and the anonymous referee of
+\cite{Jo05} for many helpful comments.  Some of the original ideas arose
+in joint work with Amy Ksir and Will Traves \cite{JK06,JK2,JT}.
+
+This revision was prepared with the help of two AI systems, listed as
+authors at the first author's request.
+\emph{ChatGPT (OpenAI)} prepared the first mathematical revision.  It
+identified the $\F_p$ codes as Reed--Solomon codes, introduced the
+counting obstruction and the counterexamples at $p=37$ and $p=7$, proved
+the $2$-PD result, gave the permutation-module counterexample and the
+proof of the orbit proposition, and corrected several statements of
+\cite{Jo05}.  In its response to the referee report, it found the $p=17$
+information set of Example~\ref{ex:p17} and the choice
+$m=n/2+g-1$ in Corollary~\ref{cor:family}.
+\emph{Claude (Anthropic)} refereed that revision.  It checked the
+proofs and numerical claims independently, including a brute-force
+determination of the permutation group of the $[7,3,5]$ code.  It found
+errors in the GAP transcript, the lift criterion, the description of
+kernels, the group-action conventions, and the silent reinterpretation of
+point labels.  It carried out the exhaustive computations of
+Proposition~\ref{prop:small-p} (including $p=23$), proposed the
+logarithmic obstruction of
+Theorem~\ref{thm:regular}, verified the bibliography, located the recent
+literature \cite{CTO26,LLMS26,CLLS}, and prepared this version, including
+the background section, literature review, and glossary.
+Responsibility for the final content rests with the first author.
+
+%======================================================================
 \appendix
 
 \section{Historical GUAVA session}\label{app:guava}
@@ -1361,7 +1117,7 @@ The following Python~3 code (which also runs in Sage) checks
 Example~\ref{ex:p17} and one entry of Proposition~\ref{prop:small-p}.
 Information sets are reduced modulo $\AGL(1,p)$, and subsets are stored
 as bit masks.  The faster program \texttt{pd\_affine.py} in
-\cite{Jo26}, which also reduces error patterns modulo $\AGL(1,p)$,
+\cite{repo}, which also reduces error patterns modulo $\AGL(1,p)$,
 produces the whole table.
 \begin{verbatim}
 from itertools import combinations
@@ -1390,10 +1146,6 @@ print(failing_orbits(17, 9))                      # (5, 95)
 %======================================================================
 \section*{Glossary of technical terms}
 \addcontentsline{toc}{section}{Glossary of technical terms}
-
-This glossary lists the technical terms of the paper in alphabetical
-order, each with a short explanation. Section~\ref{sec:background}
-treats most of them in more detail.
 
 \begin{description}\setlength{\itemsep}{2pt}
 \item[Affine group $\AGL(1,q)$.] The group of maps $x\mapsto ux+b$ on
@@ -1464,51 +1216,7 @@ $\iota$.
 \end{description}
 
 %======================================================================
-\section*{Acknowledgments}
-\addcontentsline{toc}{section}{Acknowledgments}
-
-The first author thanks Bob Guralnick for the orbit argument behind
-Proposition~\ref{prop:orbits} \cite{Gu04}, and the anonymous referee of
-\cite{Jo05} for many helpful comments.  Some of the original ideas arose
-in joint work with Amy Ksir and Will Traves \cite{JK06,JK03,JT02}.
-
-This revision was prepared with the help of two AI systems, listed as
-authors at the first author's request.
-\emph{ChatGPT (OpenAI)} prepared the first mathematical revision.  It
-identified the $\F_p$ codes as Reed--Solomon codes, introduced the
-counting obstruction and the counterexamples at $p=37$ and $p=7$, proved
-the $2$-PD result, gave the permutation-module counterexample and the
-proof of the orbit proposition, and corrected several statements of
-\cite{Jo05}.  In its response to the referee report, it found the $p=17$
-information set of Example~\ref{ex:p17} and the choice
-$m=n/2+g-1$ in Corollary~\ref{cor:family}.
-\emph{Claude (Anthropic)} refereed that revision.  It checked the
-proofs and numerical claims independently, including a brute-force
-determination of the permutation group of the $[7,3,5]$ code.  It found
-errors in the GAP transcript, the lift criterion, the description of
-kernels, the group-action conventions, and the silent reinterpretation of
-point labels.  It carried out the exhaustive computations of
-Proposition~\ref{prop:small-p} (including $p=23$), proposed the
-logarithmic obstruction of
-Theorem~\ref{thm:regular}, verified the bibliography, located the recent
-literature \cite{CTO26,LLMS26,CLLS25}, and prepared this version, including
-the background section, literature review, and glossary.
-Responsibility for the final content rests with the first author.
-
-Claude (Claude Fable~5.2) also prepared Draft~2, a revision for style and
-exposition that changed no statement or proof. In that draft it reordered
-the sections and rewrote the front matter. It also added the examples,
-orienting paragraphs and table of notation that the revision log lists as
-new text in Draft~2. The script that checks the numbers in those
-additions is \texttt{scripts/check\_examples\_draft2.py} in the
-repository~\cite{Jo26}, at commit \texttt{9e1e1ea}.
-
-AI review is not an independent certification of the results of this
-paper. Further details on the AI usage can be found in the revision log
-(\texttt{paper/revision-log.tex} in the same repository).
-
-%======================================================================
-\begin{thebibliography}{JLJHH89}\small
+\begin{thebibliography}{CLLS}\small
 
 \bibitem[BC93]{BC93} T.~P.~Berger and P.~Charpin, The automorphism group
 of generalized Reed--Muller codes, \emph{Discrete Math.} \textbf{117}
@@ -1537,7 +1245,7 @@ in \emph{Proc.\ 1995 IEEE Int.\ Symp.\ Inform.\ Theory}, p.~306.
 Automorphismengruppen hyperelliptischer Kurven, \emph{Manuscripta Math.}
 \textbf{55} (1986), 83--92.
 
-\bibitem[CLLS25]{CLLS25} E.~Camps-Moreno, J.~B.~Lau, H.~H.~L\'opez and
+\bibitem[CLLS]{CLLS} E.~Camps-Moreno, J.~B.~Lau, H.~H.~L\'opez and
 W.~Santos, The permutation group of Reed--Solomon codes over arbitrary
 points, \emph{IEEE Int.\ Symp.\ Inform.\ Theory} (2025),
 DOI 10.1109/ISIT63088.2025.11195458; arXiv:2601.00122.
@@ -1549,7 +1257,7 @@ separated polynomials, arXiv:2608.03592 (2026).
 \bibitem[Ch92]{Ch92} H.~Chabanne, Permutation decoding of abelian codes,
 \emph{IEEE Trans.\ Inform.\ Theory} \textbf{38} (1992), 1826--1829.
 
-\bibitem[Du87]{Du87} A.~D\"ur, The automorphism groups of
+\bibitem[D\"u87]{Du87} A.~D\"ur, The automorphism groups of
 Reed--Solomon codes, \emph{J.\ Combin.\ Theory Ser.~A} \textbf{44}
 (1987), 69--82.
 
@@ -1557,7 +1265,7 @@ Reed--Solomon codes, \emph{J.\ Combin.\ Theory Ser.~A} \textbf{44}
 algebraic-geometric codes up to the designed minimum distance,
 \emph{IEEE Trans.\ Inform.\ Theory} \textbf{39} (1993), 37--45.
 
-\bibitem[Go03]{Go03} N.~G\"ob, Computing the automorphism groups of
+\bibitem[G\"ob]{G} N.~G\"ob, Computing the automorphism groups of
 hyperelliptic function fields, arXiv:math/0305284.
 
 \bibitem[Go81]{Go81} V.~D.~Goppa, Codes on algebraic curves,
@@ -1574,15 +1282,15 @@ Theory} \textbf{45} (1999), 1757--1767.
 \bibitem[GUAVA]{GUAVA} GUAVA, a GAP package for computing with
 error-correcting codes, \url{https://www.gap-system.org/Packages/guava.html}.
 
-\bibitem[Gu04]{Gu04} R.~Guralnick, private communication, 2004.
+\bibitem[Gu]{Gu} R.~Guralnick, private communication, 2004.
 
-\bibitem[Ha77]{Ha77} R.~Hartshorne, \emph{Algebraic Geometry}, Springer, 1977.
+\bibitem[H]{H} R.~Hartshorne, \emph{Algebraic Geometry}, Springer, 1977.
 
-\bibitem[HvLP98]{HvLP98} T.~H{\o}holdt, J.~H.~van Lint and R.~Pellikaan,
+\bibitem[HvLP]{HvLP} T.~H{\o}holdt, J.~H.~van Lint and R.~Pellikaan,
 Algebraic geometry codes, in \emph{Handbook of Coding Theory}, vol.~1,
 V.~S.~Pless and W.~C.~Huffman (eds.), Elsevier, 1998, 871--961.
 
-\bibitem[HP03]{HP03} W.~C.~Huffman and V.~Pless, \emph{Fundamentals of
+\bibitem[HP]{HP} W.~C.~Huffman and V.~Pless, \emph{Fundamentals of
 Error-Correcting Codes}, Cambridge Univ.\ Press, 2003.
 
 \bibitem[Hu98]{Hu98} W.~C.~Huffman, Codes and groups, in \emph{Handbook
@@ -1592,21 +1300,17 @@ of Coding Theory}, vol.~2, Elsevier, 1998, 1345--1440.
 AG codes, \emph{ACM SIGSAM Bull.} \textbf{39}(1) (2005), 26--32,
 DOI 10.1145/1080368.1080374.
 
-\bibitem[Jo26]{Jo26} D.~Joyner et al., \texttt{perm-decoding}, folder of
-the GitHub repository
-\url{https://github.com/wdjoyner/qrcodes-hyperelliptic}, 2026.
-
 \bibitem[JK06]{JK06} D.~Joyner and A.~Ksir, Automorphism groups of some
 AG codes, \emph{IEEE Trans.\ Inform.\ Theory} \textbf{52} (2006),
 3325--3329; arXiv:math/0412459.
 
-\bibitem[JK03]{JK03} D.~Joyner and A.~Ksir, Representations of finite
+\bibitem[JK2]{JK2} D.~Joyner and A.~Ksir, Representations of finite
 groups on Riemann--Roch spaces, II, arXiv:math/0312383.
 
-\bibitem[JKT08]{JKT08} D.~Joyner, A.~Ksir and W.~Traves, Automorphism groups
+\bibitem[JKT]{JKT} D.~Joyner, A.~Ksir and W.~Traves, Automorphism groups
 of generalized Reed--Solomon codes, arXiv:0801.4007.
 
-\bibitem[JT02]{JT02} D.~Joyner and W.~Traves, Representations of finite
+\bibitem[JT]{JT} D.~Joyner and W.~Traves, Representations of finite
 groups on Riemann--Roch spaces, arXiv:math/0210408.
 
 \bibitem[JLJHH89]{JLJHH89} J.~Justesen, K.~J.~Larsen, H.~E.~Jensen,
@@ -1646,7 +1350,7 @@ Combin.} \textbf{28} (2007), 121--126.
 for binary codes from lattice graphs, \emph{Discrete Math.} \textbf{308}
 (2008), 2862--2867.
 
-\bibitem[KW90]{KW90} R.~Kn\"orr and W.~Willems, The automorphism groups of
+\bibitem[KW]{KW} R.~Kn\"orr and W.~Willems, The automorphism groups of
 generalized Reed--Muller codes, \emph{Ast\'erisque} \textbf{181--182}
 (1990), 195--207.
 
@@ -1654,7 +1358,7 @@ generalized Reed--Muller codes, \emph{Ast\'erisque} \textbf{181--182}
 related to some classical varieties, \emph{Discrete Math.} \textbf{301}
 (2005), 89--105.
 
-\bibitem[Le82]{Le82} J.~S.~Leon, Computing automorphism groups of
+\bibitem[L]{L} J.~S.~Leon, Computing automorphism groups of
 error-correcting codes, \emph{IEEE Trans.\ Inform.\ Theory} \textbf{28}
 (1982), 496--511.
 
@@ -1679,7 +1383,11 @@ Theory of Error-Correcting Codes}, North-Holland, 1977.
 cyclic codes, \emph{IRE Trans.\ Inform.\ Theory} \textbf{8} (1962),
 no.~5, 5--9.
 
-\bibitem[Sc90]{Sc90} C.~Schoen, On certain modular representations in the
+\bibitem[Repo]{repo} D.~Joyner et al., \texttt{perm-decoding}, folder of
+the GitHub repository
+\url{https://github.com/wdjoyner/qrcodes-hyperelliptic}, 2026.
+
+\bibitem[S]{S} C.~Schoen, On certain modular representations in the
 cohomology of algebraic curves, \emph{J.\ Algebra} \textbf{135} (1990),
 1--18.
 
@@ -1711,14 +1419,14 @@ Theory} \textbf{36} (1990), 1051--1060.
 \bibitem[St90]{St90} H.~Stichtenoth, On automorphisms of geometric Goppa
 codes, \emph{J.\ Algebra} \textbf{130} (1990), 113--121.
 
-\bibitem[St93]{St93} H.~Stichtenoth, \emph{Algebraic Function Fields and
+\bibitem[Sti]{Sti} H.~Stichtenoth, \emph{Algebraic Function Fields and
 Codes}, Springer, 1993 (2nd ed.\ 2009).
 
 \bibitem[Su97]{Su97} M.~Sudan, Decoding of Reed--Solomon codes beyond
 the error-correction bound, \emph{J.\ Complexity} \textbf{13} (1997),
 180--193.
 
-\bibitem[TV91]{TV91} M.~A.~Tsfasman and S.~G.~Vl\u{a}du\c{t},
+\bibitem[TV]{TV} M.~A.~Tsfasman and S.~G.~Vl\u{a}du\c{t},
 \emph{Algebraic-Geometric Codes}, Kluwer, Dordrecht, 1991.
 
 \bibitem[TVZ82]{TVZ82} M.~A.~Tsfasman, S.~G.~Vl\u{a}du\c{t} and
@@ -1726,7 +1434,7 @@ T.~Zink, Modular curves, Shimura curves, and Goppa codes, better than
 Varshamov--Gilbert bound, \emph{Math.\ Nachr.} \textbf{109} (1982),
 21--28.
 
-\bibitem[We98]{We98} S.~Wesemeyer, On the automorphism group of various Goppa
+\bibitem[W]{W} S.~Wesemeyer, On the automorphism group of various Goppa
 codes, \emph{IEEE Trans.\ Inform.\ Theory} \textbf{44} (1998), 630--643.
 
 \bibitem[Wo83]{Wo83} J.~Wolfmann, A permutation decoding of the

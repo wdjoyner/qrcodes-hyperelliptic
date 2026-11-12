@@ -22,8 +22,8 @@ problems.
 
 | Path | Description |
 |---|---|
-| `paper/perm_decoding_step2_revision.tex` / `.pdf` | The corrected and expanded version, Draft 2 (12pt Times, US letter), including the p = 23 results |
-| `paper/revision-log.tex` / `.pdf` | Revision log: a reconstructed account of the changes from the 2005 note to Draft 1, and every change in Draft 2, with a concordance of numbers |
+| `perm-decoding_revision-2026.tex` / `.pdf` | **Draft 2**, the current corrected and expanded version (12pt Times, US letter) |
+| `revision-log.tex` / `.pdf` | Revision log: a reconstructed account of the changes from the 2005 note to Draft 1, and every change in Draft 2, with a concordance of numbers |
 | `scripts/pd_affine.py` | Exhaustive test of AGL(1,p) as a full PD-set for RS(F_p, k) |
 | `scripts/check_examples_draft2.py` | Checks every number in the examples added in Draft 2 |
 | `scripts/check_body_numbers.py` | Rechecks the other numerical statements of the paper (Example 7.7, Theorem 7.8, Remark 7.9, Section 8) |
@@ -35,10 +35,12 @@ problems.
 |---|---|
 | `perm_decoding1.tex`, `perm_decoding2.tex` (+ `.dvi`) | Earlier drafts of the 2005 note |
 | `perm_decoding3.tex` / `.pdf` (+ `.dvi`) | The 2005 note, the starting point for the 2026 revision |
-| `perm_decoding_step1_mathematical_revision.tex` / `.pdf` | Step 1: first mathematical revision, prepared with ChatGPT |
-| `perm-decoding_revision-2026.tex` / `.pdf` | An intermediate Step 2 draft (before the title was restored and the p = 23 results were added); superseded by `paper/` |
+| `perm_decoding_step1_mathematical_revision.tex` / `.pdf` | **Draft 0** ("Step 1"): first mathematical revision, prepared with ChatGPT |
+| `paper/perm_decoding_step2_revision.tex` / `.pdf` | **Draft 1** ("Step 2", November 9, 2026): title restored, p = 23 results added. Kept unchanged for the record |
 
-The Step 1 revision was refereed by Claude. ChatGPT's response to that report and the referee's corrections were then combined into Step 2, the version in `paper/`.
+**If you followed a link to `paper/perm_decoding_step2_revision`, you are looking at Draft 1. The current version is Draft 2, `perm-decoding_revision-2026.pdf` in this folder.**
+
+Draft 0 was refereed by Claude. ChatGPT's response to that report and the referee's corrections were then combined into Draft 1. Draft 2 (November 12, 2026) brings Draft 1 into line with the style guide at the top level of the repository, with no mathematical changes. Before November 12, 2026 the file `perm-decoding_revision-2026.tex` held an intermediate draft, older than Draft 1. It can be recovered with `git show 188d526:perm-decoding/perm-decoding_revision-2026.tex`.
 
 ## The computation
 
