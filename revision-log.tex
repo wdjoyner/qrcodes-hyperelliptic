@@ -1,7 +1,7 @@
 \documentclass[12pt,letterpaper]{article}
 \usepackage[T1]{fontenc}
-\usepackage{mathptmx}
-\usepackage{amsmath,amssymb}
+\usepackage{amsmath}
+\usepackage{newtxtext,newtxmath}
 \usepackage[letterpaper,margin=1in]{geometry}
 \usepackage{longtable,booktabs,array}
 \usepackage[hidelinks]{hyperref}
@@ -13,9 +13,10 @@
 \newcommand{\CNQ}{C_{NQ}}
 \newcommand{\Cev}{C_{\mathrm{ev}}}
 
-\title{Revision log for\\ ``On quadratic residue codes and hyperelliptic curves''}
+\title{Revision log for\\ ``On quadratic residue codes and hyperelliptic curves''\\[4pt]
+\large Corrected and expanded version, Draft 1}
 \author{David Joyner \and Claude (Anthropic)}
-\date{November 2026}
+\date{November 11, 2026}
 
 \begin{document}
 \maketitle
@@ -24,6 +25,14 @@
 \noindent\textbf{Original:} \texttt{original/qrcodes-hyperell-dmtcs2.tex}, the
 version submitted to DMTCS (received 20 October 2006), sole author D.~Joyner.\\
 \textbf{Revised:} \texttt{qrcodes-hyperelliptic.tex}, D.~Joyner and Claude.
+Current draft: Draft~1 (November 11, 2026).
+
+\medskip
+\noindent\textbf{Numbering.} Sections~\ref{sec:fmt}--\ref{sec:nov10} were written
+before Draft~1 and use the numbering of that time. Draft~1 moved the literature
+review to Section~2, so most numbers have changed. Section~\ref{sec:conc} gives a
+concordance, and the map of results in Section~\ref{sec:map} uses the Draft~1
+numbers.
 
 \medskip
 The published 2008 DMTCS version (doi:10.46298/dmtcs.429, arXiv:math/0609562v2) is a
@@ -35,30 +44,30 @@ Section~\ref{sec:map} maps old results to new ones.
 Every numerical claim in either version was checked with the Python code in
 \texttt{code/}, using exhaustive enumeration of $\CNQ$ for $p\le23$.
 
-\section{Format and front matter}
+\section{Format and front matter}\label{sec:fmt}
 \begin{enumerate}
 \item Document class changed from \texttt{dmtcs} to \texttt{article}, 12pt, letter
 paper, Times (\texttt{mathptmx}), compiled with \texttt{pdflatex}. The RCS macros,
 \texttt{latin1} input encoding, \texttt{subfigure} and \texttt{natbib} were removed.
 \item Author block: the affiliation ``Mathematics Dept., USNA, Annapolis, MD'' was
 replaced by \texttt{wdjoyner@gmail.com}. Claude (Anthropic) was added as second
-author, with a footnote and an acknowledgement paragraph saying what it contributed.
+author, with a footnote and an acknowledgment paragraph saying what it contributed.
 \item The abstract was rewritten to state the corrected results and constants.
 Keywords were updated, and the MSC codes were updated to MSC 2020.
 \item A table of contents was added.
 \item The title-page date ``Original submission: 20 October 2006'' was replaced by
 ``November 2026''. The paragraph describing the relation to the 2006 version (at
 first Section~1.5, \emph{About this revision}) was moved to an unnumbered section
-just before the Acknowledgements. Apart from that paragraph, the revised paper no
+just before the Acknowledgments. Apart from that paragraph, the revised paper no
 longer refers to the 2006 version; all such comparisons are in this log.
-\item The Acknowledgements now point to this revision log.
+\item The Acknowledgments now point to this revision log.
 \item Layout: the weight-distribution table (Table~1) and Remark~4.7 were reset
 so that the PDF has no overfull lines.
 \item The material after \verb|\end{document}| (an unused remark with an unproved
 lower bound on $|S_3|$) was deleted.
 \end{enumerate}
 
-\section{Mathematical corrections}
+\section{Mathematical corrections}\label{sec:math}
 
 \subsection{Errors corrected}
 \begin{enumerate}
@@ -180,7 +189,7 @@ heuristic ($M_p\approx1.78p$) and an assessment of each open question.
 \item Section~9 (formerly Section~8), \emph{Literature}, in two parts: before 2006
 and 2006 and after.
 \item Appendix~A, \emph{Glossary}: 54 entries with a short introduction. It is
-placed after the Acknowledgements and before the bibliography.
+placed after the Acknowledgments and before the bibliography.
 \item An introductory paragraph was added at the start of every section and
 subsection, saying what that part contains and what to expect.
 \item In the list of results, ``answers Question~1.4 for'' now reads ``answers
@@ -192,7 +201,7 @@ Tsafsman $\to$ Tsfasman, Dordrechet $\to$ Dordrecht, ``This rest of'', ``the the
 second supplementary law is no longer called ``quadratic reciprocity''.
 \end{enumerate}
 
-\section{Bibliography}
+\section{Bibliography}\label{sec:bib}
 \begin{enumerate}
 \item Updated: Bazzi--Mitter (IEEE IT 2006), Jiang--Vardy (IEEE IT 2004), Joyner
 (DMTCS 2008).
@@ -252,36 +261,340 @@ $p$; \texttt{code/dmin\_cev.c} computes $d(\Cev)$ exactly for
 $p\equiv\pm3\pmod8$ (Table~3).
 \end{enumerate}\par}
 
-\section{Map of results}\label{sec:map}
-\begin{longtable}{@{}p{0.42\textwidth}p{0.52\textwidth}@{}}
+\section{Draft 1: revision for the style guide (November 11, 2026)}\label{sec:draft1}
+
+\subsection{Scope}
+Claude brought the paper into line with D.~Joyner's style guide
+(\texttt{joyner-math-paper-style-guide.md}, Draft~2 of November 11, 2026), following
+his instructions of the same day. Those instructions forbade mathematical changes.
+No statement, proof, hypothesis or status label was altered. All new mathematical
+text was confined to what the guide requires, and it is listed in
+Section~\ref{sec:newtext} so that it can be refereed. Semicolons in existing text
+were left in place. Rule~3.8 (no semicolons) was applied to new text only. The
+guide has no paper-specific rule (its Section~9) for this paper.
+
+Before the changes, the paper compiled with no errors, no undefined references and
+no overfull boxes. There were 7 hyperref warnings, all caused by math in the title
+of the subsection on the extended code. The typewriter font was a bitmap font.
+After the changes, the paper compiles with no errors and no warnings, and every font
+is Type~1.
+
+\subsection{Defaults used for the rules marked [DECIDE]}
+\begin{enumerate}
+\item Document class: the existing class, \texttt{article}, was kept.
+\item Times package: \texttt{newtxtext} and \texttt{newtxmath}.
+\item Glossary placement: notation near the beginning (a table at the end of
+Section~3), and the glossary at the end, just before the Acknowledgments.
+\item AI systems on the author line: the instructions did not mention the author
+line, so it was left as it was (D.~Joyner and Claude). The Acknowledgments also
+credit Claude and point to this log.
+\end{enumerate}
+
+\subsection{Changes}
+\paragraph{Typesetting.}
+\begin{enumerate}
+\item \texttt{mathptmx} was replaced by \texttt{newtxtext,newtxmath}. The package
+\texttt{amssymb} was dropped because it conflicts with \texttt{newtxmath}, which
+supplies the same symbols. The same change was made in this log.
+\item Equations are numbered within sections (\verb|\numberwithin|), as rule~1.6
+requires. So (1)--(4) became (3.1), (3.2), (3.3) and (4.1).
+\item \verb|\mathrm{circ}| became \verb|\operatorname{circ}| (rule~1.8).
+\item The title of the subsection on the extended code uses
+\verb|\texorpdfstring|, which removes the 7 hyperref warnings.
+\item The hand-typed ``Item~6'' in Section~1 became a \verb|\ref| to a new label
+\texttt{item:voloch} (rule~1.5).
+\end{enumerate}
+
+\paragraph{Title page, abstract and acknowledgments.}
+\begin{enumerate}
+\item The subtitle ``Revised and updated'' became ``Corrected and expanded
+version. Draft 1'' (rule~6.2). The title itself is unchanged.
+\item The date line ``November 2026'' became ``Original draft: 2006. Corrected and
+expanded draft: 2026.'' (rule~6.2).
+\item A \verb|\thanks| note on the title identifies the 2006 DMTCS submission and
+the published revision~[Jo08], and gives the date of Draft~1 (rule~6.3).
+\item The abstract's first sentence, ``This AI-aided paper revises and updates the
+first author's earlier paper [Jo08]'', was replaced by an AI-disclosure sentence
+that refers to the Acknowledgments (rule~5.2). The old sentence was also inaccurate:
+the revision is of the 2006 submission, not of~[Jo08] (see Scope at the top of
+this log). The rest of the abstract is unchanged.
+\item ``Acknowledgements'' became ``Acknowledgments'' in the heading, in the
+footnote on Claude, and in this log (rule~1.4).
+\item The Acknowledgments now say that Claude acted as referee, reviser and
+co-author (rule~5.3). They describe Claude's role in Draft~1, state that AI review is
+not an independent certification of the results (rule~5.4), and say that further
+details on the AI usage are in this log (rule~5.5). They give the commit hash of the
+scripts (rule~8.4).
+\end{enumerate}
+
+\paragraph{Citations.} Every \verb|\bibitem| now prints its key as its label
+(for example [Jo08] rather than [17]), and the bibliography is sorted by label
+(rule~1.7). Five keys were renamed, and every \verb|\cite| was updated. The new keys
+were chosen by D.~Joyner.
+\begin{center}
+\begin{tabular}{@{}lll@{}}
 \toprule
-2006 version & Revision\\
+Old key & New key & Note\\
+\midrule
+\texttt{Gr} & \texttt{Gr26} & ``accessed 2026'' added to the entry\\
+\texttt{Vo} & \texttt{Vo04} & entry completed, see below\\
+\texttt{TT17} & \texttt{TTAAJ17} & initials of all five authors\\
+\texttt{Coy06} & \texttt{Co06} & two-letter initial, as for other single authors\\
+\texttt{Ch18} & \texttt{Ch17} & matches the year of the arXiv entry cited\\
+\bottomrule
+\end{tabular}
+\end{center}
+The entry \texttt{Vo04} was a bare ``preprint''. It now reads: J.~F.~Voloch,
+Asymptotics of the minimal distance of quadratic residue codes, in \emph{Finite
+Fields: Theory and Applications}, Oberwolfach Report No.~54/2004, 2946--2947. These
+details come from the copy of that report that D.~Joyner pointed to
+(\url{https://ems.press/content/serial-article-files/45972}). The entry
+\texttt{Ch17} still cites arXiv:1709.03389 (2017). That paper was later published in
+\emph{Appl.\ Algebra Engrg.\ Comm.\ Comput.}\ 30 (2019), 275--284, and the entry
+could be updated to the journal version.
+
+\paragraph{Structure (Section 2 of the guide).}
+\begin{enumerate}
+\item The literature review (old Section~9) moved to Section~2, just after the
+Introduction. Its text is unchanged. It was already split at 2006, the year of the
+original manuscript.
+\item The old Sections~2--8 became Sections~3--9.
+\item Section~3 (\emph{Notation and background}) ends with a new table of notation
+(Subsection~3.4).
+\item The old Section~8, \emph{Open questions and their difficulty}, became
+Section~9, \emph{Summary of results and open questions}. It begins with a new
+orienting paragraph and a new Subsection~9.1, \emph{Summary of results}. The old
+text forms Subsection~9.2, under the old title. Its first sentence now says ``This
+subsection'' instead of ``This section''.
+\item The glossary (Appendix~A) now comes before the Acknowledgments, not after
+them.
+\item The unnumbered section \emph{About this revision} was removed from the paper
+(rule~6.4). Its content is now in the \verb|\thanks| note on the title and in this
+log. Its text was:
+\begin{quote}\small
+This is a revision of the version submitted to \emph{Discrete Mathematics and
+Theoretical Computer Science} on 20 October 2006. A different revision was
+published as [Jo08] (see also arXiv:math/0609562). The present text corrects
+several errors in the 2006 version, replaces some arguments, proves two statements
+that were stated as conjectures, and adds examples, a literature survey and a
+glossary. Section~7, with the refined Conjecture~7.5, was added on 10 November 2026.
+A separate revision log lists every change.
+\end{quote}
+(In Draft~1 numbering, Section~7 and Conjecture~7.5 are Section~8 and
+Conjecture~8.7.)
+\end{enumerate}
+
+\subsection{New text to be refereed}\label{sec:newtext}
+Rules~3.2--3.5 required the following additions. All numbers are Draft~1 numbers.
+Each numerical claim in N1--N4 is checked by
+\texttt{code/check\_examples\_draft1.py} (commit \texttt{c6e9125}). No new result
+is claimed. The examples illustrate results already in the paper.
+\begin{enumerate}
+\item[N1.] \textbf{Example~1.3} (\texttt{ex:Bp7}), after Definition~1.2 (rules~3.3
+and~3.4). For $p=7$ it computes $\#X_N=12$ by hand. An exhaustive search shows that
+$12$ is the largest $\#X_S$ over all $127$ non-empty $S$, attained also by the even
+set $\{0,1,2,4\}$. So $B(c,7)$ and $B_{\mathrm{ev}}(c,7)$ hold exactly when
+$c\ge12/7$.
+\item[N2.] \textbf{Example~8.2} (\texttt{ex:pm1p7}), after Proposition~8.1 (rules~3.3
+and~3.4). For $p=7$, $r_QR_{\mathrm{ev}}$ is $0$ and the seven cyclic shifts of
+$x^2+x^4+x^5+x^6$, a $[7,3,4]$ code. So $d(\Cev)=4$ and $M_7=12$, and
+$\widehat{\mathcal Q}_7$ is the $[8,4,4]$ extended Hamming code.
+\item[N3.] \textbf{Example~8.4} (\texttt{ex:pm3p5}), after Proposition~8.3 (rules~3.3
+and~3.4). For $p=5$, every nonzero word of $\Cev$ has $\F_4$-weight $4$ and binary
+weight $4$ or $6$. So $d_4=4$, $d(\Cev)=4$ and $M_5=8$.
+\item[N4.] \textbf{Example~9.1} (\texttt{ex:heuristic}), in Subsection~9.2 (rule~3.3).
+It evaluates the heuristic constant $2(1-H^{-1}(1/2))=1.7799\ldots$ at $p=11$
+and $p=23$ (predictions $19.6$ and $40.9$) against $M_{11}=16$ and $M_{23}=40$.
+\item[N5.] \textbf{Orienting paragraphs} at the start of Subsections~8.1, 8.2 and~8.3
+(rule~3.2). They summarize what follows. The one for 8.2 says that the binary
+minimum distance of $\Cev$ is determined up to a factor of at most $4/3$, which
+restates Proposition~8.3.
+\item[N6.] \textbf{Summary of results} (Subsection~9.1) and the opening paragraph of
+Section~9 (Section~2.7 of the guide). Seven items restate the main results with
+references. Each states the status of its result as the body does. Item~4 marks
+Theorem~5.1 as conditional, item~6 marks the zeta results as computational, and
+item~7 keeps Conjecture~8.7 a conjecture.
+\item[N7.] \textbf{Table of notation} (Subsection~3.4), with an orienting paragraph
+(Section~2.5 of the guide). It has no caption, so the table numbers are unchanged.
+\item[N8.] \textbf{Definitions at first use} (rule~3.5) in the list of results in
+Subsection~1.3. Item~1 defines ``isodual'', item~3 defines $H^{-1}$, and item~8
+defines $\Cev$, $M_p$ and $\widehat{\mathcal Q}_p$, which were used there before
+their definitions.
+\item[N9.] \textbf{Front matter}: the \verb|\thanks| note, the first sentence of
+the abstract, and the new Acknowledgments paragraphs described above.
+\end{enumerate}
+
+\subsection{Concordance of numbers}\label{sec:conc}
+The left column gives the numbering just before Draft~1, and the middle column gives
+the Draft~1 numbering. Every \verb|\label| was kept. The table was generated from
+the two source files and checked against the label numbers that \LaTeX\ wrote to
+the \texttt{.aux} files. Sections map as follows: old~1 to new~1, old~2--8 to
+new~3--9, and old~9 (Literature) to new~2. Table numbers did not change.
+\begin{longtable}{@{}lll@{}}
+\toprule
+Before Draft 1 & Draft 1 & Label\\
 \midrule\endhead
-Lemma 1 (products) & \S2.1 facts (corrected)\\
-Lemma 2 (mindist bound) & used in Corollary 4.5 (Rains)\\
-Lemma 3 (Artin--Hasse--Weil) & Lemma 2.2\\
-Lemma 4 (Bazzi--Mitter) & absorbed into Proposition 3.6\\
-Proposition 1 & Proposition 3.6\\
-Corollary 1 ($\frac53p-4$) & Corollary 4.5 ($\frac53p-6$, new proof)\\
-Theorem 1 (Bazzi--Mitter) & Theorem 4.1 (no congruence condition)\\
-Theorem 2 ($1.77$, $p\equiv1\bmod4$) & Theorem 4.1 ($c<1.7799$, all $p$)\\
-Theorem 3 ($1.62$, $p\equiv1\bmod4$) & Theorem 4.3 ($c<1.62584$, all $p$)\\
-Corollary 2 (1.62, all $p$) & Theorem 4.3\\
-Conjecture 3 (self-dual / LCD) & Theorem 3.4 (proved)\\
-Conjecture 4 ($C'$) & Theorem 6.2 (proved)\\
-Section 4: Theorem 4, Theorem 5, Lemmas 5--7 & Remark 4.7 (removed)\\
-Lemma 8 (Voloch) & Theorem 5.1 (with new case $p\equiv5\bmod8$)\\
-Theorem 6 (Voloch, Chebotarev) & Theorem 5.3\\
---- & Lemma 2.4, Corollary 2.6, Proposition 3.10, Theorem 6.2 (new)\\
-Conjecture (Bazzi--Mitter), restated & Conjecture 7.5 (refined, $p\equiv\pm3\bmod 8$)\\
---- & Propositions 7.1, 7.2, Theorem 7.4 (new, 10 November 2026)\\
+Conjecture 1.1 & Conjecture 1.1 & \texttt{conj:goppa}\\
+Definition 1.2 & Definition 1.2 & \texttt{def:B}\\
+Conjecture 1.3 & Conjecture 1.4 & \texttt{conj:BM}\\
+Question 1.4 & Question 1.5 & \texttt{q:1}\\
+Question 1.5 & Question 1.6 & \texttt{q:2}\\
+(1) & (3.1) & \texttt{eq:minus}\\
+(2) & (3.2) & \texttt{eq:wtprod}\\
+Example 2.1 & Example 3.1 & \texttt{ex:p7arith}\\
+Lemma 2.2 & Lemma 3.2 & \texttt{lem:AHW}\\
+(3) & (3.3) & \texttt{eq:trivial}\\
+Example 2.3 & Example 3.3 & \texttt{ex:p7points}\\
+Lemma 2.4 & Lemma 3.4 & \texttt{lem:twist}\\
+Example 2.5 & Example 3.5 & \texttt{ex:twist}\\
+Corollary 2.6 & Corollary 3.6 & \texttt{cor:Mm}\\
+Definition 3.1 & Definition 4.1 & \texttt{def:QQR}\\
+Proposition 3.2 & Proposition 4.2 & \texttt{prop:dim}\\
+Example 3.3 & Example 4.3 & \texttt{ex:dim}\\
+Theorem 3.4 & Theorem 4.4 & \texttt{thm:duality}\\
+(4) & (4.1) & \texttt{eq:ip}\\
+Remark 3.5 & Remark 4.5 & (no label)\\
+Proposition 3.6 & Proposition 4.6 & \texttt{prop:main}\\
+Example 3.7 & Example 4.7 & \texttt{ex:p7weights}\\
+Example 3.8 & Example 4.8 & \texttt{ex:p11}\\
+Definition 3.9 & Definition 4.9 & (no label)\\
+Proposition 3.10 & Proposition 4.10 & \texttt{prop:Cev}\\
+Example 3.11 & Example 4.11 & \texttt{ex:Cev11}\\
+Table 1 & Table 1 & \texttt{tab:wd}\\
+Remark 3.12 & Remark 4.12 & \texttt{rem:sqrt}\\
+Theorem 4.1 & Theorem 5.1 & \texttt{thm:goppa}\\
+Remark 4.2 & Remark 5.2 & (no label)\\
+Theorem 4.3 & Theorem 5.3 & \texttt{thm:mrrw}\\
+Remark 4.4 & Remark 5.4 & (no label)\\
+Corollary 4.5 & Corollary 5.5 & \texttt{cor:53}\\
+Example 4.6 & Example 5.6 & (no label)\\
+Remark 4.7 & Remark 5.7 & \texttt{rem:LQR}\\
+Theorem 5.1 & Theorem 6.1 & \texttt{thm:voloch}\\
+Example 5.2 & Example 6.2 & (no label)\\
+Theorem 5.3 & Theorem 6.3 & \texttt{thm:chebotarev}\\
+Corollary 5.4 & Corollary 6.4 & (no label)\\
+Example 6.1 & Example 7.1 & \texttt{ex:zeta7}\\
+Theorem 6.2 & Theorem 7.2 & \texttt{thm:isodual}\\
+Example 6.3 & Example 7.3 & \texttt{ex:zeta13}\\
+Table 2 & Table 2 & \texttt{tab:RH}\\
+Proposition 7.1 & Proposition 8.1 & \texttt{prop:pm1}\\
+Proposition 7.2 & Proposition 8.3 & \texttt{prop:pm3}\\
+Remark 7.3 & Remark 8.5 & (no label)\\
+Theorem 7.4 & Theorem 8.6 & \texttt{thm:mod8}\\
+Conjecture 7.5 & Conjecture 8.7 & \texttt{conj:refined}\\
+Remark 7.6 & Remark 8.8 & \texttt{rem:refined}\\
+Table 3 & Table 3 & \texttt{tab:mod8}\\
+Remark 7.7 & Remark 8.9 & \texttt{rem:legendre}\\
+Table 4 & Table 4 & \texttt{tab:Mp}\\
+--- & Example 1.3 & \texttt{ex:Bp7} (new)\\
+--- & Example 8.2 & \texttt{ex:pm1p7} (new)\\
+--- & Example 8.4 & \texttt{ex:pm3p5} (new)\\
+--- & Example 9.1 & \texttt{ex:heuristic} (new)\\
 \bottomrule
 \end{longtable}
 
-\begin{thebibliography}{9}
-\bibitem{BH17} N. Boston and J. Hao, The weight distribution of quasi-quadratic
+\subsection{Rules not applied, and why}
+\begin{enumerate}
+\item Rule~1.6, second sentence (do not number subsections that do not need a
+number). All subsections are listed in the table of contents, and this log cites
+them by number, so they stay numbered.
+\item Rule~3.3 in Section~2 (Literature). A worked example there would add nothing.
+\item Rule~3.8 in existing text, by instruction. Existing semicolons were kept.
+\item Rules~3.6 and~3.7 (hypotheses before theorems, no skipped steps). Applying
+them would change statements or proofs, which this draft did not do. No violation
+was looked for.
+\item Rules~4.3 and~4.4. No citation was checked against its source, and no
+computation in the body was rerun, except as described in the next subsection.
+\item Rule~6.6 (``Remark 2026.$n$'' for anything not fully verified). Applying it
+would add status labels, which this draft did not change. One candidate is the
+optimality of the $[26,13,6]$ code after Example~7.3, which the text already
+qualifies in prose.
+\item Rule~1.5 for citations typed by hand. ``Gleason--Prange'' (proof of
+Proposition~8.1), ``Prange (1957--1959)'' and ``Gilbert (1952) and Varshamov
+(1957)'' (Section~2) have no \verb|\cite|. Fixing them needs new bibliography
+entries or precise theorem numbers that were not checked.
+\item Rules~8.5 and~8.6 concern the repository, not the paper. The repository has
+no license file. It is public and contains a corrected version of a manuscript
+whose different revision was published as~[Jo08]. Neither point was acted on.
+\end{enumerate}
+
+\subsection{Not verified}
+\begin{enumerate}
+\item The Voloch abstract (\texttt{Vo04}) was read only through a web tool's
+summary, not in a printed copy. That summary says the abstract shows that some
+subfamilies of binary QR codes are asymptotically bad. Section~2 describes that
+paper only as studying ``the asymptotics of QR code minimum distances'', and
+Section~8 says that whether binary QR codes are asymptotically good is open. These
+statements look compatible, but a referee should compare them with the abstract.
+\item The new notation table and summary were checked against the body by reading,
+not by an independent referee.
+\item The bibliographic details of entries other than \texttt{Vo04} were not
+rechecked in Draft~1.
+\end{enumerate}
+
+\section{AI usage}\label{sec:ai}
+All AI work on this revision was done by Claude (Anthropic), recorded as Claude
+Opus~5.5 in the paper.
+\begin{enumerate}
+\item \emph{Referee.} Claude refereed the 2006 manuscript. Its findings are the
+corrections in Section~\ref{sec:fmt} onwards.
+\item \emph{Co-author and reviser.} Claude proposed and wrote the proofs and
+computations listed in the Acknowledgments of the paper, including the 10 November
+2026 additions (Section~\ref{sec:nov10}). D.~Joyner reviewed them.
+\item \emph{Programmer.} Claude wrote the scripts in \texttt{code/}, which check
+every numerical claim.
+\item \emph{Style reviser (Draft~1).} Claude made the changes in
+Section~\ref{sec:draft1} and wrote the new text N1--N9, which has not yet been
+refereed.
+\end{enumerate}
+AI review is not an independent certification of the results.
+
+\section{Sources not consulted}\label{sec:notconsulted}
+Rule~4.3 asks that every citation be checked against its source. In Draft~1 no
+cited source was consulted, apart from the Oberwolfach report for \texttt{Vo04}
+(through a web tool) and the publication record of \texttt{Ch17}. The earlier
+referee report marked some bibliographic details as written from memory (see
+Section~\ref{sec:bib}, item~4). The optimality claim for the $[26,13,6]$ code rests
+on the tables~[Gr26] as the authors understand them, without independent
+verification.
+
+\section{Original and new results}
+Rule~6.5 asks that original results be separated from results first established in
+the revision. Section~\ref{sec:math} does this. Its subsections list the errors
+corrected in original results, the former conjectures now proved, and the new
+results. The map of results in Section~\ref{sec:map} gives the correspondence.
+Draft~1 adds no new results.
+
+\section{Map of results}\label{sec:map}
+\begin{longtable}{@{}p{0.42\textwidth}p{0.52\textwidth}@{}}
+\toprule
+2006 version & Draft~1\\
+\midrule\endhead
+Lemma 1 (products) & \S3.1 facts (corrected)\\
+Lemma 2 (mindist bound) & used in Corollary 5.5 (Rains)\\
+Lemma 3 (Artin--Hasse--Weil) & Lemma 3.2\\
+Lemma 4 (Bazzi--Mitter) & absorbed into Proposition 4.6\\
+Proposition 1 & Proposition 4.6\\
+Corollary 1 ($\frac53p-4$) & Corollary 5.5 ($\frac53p-6$, new proof)\\
+Theorem 1 (Bazzi--Mitter) & Theorem 5.1 (no congruence condition)\\
+Theorem 2 ($1.77$, $p\equiv1\bmod4$) & Theorem 5.1 ($c<1.7799$, all $p$)\\
+Theorem 3 ($1.62$, $p\equiv1\bmod4$) & Theorem 5.3 ($c<1.62584$, all $p$)\\
+Corollary 2 (1.62, all $p$) & Theorem 5.3\\
+Conjecture 3 (self-dual / LCD) & Theorem 4.4 (proved)\\
+Conjecture 4 ($C'$) & Theorem 7.2 (proved)\\
+Section 4: Theorem 4, Theorem 5, Lemmas 5--7 & Remark 5.7 (removed)\\
+Lemma 8 (Voloch) & Theorem 6.1 (with new case $p\equiv5\bmod8$)\\
+Theorem 6 (Voloch, Chebotarev) & Theorem 6.3\\
+--- & Lemma 3.4, Corollary 3.6, Proposition 4.10, Theorem 7.2 (new)\\
+Conjecture (Bazzi--Mitter), restated & Conjecture 8.7 (refined, $p\equiv\pm3\bmod 8$)\\
+--- & Propositions 8.1, 8.3, Theorem 8.6 (new, 10 November 2026)\\
+\bottomrule
+\end{longtable}
+
+\begin{thebibliography}{BH17}
+\bibitem[BH17]{BH17} N. Boston and J. Hao, The weight distribution of quasi-quadratic
 residue codes, arXiv:1705.06413.
-\bibitem{Ra98} E.~M. Rains, Shadow bounds for self-dual codes, \emph{IEEE Trans.\
+\bibitem[Ra98]{Ra98} E.~M. Rains, Shadow bounds for self-dual codes, \emph{IEEE Trans.\
 Inform.\ Theory} 44 (1998), 134--139.
 \end{thebibliography}
 \end{document}

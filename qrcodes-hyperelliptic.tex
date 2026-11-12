@@ -1,7 +1,7 @@
 \documentclass[12pt,letterpaper]{article}
 \usepackage[T1]{fontenc}
-\usepackage{mathptmx}
-\usepackage{amsmath,amssymb,amsthm}
+\usepackage{amsmath,amsthm}
+\usepackage{newtxtext,newtxmath}
 \usepackage[letterpaper,margin=1in]{geometry}
 \usepackage{booktabs}
 \usepackage{array}
@@ -18,6 +18,7 @@
 \newtheorem{question}[theorem]{Question}
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
+\numberwithin{equation}{section}
 
 \newcommand{\F}{\mathbb{F}}
 \newcommand{\Fp}{\mathbb{F}_p}
@@ -31,18 +32,22 @@
 \newcommand{\X}{\#X}
 \newcommand{\leg}[1]{\chi(#1)}
 
-\title{On quadratic residue codes and hyperelliptic curves\\[4pt]
-\large Revised and updated}
+\title{On quadratic residue codes and hyperelliptic curves\thanks{This is a
+corrected and expanded version of the manuscript submitted to \emph{Discrete
+Mathematics and Theoretical Computer Science} on 20 October 2006. A different
+revision of that manuscript was published as~\cite{Jo08}. This version, Draft~1,
+is dated November 11, 2026.}\\[4pt]
+\large Corrected and expanded version. Draft 1}
 \author{David Joyner\thanks{\texttt{wdjoyner@gmail.com}}
-\and Claude\thanks{An AI model developed by Anthropic (Claude Opus~5.5). Contributions to this revision are described in the Acknowledgements and in the accompanying revision log.}}
-\date{November 2026}
+\and Claude\thanks{An AI model developed by Anthropic (Claude Opus~5.5). Contributions to this revision are described in the Acknowledgments and in the accompanying revision log.}}
+\date{Original draft: 2006. Corrected and expanded draft: 2026.}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-This AI-aided paper revises and updates the first author's earlier
-paper~\cite{Jo08}.
+This paper was revised with the help of an AI system, Claude (Anthropic), which is
+also listed as a co-author. The Acknowledgments give further details.
 For an odd prime $p$ and a non-empty subset $S\subset\Fp$, let $X_S$ be the
 hyperelliptic curve $y^2=f_S(x)$, where $f_S(x)=\prod_{a\in S}(x-a)$.
 The quasi-quadratic residue (QQR) code $\CNQ$ is a binary double-circulant code of
@@ -88,7 +93,7 @@ let alone ones that beat the Gilbert--Varshamov bound, is a long-standing proble
 This paper studies one attack on it, through a dictionary between certain
 double-circulant codes built from quadratic residues and the number of points on
 hyperelliptic curves over a prime field. Codes with this kind of relationship were
-studied by Helleseth~\cite{He92}, Bazzi and Mitter~\cite{BM06}, Voloch~\cite{Vo},
+studied by Helleseth~\cite{He92}, Bazzi and Mitter~\cite{BM06}, Voloch~\cite{Vo04},
 and Helleseth and Voloch~\cite{HV04}.
 
 \subsection{Codes}
@@ -134,6 +139,18 @@ $S\subseteq\Fp$}. Let $B_{\mathrm{ev}}(c,p)$ be the same statement restricted to
 sets $S$ of even size.
 \end{definition}
 
+\begin{example}\label{ex:Bp7}
+Let $p=7$. The non-squares in $\F_7^\times$ are $N=\{3,5,6\}$, and
+$f_N(x)=(x-3)(x-5)(x-6)=x^3+1$ in $\F_7[x]$. For $x=0,1,\dots,6$ the values of
+$x^3+1$ are $1,2,2,0,2,0,0$. The nonzero squares in $\F_7$ are $1,2,4$. So each of
+$x=0,1,2,4$ gives two affine points, and each of $x=3,5,6$ gives one. That makes
+$11$ affine points. Since $\deg f_N=3$ is odd, there is one point at infinity (see
+the proof of Lemma~\ref{lem:AHW}), and $\X_N=12$. An exhaustive search over all
+$127$ non-empty subsets of $\F_7$ shows that $12$ is the largest value of $\X_S$.
+It is also attained by the even set $S=\{0,1,2,4\}$. Hence $B(c,7)$ and
+$B_{\mathrm{ev}}(c,7)$ both hold exactly when $c\ge 12/7\approx1.714$.
+\end{example}
+
 \begin{conjecture}[Bazzi--Mitter~\cite{BM06}]\label{conj:BM}
 There is $c\in(0,2)$ such that $B(c,p)$ holds for infinitely many primes $p$.
 \end{conjecture}
@@ -154,24 +171,30 @@ $2p+2-\X_T$ or $\X_T-2$ for a set $T$ of even size. Our main results are:
 \item $\CNQ$ is self-dual if $p\equiv3\pmod 4$ and LCD (linear complementary dual)
 if $p\equiv1\pmod4$; its extension by the all-ones word is isodual when
 $p\equiv 1\pmod 4$ (Theorem~\ref{thm:duality}, Theorem~\ref{thm:isodual}).
+Isodual means equivalent to its own dual by a permutation of coordinates.
 \item A quadratic-twist identity: for $T$ of even size and suitable $a\notin T$,
 $\X_T+\X_{T'}=2p+2$ for an explicit set $T'$ of the same size
 (Lemma~\ref{lem:twist}).
 \item If $B_{\mathrm{ev}}(c,p)$ holds for infinitely many primes $p$ with
 $c<2(1-H^{-1}(1/2))\approx1.7799$, then Goppa's conjecture is false
-(Theorem~\ref{thm:goppa}). No congruence condition on $p$ is needed.
+(Theorem~\ref{thm:goppa}). No congruence condition on $p$ is needed. Here
+$H^{-1}$ is the inverse of $H$ on $[0,1/2]$.
 \item For every $c<1.6258$ and all sufficiently large $p$, there is $S$ with
 $\X_S>cp$ (Theorem~\ref{thm:mrrw}). The proof is non-constructive.
 \item If $p\equiv3\pmod4$ and $p\ge11$, there is $S$ with
 $\X_S\ge\frac53p-6$ (Corollary~\ref{cor:53}).
-\item Explicitly, for every prime $p\ge 11$ the set $S=Q$, $N$ or $Q\cup\{0\}$
+\item\label{item:voloch} Explicitly, for every prime $p\ge 11$ the set $S=Q$, $N$ or $Q\cup\{0\}$
 (depending on $p\bmod 8$) has $\X_S\ge 1.5p-\frac12$
 (Theorem~\ref{thm:voloch}, due to Voloch, with the case $p\equiv5\pmod 8$ added).
 \item The Duursma zeta function of $\CNQ$ satisfies the Riemann hypothesis for
 $p=7,11,19$ but not for $p=23$, and that of the extended code fails for $p=13,17$
 (Section~\ref{sec:zeta}).
 \item For $p\equiv\pm1\pmod8$, $\Cev$ is a direct sum of two binary QR codes, so
-$M_p=2p+2-d(\widehat{\mathcal Q}_p)$ exactly. For $p\equiv\pm3\pmod8$, $\Cev$ is
+$M_p=2p+2-d(\widehat{\mathcal Q}_p)$ exactly. Here $\Cev$ is the subcode of $\CNQ$
+that comes from the sets of even size (Section~\ref{sec:QQR}). The number $M_p$
+is the largest $\X_T$ over non-empty $T\subseteq\Fp$ of even size
+(Section~\ref{sec:notation}). The code $\widehat{\mathcal Q}_p$ is the extended
+binary QR code of length $p+1$. For $p\equiv\pm3\pmod8$, $\Cev$ is
 the binary image of a quaternary QR code (Propositions~\ref{prop:pm1}
 and~\ref{prop:pm3}). Hence Conjecture~\ref{conj:BM} implies that binary or
 quaternary QR codes have linear minimum distance along an infinite set of primes
@@ -192,9 +215,80 @@ with $\X_S>cp$ for a fixed $c>1$?
 Is there $c<2$ such that $\X_S<cp$ for all sufficiently large $p$ and all
 $S\subseteq\Fp$?
 \end{question}
-Item~6 above answers Question~\ref{q:1} affirmatively for $c=1.5-o(1)$. Voloch's Chebotarev
+Item~\ref{item:voloch} above answers Question~\ref{q:1} affirmatively for $c=1.5-o(1)$. Voloch's Chebotarev
 construction (Theorem~\ref{thm:chebotarev}) answers Question~\ref{q:2} negatively.
 Section~\ref{sec:open} discusses what remains open and how hard it appears.
+
+%======================================================================
+\section{Literature}
+\label{sec:lit}
+
+This section places the paper in context. The first part surveys the work this
+paper builds on, and the second surveys later developments on the same codes and
+questions. The split at 2006 is only for convenience.
+
+\subsection{Before 2006}
+The background falls into three strands: quadratic residue and double-circulant
+codes, bounds on codes, and the theory of self-dual codes and their zeta functions.
+
+Quadratic residue codes go back to Prange (1957--1959). Their square-root bound and
+basic theory are in MacWilliams and Sloane~\cite{MS77} and Huffman and
+Pless~\cite{HP03}. Double-circulant codes built from quadratic residues were studied
+by Karlin~\cite{Ka69}. Calderbank~\cite{Ca83} proved a square-root bound for
+quasi-cyclic codes. Chen, Peterson and Weldon~\cite{CPW69} and Kasami~\cite{Ka74}
+showed that quasi-cyclic codes of rate $1/2$ meet the GV bound, which is the origin
+of the random-code heuristic of Section~\ref{sec:open}. Helleseth~\cite{He92}
+related QR codewords to Legendre sums, and Helleseth and Voloch~\cite{HV04} combined
+this with Weil's bound~\cite{We48} to bound the minimum distance of double-circulant
+QR codes by about $2\sqrt p$. Voloch~\cite{Vo04} studied the asymptotics of QR code
+minimum distances. Bazzi and Mitter~\cite{BM06} (preprint 2001) introduced the QQR
+codes and Conjecture~\ref{conj:BM}. Karlin, Bhargava and Tavares~\cite{KBT78}
+showed that the bordered double-circulant codes for $p\equiv\pm3\pmod 8$ are binary
+images of extended quaternary QR codes, the bordered analog of
+Proposition~\ref{prop:pm3}. Gaborit~\cite{Ga02} developed the theory of these
+quadratic double circulant codes over general fields, including their
+$\mathrm{PSL}_2(p)$ symmetry.
+
+On bounds: Gilbert (1952) and Varshamov (1957) gave the GV bound. McEliece, Rodemich,
+Rumsey and Welch~\cite{MRRW77} gave the best known asymptotic upper bounds. Goppa
+stated his conjecture in~\cite{Go93}. Jiang and Vardy~\cite{JV04} improved the GV
+bound on code size by a linear factor, without changing the asymptotic rate.
+
+For self-dual codes: Gleason's theorem and the Mallows--Sloane bound~\cite{MS73}
+constrain weight enumerators, and Rains~\cite{Ra98} sharpened the Type~I bound via
+shadows. Massey~\cite{Ma92} introduced LCD codes. Duursma defined zeta functions
+for codes~\cite{Du99,Du01}, formulated the Riemann hypothesis analog and studied
+extremal enumerators~\cite{Du03}. Chinen~\cite{Ch05} extended the theory to formal
+weight enumerators. Character sums and curves over finite fields are treated in
+Schmidt~\cite{Sc04} and Tsfasman and Vl\u{a}du\c{t}~\cite{TV91}. Effective
+Chebotarev theorems are due to Lagarias and Odlyzko~\cite{LO77} and Serre~\cite{Se81}.
+
+\subsection{2006 and after}
+Later work has refined the weight distributions of QQR codes, tested the Riemann
+hypothesis for codes, and studied double-circulant codes in general. None of it
+settles the central question of whether this specific family is asymptotically
+good.
+
+A revised version of this paper appeared in 2008~\cite{Jo08}. Joyner and
+Kim~\cite{JK11} treated the subject at book length, with chapters on the Riemann
+hypothesis for codes and on hyperelliptic curves and QR codes. Boston and
+Hao~\cite{BH17} showed that $\mathrm{PSL}_2(p)$ acts on extended QQR codes. They
+proved divisibility results for QQR weight polynomials, used them to compute
+weight distributions efficiently, found the $p=23$ failure of RH, and showed that a
+symmetrized point-count distribution for a family of the curves $X_T$ tends to the
+normal distribution. Chinen~\cite{Ch17} gave extremal invariant polynomials that
+violate RH. Alahmadi, \"Ozdemir and Sol\'e~\cite{AOS18} showed that self-dual
+double-circulant codes are dihedral and that the family is asymptotically good, in
+part assuming the generalized Riemann hypothesis via Artin's primitive root
+conjecture. Shi, Xu and Sol\'e~\cite{SXS21} introduced double Toeplitz codes, which
+are isodual like our $C'$, and constructed some arbitrarily close to the GV bound at
+rate $1/2$. Tomlinson, Tjhai, Ambroze, Ahmed and Jibril~\cite[Ch.~9]{TTAAJ17} used
+the $\mathrm{PSL}_2(p)$ symmetry to compute the minimum distances of extended QR
+codes and of bordered quadratic double circulant codes exactly for lengths up to
+$200$. They gave upper bounds, found by a probabilistic search, up to length
+$450$. Through Propositions~\ref{prop:pm1} and~\ref{prop:pm3}, their tables are the
+main source of data on $M_p$ beyond what can be computed directly
+(Table~\ref{tab:mod8}).
 
 %======================================================================
 \section{Notation and background}
@@ -344,6 +438,37 @@ $\chi(f_T(a))=1$ for all $a\notin T$, so $\Sigma_T=p-|T|$ and
 $m_p=\X_T=2p+2-|T|\ge p+3$. Then $M_p\ge m_p\ge p+3$ and $M_p+m_p\ge 2p+6$.
 \end{proof}
 
+\subsection{Table of notation}
+
+This subsection collects the main symbols of the paper, each with the place where
+it is defined. The glossary in Appendix~\ref{app:glossary} explains the technical
+terms in more detail.
+
+\begin{center}\small
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{0.62\textwidth}l@{}}
+\toprule
+Symbol & Meaning & Defined in\\
+\midrule
+$p$ & an odd prime & Section~\ref{sec:notation}\\
+$Q$, $N$ & the nonzero squares and the non-squares in $\Fp^\times$ & Section~\ref{sec:notation}\\
+$\chi$ & the Legendre symbol modulo $p$, with $\chi(0)=0$ & Section~\ref{sec:notation}\\
+$H$ & the binary entropy function & Section~\ref{sec:intro}\\
+$f_S$, $X_S$, $\X_S$ & $\prod_{a\in S}(x-a)$, the curve $y^2=f_S(x)$, and its number of $\Fp$-points & Section~\ref{sec:intro}\\
+$B(c,p)$, $B_{\mathrm{ev}}(c,p)$ & the bound $\X_S\le cp$ for all (all even) non-empty $S$ & Definition~\ref{def:B}\\
+$R$, $R_{\mathrm{ev}}$ & $\F_2[x]/(x^p-1)$ and its elements of even weight & Sections~\ref{sec:notation}, \ref{sec:QQR}\\
+$r_S$, $J$ & $\sum_{i\in S}x^i$ and $r_{\Fp}$ & Section~\ref{sec:notation}\\
+$u^-$, $\ct$, $\wt$ & $u(x^{-1})$, constant term, Hamming weight & Section~\ref{sec:notation}\\
+$\Sigma_S$ & $\sum_{x\in\Fp}\chi(f_S(x))$ & Lemma~\ref{lem:AHW}\\
+$M_p$, $m_p$ & the largest and smallest $\X_T$ over non-empty $T$ of even size & Section~\ref{sec:notation}\\
+$\varphi$, $c_S$, $\CNQ$ & $u\mapsto(r_Nu,r_Qu)$, the word $\varphi(r_S)$, and the QQR code & Definition~\ref{def:QQR}\\
+$\Cev$ & $\{c_S:|S|\text{ even}\}$ & Section~\ref{sec:QQR}\\
+$C'$ & $\CNQ+\langle\mathbf 1\rangle$ for $p\equiv1\pmod4$ & Theorem~\ref{thm:isodual}\\
+$\mathcal Q_p$, $\widehat{\mathcal Q}_p$ & even-like and extended binary QR codes & Proposition~\ref{prop:pm1}\\
+$\mathcal Q^{(4)}_p$, $d_4$ & even-like quaternary QR code and its minimum distance & Proposition~\ref{prop:pm3}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
 %======================================================================
 \section{Quasi-quadratic residue codes}
 \label{sec:QQR}
@@ -361,7 +486,7 @@ The \emph{quasi-quadratic residue code} (QQR code) is
 \]
 Equivalently, $\CNQ$ is the image of the $\F_2$-linear map $\varphi:R\to R\oplus R$,
 $u\mapsto(r_Nu,r_Qu)$. It is a pure double-circulant code (a quasi-cyclic code of
-index~$2$) with generator matrix $[\,\mathrm{circ}(r_N)\mid\mathrm{circ}(r_Q)\,]$.
+index~$2$) with generator matrix $[\,\operatorname{circ}(r_N)\mid\operatorname{circ}(r_Q)\,]$.
 \end{definition}
 
 \begin{proposition}[Dimension]\label{prop:dim}
@@ -772,7 +897,7 @@ The coefficients sum to $1$, the functional equation $p_8=2^4p_0$ holds, and all
 eight zeros have modulus $1/\sqrt2$.
 \end{example}
 
-\subsection{The extended code for $p\equiv1\pmod4$}
+\subsection{\texorpdfstring{The extended code for $p\equiv1\pmod4$}{The extended code for p = 1 (mod 4)}}
 When $p\equiv1\pmod4$ the code $\CNQ$ is not self-dual, so the Riemann hypothesis
 does not directly apply to it. Adjoining the all-ones word repairs this. This
 subsection proves that the resulting code is equivalent to its dual, works out the
@@ -813,10 +938,10 @@ Exactly $12$ of its $16$ zeros have modulus $1/\sqrt2$, so $C'$ does not satisfy
 \end{example}
 
 The minimum distance $6$ is the largest possible for an even binary $[26,13]$ code
-if, as we understand the tables~\cite{Gr}, no binary $[26,13,8]$ code exists. We
+if, as we understand the tables~\cite{Gr26}, no binary $[26,13,8]$ code exists. We
 have not independently verified this, and the claim of optimality should be read
 with that caveat. Failures of RH for non-extremal self-dual and formally self-dual
-codes are known; see~\cite{Du03,Ch05,Ch18}. The examples here are of interest
+codes are known; see~\cite{Du03,Ch05,Ch17}. The examples here are of interest
 because the codes are structured and have large minimum distance.
 
 \begin{table}[ht]
@@ -858,6 +983,10 @@ $1+J$ acts as the identity on $R_{\mathrm{ev}}$.
 
 \subsection{\texorpdfstring{Primes $p\equiv\pm1\pmod 8$: two binary QR codes}{Primes p = +-1 (mod 8): two binary QR codes}}
 
+For these primes $2$ is a square modulo $p$, so $r_Q$ and $r_N$ are idempotents.
+This subsection shows that $\Cev$ splits into two copies of a binary QR code. As a
+result, $M_p$ is determined exactly by the minimum distance of that QR code.
+
 \begin{proposition}\label{prop:pm1}
 Let $p\equiv\pm1\pmod8$ and $\mathcal Q_p=r_QR_{\mathrm{ev}}$. Then $\mathcal Q_p$
 is an even-like binary quadratic residue code of length $p$ and dimension
@@ -896,10 +1025,24 @@ Proposition~\ref{prop:Cev} gives the formula for $M_p$.
 \end{proof}
 
 The minimum distances of the extended QR codes are known exactly for $p<200$; see
-the tables in~\cite[Ch.~9]{TT17}. Proposition~\ref{prop:pm1} turns them into exact
+the tables in~\cite[Ch.~9]{TTAAJ17}. Proposition~\ref{prop:pm1} turns them into exact
 values of $M_p$ (Table~\ref{tab:mod8}).
 
+\begin{example}\label{ex:pm1p7}
+Let $p=7$, so $Q=\{1,2,4\}$ and $2\in Q$. A direct computation shows that
+$r_QR_{\mathrm{ev}}$ consists of $0$ and the seven cyclic shifts of
+$x^2+x^4+x^5+x^6$. So $\mathcal Q_7$ is a $[7,3,4]$ code, and $d(\Cev)=4$.
+Proposition~\ref{prop:pm1} then gives $M_7=2\cdot7+2-4=12$, in agreement with
+Example~\ref{ex:Bp7} and Table~\ref{tab:Mp}. Here $\widehat{\mathcal Q}_7$ is the
+$[8,4,4]$ extended Hamming code.
+\end{example}
+
 \subsection{\texorpdfstring{Primes $p\equiv\pm3\pmod 8$: one quaternary QR code}{Primes p = +-3 (mod 8): one quaternary QR code}}
+
+For these primes $2$ is a non-square modulo $p$, and $r_Q$ acts on
+$R_{\mathrm{ev}}$ as a cube root of unity. This subsection uses that fact to make
+$\Cev$ a code over $\F_4$ and identifies it with a quaternary QR code. The binary
+minimum distance of $\Cev$ is then determined up to a factor of at most $4/3$.
 
 Write $\F_4=\{0,1,\omega,\omega^2\}$ with $\omega^2=\omega+1$, and identify
 $\F_2^2$ with $\F_4$ by an $\F_2$-linear bijection under which multiplication by
@@ -952,18 +1095,31 @@ $\lambda c\in\Cev$ has binary weight at most $\frac43\wt_4(c)$. Apply this to a 
 $c$ of $\F_4$-weight $d_4$.
 \end{proof}
 
+\begin{example}\label{ex:pm3p5}
+Let $p=5$, so $2\in N$. Here $\Cev$ has $16$ words. A direct computation shows
+that each of its $15$ nonzero words has $\F_4$-weight $4$, and binary weight $4$
+or $6$. So $\mathcal Q^{(4)}_5$ is a $[5,2,4]$ code over $\F_4$, and $d_4=4$. The
+bounds of Proposition~\ref{prop:pm3} read $4\le d(\Cev)\le 16/3$, and in fact
+$d(\Cev)=4$. Proposition~\ref{prop:Cev} gives $M_5=2\cdot5+2-4=8$, as in
+Table~\ref{tab:mod8}.
+\end{example}
+
 \begin{remark}
 For the \emph{bordered} double-circulant code $B_p$ of length $2p+2$, the
 corresponding statement is due to Karlin, Bhargava and Tavares~\cite{KBT78}: $B_p$
 is the binary image of the extended quaternary QR code. See also
-Gaborit~\cite{Ga02} and~\cite[\S9.4]{TT17}. We have not found the version for the
+Gaborit~\cite{Ga02} and~\cite[\S9.4]{TTAAJ17}. We have not found the version for the
 pure code $\Cev$ stated explicitly. The two codes can have different minimum
-distances: for $p=13$, $d(B_{13})=6$~\cite[Table~9.4]{TT17} but $d(\Cev)=8$. For
+distances: for $p=13$, $d(B_{13})=6$~\cite[Table~9.4]{TTAAJ17} but $d(\Cev)=8$. For
 the other primes $p\equiv\pm3\pmod 8$ with $p\le83$ that appear in that table,
 the two distances agree.
 \end{remark}
 
 \subsection{Consequences for the Bazzi--Mitter conjecture}
+
+This subsection combines the two cases. It shows that Conjecture~\ref{conj:BM} is
+a statement about the minimum distance of QR codes. It then compares the two cases
+with the data and states a refined conjecture.
 
 \begin{theorem}\label{thm:mod8}
 Let $P$ be an infinite set of primes.
@@ -996,7 +1152,7 @@ Conjecture~\ref{conj:BM} is at least as hard as that problem. The data point the
 other way. Table~\ref{tab:mod8} gives $M_p/p\ge1.787$ for every
 $p\equiv\pm1\pmod 8$ with $31\le p\le199$, above the random-code value $1.78$ of
 Section~\ref{sec:open}. Upper bounds on $d(\widehat{\mathcal Q}_p)$ found by a
-probabilistic search~\cite[Table~9.5]{TT17} give $M_p/p\ge1.88$ for $p=359$, $433$
+probabilistic search~\cite[Table~9.5]{TTAAJ17} give $M_p/p\ge1.88$ for $p=359$, $433$
 and $449$. At primes $p\equiv\pm3\pmod 8$, by contrast, $M_p/p$ stays between $1.45$
 and $1.74$ for $p\le83$. This suggests restricting the conjecture to those primes.
 
@@ -1047,32 +1203,32 @@ $p$ & $p\bmod 8$ & $d(\Cev)$ & $M_p$ & $M_p/p$ & source\\
 107 & 3 & 24--36 & 180--192 & 1.682--1.794 & this paper (safe prime; bounds)\\
 \midrule
 \multicolumn{6}{@{}l}{\emph{$p\equiv\pm1\pmod 8$: $d(\Cev)=d(\widehat{\mathcal Q}_p)$ by Proposition~\ref{prop:pm1}}}\\
-7 & 7 & 4 & 12 & 1.714 & \cite{TT17}, this paper\\
-17 & 1 & 6 & 30 & 1.765 & \cite{TT17}, this paper\\
-23 & 7 & 8 & 40 & 1.739 & \cite{TT17}, this paper\\
-31 & 7 & 8 & 56 & 1.806 & \cite{TT17}, this paper\\
-41 & 1 & 10 & 74 & 1.805 & \cite{TT17}, this paper\\
-47 & 7 & 12 & 84 & 1.787 & \cite{TT17}\\
-71 & 7 & 12 & 132 & 1.859 & \cite{TT17}\\
-73 & 1 & 14 & 134 & 1.836 & \cite{TT17}\\
-79 & 7 & 16 & 144 & 1.823 & \cite{TT17}\\
-89 & 1 & 18 & 162 & 1.820 & \cite{TT17}\\
-97 & 1 & 16 & 180 & 1.856 & \cite{TT17}\\
-103 & 7 & 20 & 188 & 1.825 & \cite{TT17}\\
-113 & 1 & 16 & 212 & 1.876 & \cite{TT17}\\
-127 & 7 & 20 & 236 & 1.858 & \cite{TT17}\\
-137 & 1 & 22 & 254 & 1.854 & \cite{TT17}\\
-151 & 7 & 20 & 284 & 1.881 & \cite{TT17}\\
-167 & 7 & 24 & 312 & 1.868 & \cite{TT17}\\
-191 & 7 & 28 & 356 & 1.864 & \cite{TT17}\\
-193 & 1 & 28 & 360 & 1.865 & \cite{TT17}\\
-199 & 7 & 32 & 368 & 1.849 & \cite{TT17}\\
+7 & 7 & 4 & 12 & 1.714 & \cite{TTAAJ17}, this paper\\
+17 & 1 & 6 & 30 & 1.765 & \cite{TTAAJ17}, this paper\\
+23 & 7 & 8 & 40 & 1.739 & \cite{TTAAJ17}, this paper\\
+31 & 7 & 8 & 56 & 1.806 & \cite{TTAAJ17}, this paper\\
+41 & 1 & 10 & 74 & 1.805 & \cite{TTAAJ17}, this paper\\
+47 & 7 & 12 & 84 & 1.787 & \cite{TTAAJ17}\\
+71 & 7 & 12 & 132 & 1.859 & \cite{TTAAJ17}\\
+73 & 1 & 14 & 134 & 1.836 & \cite{TTAAJ17}\\
+79 & 7 & 16 & 144 & 1.823 & \cite{TTAAJ17}\\
+89 & 1 & 18 & 162 & 1.820 & \cite{TTAAJ17}\\
+97 & 1 & 16 & 180 & 1.856 & \cite{TTAAJ17}\\
+103 & 7 & 20 & 188 & 1.825 & \cite{TTAAJ17}\\
+113 & 1 & 16 & 212 & 1.876 & \cite{TTAAJ17}\\
+127 & 7 & 20 & 236 & 1.858 & \cite{TTAAJ17}\\
+137 & 1 & 22 & 254 & 1.854 & \cite{TTAAJ17}\\
+151 & 7 & 20 & 284 & 1.881 & \cite{TTAAJ17}\\
+167 & 7 & 24 & 312 & 1.868 & \cite{TTAAJ17}\\
+191 & 7 & 28 & 356 & 1.864 & \cite{TTAAJ17}\\
+193 & 1 & 28 & 360 & 1.865 & \cite{TTAAJ17}\\
+199 & 7 & 32 & 368 & 1.849 & \cite{TTAAJ17}\\
 \bottomrule
 \end{tabular}
 \caption{The largest point count $M_p$ over even sets, by $p\bmod8$. For
 $p\equiv\pm3\pmod8$ the values come from an exact search in $\Cev$
 (\texttt{code/dmin\_cev.c}). For $p=107$ the search shows $24\le d(\Cev)\le36$. For
-$p\equiv\pm1\pmod8$, $d(\widehat{\mathcal Q}_p)$ is taken from~\cite[Table~9.4]{TT17}
+$p\equiv\pm1\pmod8$, $d(\widehat{\mathcal Q}_p)$ is taken from~\cite[Table~9.4]{TTAAJ17}
 and, for $p\le41$, recomputed here (\texttt{code/check\_mod8.py}).}
 \label{tab:mod8}
 \end{table}
@@ -1090,17 +1246,56 @@ the $\ell$ points of $\mu_\ell\subset\Fp^\times$. Theorem~\ref{thm:voloch}
 ($\ell=2$, where $f_Q(x)=\chi(x)-1$) and Theorem~\ref{thm:chebotarev} are of this
 kind. Tomlinson et al.\ observe that in every case they computed ($n\le200$), the
 minimum-weight words of $B_p$ and $\widehat{\mathcal Q}_p$ lie in a subcode fixed
-by a nontrivial subgroup of $\mathrm{PSL}_2(p)$~\cite[\S9.7]{TT17}. A proof of
+by a nontrivial subgroup of $\mathrm{PSL}_2(p)$~\cite[\S9.7]{TTAAJ17}. A proof of
 Conjecture~\ref{conj:refined} along these lines would need two things: an
 ``inverse theorem'' saying that a large $\X_T$ forces $T$ to be structured, and an
 analysis of the structured sets at well-chosen primes.
 \end{remark}
 
 %======================================================================
-\section{Open questions and their difficulty}
+\section{Summary of results and open questions}
 \label{sec:open}
 
-This section takes stock of what remains open. We first give a heuristic for the
+This section gathers up the paper. The first subsection lists the main results in
+one place, with their status. The second takes stock of what remains open.
+
+\subsection{Summary of results}
+
+The results below are proved in this paper unless the item says otherwise. The
+numbers point to the precise statements.
+
+\begin{enumerate}
+\item \emph{The dictionary.} For $S\ne\emptyset,\Fp$, the weight of $c_S$ is
+$2p+2-\X_T$ or $\X_T-2$ for a set $T$ of even size (Proposition~\ref{prop:main}). The even subcode
+satisfies $d(\Cev)=2p+2-M_p$ for every odd prime $p$ (Proposition~\ref{prop:Cev}).
+\item \emph{Duality.} The code $\CNQ$ is self-dual for $p\equiv3\pmod4$ and LCD for
+$p\equiv1\pmod4$ (Theorem~\ref{thm:duality}). For $p\equiv1\pmod4$ its extension
+$C'$ is isodual (Theorem~\ref{thm:isodual}).
+\item \emph{Twists.} Quadratic twists pair curves with many and few points
+(Lemma~\ref{lem:twist}). Consequently $M_p+m_p\ge2p+2$ (Corollary~\ref{cor:Mm}).
+\item \emph{Bounds from coding theory.} A conditional result: if $M_p\le cp$ for
+infinitely many $p$ with $c<1.7799$, then Goppa's conjecture is false
+(Theorem~\ref{thm:goppa}). Unconditionally, $M_p>cp$ for each $c<1.6258$ and all
+large $p$ (Theorem~\ref{thm:mrrw}). Also $M_p\ge\frac53p-6$ when $p\equiv3\pmod4$
+and $p\ge11$ (Corollary~\ref{cor:53}).
+\item \emph{Explicit curves.} Every prime $p\ge11$ has an explicit $S$ with
+$\X_S\ge\frac32p-\frac12$ (Theorem~\ref{thm:voloch}). On a set of primes of positive
+density there are sets with about $(2-1/\ell)p$ points (Theorem~\ref{thm:chebotarev}).
+Both are due to Voloch, except the case $p\equiv5\pmod8$.
+\item \emph{Zeta functions.} Computations show that the Riemann hypothesis for
+Duursma's zeta function holds for some of these codes and fails for others
+(Table~\ref{tab:RH}).
+\item \emph{The split by $p$ modulo $8$.} For $p\equiv\pm1\pmod8$ the code $\Cev$ is a
+direct sum of two binary QR codes (Proposition~\ref{prop:pm1}). For
+$p\equiv\pm3\pmod8$ it is the binary image of a quaternary QR code
+(Proposition~\ref{prop:pm3}). So Conjecture~\ref{conj:BM} is a statement about QR codes
+(Theorem~\ref{thm:mod8}). Exact data for $p\le83$ (Table~\ref{tab:mod8}) motivate
+the refined Conjecture~\ref{conj:refined}, which remains a conjecture.
+\end{enumerate}
+
+\subsection{Open questions and their difficulty}
+
+This subsection takes stock of what remains open. We first give a heuristic for the
 true size of the largest point count $M_p$, then go through the questions and
 conjectures of Section~\ref{sec:intro} one at a time. For each, we say what is known
 and how hard it appears.
@@ -1129,6 +1324,13 @@ $M_p/p$ & 1.714 & 1.455 & 1.538 & 1.765 & 1.684 & 1.739\\
 \caption{Extreme point counts over even non-empty sets $T$.}
 \label{tab:Mp}
 \end{table}
+
+\begin{example}\label{ex:heuristic}
+The constant in the heuristic is $2\big(1-H^{-1}(1/2)\big)=1.7799\ldots$. For
+$p=11$ it predicts $M_{11}\approx19.6$, while the true value is $M_{11}=16$. For
+$p=23$ it predicts $M_{23}\approx40.9$, and the true value is $M_{23}=40$
+(Table~\ref{tab:Mp}).
+\end{example}
 
 \paragraph{Question~\ref{q:1} (explicit $S$).} For $c=1.5-o(1)$ it is answered for
 every $p\ge11$ by Theorem~\ref{thm:voloch}. For $c$ close to $2$ it is answered on
@@ -1181,107 +1383,6 @@ extremal is a special case of Duursma's conjecture for extremal Type~I codes, wh
 is open.
 
 %======================================================================
-\section{Literature}
-\label{sec:lit}
-
-This section places the paper in context. The first part surveys the work this
-paper builds on, and the second surveys later developments on the same codes and
-questions. The split at 2006 is only for convenience.
-
-\subsection{Before 2006}
-The background falls into three strands: quadratic residue and double-circulant
-codes, bounds on codes, and the theory of self-dual codes and their zeta functions.
-
-Quadratic residue codes go back to Prange (1957--1959). Their square-root bound and
-basic theory are in MacWilliams and Sloane~\cite{MS77} and Huffman and
-Pless~\cite{HP03}. Double-circulant codes built from quadratic residues were studied
-by Karlin~\cite{Ka69}. Calderbank~\cite{Ca83} proved a square-root bound for
-quasi-cyclic codes. Chen, Peterson and Weldon~\cite{CPW69} and Kasami~\cite{Ka74}
-showed that quasi-cyclic codes of rate $1/2$ meet the GV bound, which is the origin
-of the random-code heuristic of Section~\ref{sec:open}. Helleseth~\cite{He92}
-related QR codewords to Legendre sums, and Helleseth and Voloch~\cite{HV04} combined
-this with Weil's bound~\cite{We48} to bound the minimum distance of double-circulant
-QR codes by about $2\sqrt p$. Voloch~\cite{Vo} studied the asymptotics of QR code
-minimum distances. Bazzi and Mitter~\cite{BM06} (preprint 2001) introduced the QQR
-codes and Conjecture~\ref{conj:BM}. Karlin, Bhargava and Tavares~\cite{KBT78}
-showed that the bordered double-circulant codes for $p\equiv\pm3\pmod 8$ are binary
-images of extended quaternary QR codes, the bordered analog of
-Proposition~\ref{prop:pm3}. Gaborit~\cite{Ga02} developed the theory of these
-quadratic double circulant codes over general fields, including their
-$\mathrm{PSL}_2(p)$ symmetry.
-
-On bounds: Gilbert (1952) and Varshamov (1957) gave the GV bound. McEliece, Rodemich,
-Rumsey and Welch~\cite{MRRW77} gave the best known asymptotic upper bounds. Goppa
-stated his conjecture in~\cite{Go93}. Jiang and Vardy~\cite{JV04} improved the GV
-bound on code size by a linear factor, without changing the asymptotic rate.
-
-For self-dual codes: Gleason's theorem and the Mallows--Sloane bound~\cite{MS73}
-constrain weight enumerators, and Rains~\cite{Ra98} sharpened the Type~I bound via
-shadows. Massey~\cite{Ma92} introduced LCD codes. Duursma defined zeta functions
-for codes~\cite{Du99,Du01}, formulated the Riemann hypothesis analog and studied
-extremal enumerators~\cite{Du03}. Chinen~\cite{Ch05} extended the theory to formal
-weight enumerators. Character sums and curves over finite fields are treated in
-Schmidt~\cite{Sc04} and Tsfasman and Vl\u{a}du\c{t}~\cite{TV91}. Effective
-Chebotarev theorems are due to Lagarias and Odlyzko~\cite{LO77} and Serre~\cite{Se81}.
-
-\subsection{2006 and after}
-Later work has refined the weight distributions of QQR codes, tested the Riemann
-hypothesis for codes, and studied double-circulant codes in general. None of it
-settles the central question of whether this specific family is asymptotically
-good.
-
-A revised version of this paper appeared in 2008~\cite{Jo08}. Joyner and
-Kim~\cite{JK11} treated the subject at book length, with chapters on the Riemann
-hypothesis for codes and on hyperelliptic curves and QR codes. Boston and
-Hao~\cite{BH17} showed that $\mathrm{PSL}_2(p)$ acts on extended QQR codes. They
-proved divisibility results for QQR weight polynomials, used them to compute
-weight distributions efficiently, found the $p=23$ failure of RH, and showed that a
-symmetrized point-count distribution for a family of the curves $X_T$ tends to the
-normal distribution. Chinen~\cite{Ch18} gave extremal invariant polynomials that
-violate RH. Alahmadi, \"Ozdemir and Sol\'e~\cite{AOS18} showed that self-dual
-double-circulant codes are dihedral and that the family is asymptotically good, in
-part assuming the generalized Riemann hypothesis via Artin's primitive root
-conjecture. Shi, Xu and Sol\'e~\cite{SXS21} introduced double Toeplitz codes, which
-are isodual like our $C'$, and constructed some arbitrarily close to the GV bound at
-rate $1/2$. Tomlinson, Tjhai, Ambroze, Ahmed and Jibril~\cite[Ch.~9]{TT17} used
-the $\mathrm{PSL}_2(p)$ symmetry to compute the minimum distances of extended QR
-codes and of bordered quadratic double circulant codes exactly for lengths up to
-$200$. They gave upper bounds, found by a probabilistic search, up to length
-$450$. Through Propositions~\ref{prop:pm1} and~\ref{prop:pm3}, their tables are the
-main source of data on $M_p$ beyond what can be computed directly
-(Table~\ref{tab:mod8}).
-
-%======================================================================
-\section*{About this revision}
-{\sloppy This is a revision of the version submitted to \emph{Discrete Mathematics and
-Theoretical Computer Science} on 20 October 2006. A different revision was
-published as~\cite{Jo08} (see also arXiv:math/0609562). The present text corrects
-several errors in the 2006 version, replaces some arguments, proves two statements
-that were stated as conjectures, and adds examples, a literature survey and a
-glossary. Section~\ref{sec:mod8}, with the refined Conjecture~\ref{conj:refined},
-was added on 10 November 2026. A separate revision log lists every change.\par}
-
-%======================================================================
-\section*{Acknowledgements}
-The first author thanks Amin Shokrollahi for helpful advice, Felipe Voloch for
-allowing his constructions to be included, and his former student Greg Coy, whose
-honors project~\cite{Coy06} contains parts of Proposition~\ref{prop:main}.
-
-This revision was prepared with Claude (Anthropic). Claude refereed the earlier text
-and proposed and wrote the following, which the first author has reviewed: the
-proofs of Theorems~\ref{thm:duality} and~\ref{thm:isodual}; the twist identity
-(Lemma~\ref{lem:twist}) and Corollary~\ref{cor:Mm}; the use of $\Cev$ in
-Theorems~\ref{thm:goppa} and~\ref{thm:mrrw}; the repaired Corollary~\ref{cor:53};
-case~(3) of Theorem~\ref{thm:voloch}; the computations in
-Tables~\ref{tab:wd}--\ref{tab:Mp}; and Section~\ref{sec:mod8}, comprising
-Propositions~\ref{prop:pm1} and~\ref{prop:pm3}, Theorem~\ref{thm:mod8}, the wording
-of Conjecture~\ref{conj:refined}, and the exact computations in
-Table~\ref{tab:mod8}. The Python code used to verify every numerical
-claim is in the repository accompanying this paper. Every change from the earlier
-text, with the reason for it, is recorded in the separate revision log
-(\texttt{revision-log.tex}) in the same repository.
-
-%======================================================================
 \appendix
 \section{Glossary}
 \label{app:glossary}
@@ -1307,7 +1408,7 @@ minimum nonzero Hamming weight $d$.
 
 \item[Bordered double-circulant code $B_p$] The $[2p+2,p+1]$ code obtained from a
 pure double-circulant code by adding a border row and column; it is the main object
-of~\cite{Ga02,TT17}.
+of~\cite{Ga02,TTAAJ17}.
 
 \item[$c_S$] The QQR codeword $(r_Nr_S,r_Qr_S)$.
 
@@ -1449,126 +1550,158 @@ weight $w$, and $W_C(x,y)=\sum_wA_wx^{n-w}y^w$.
 
 
 %======================================================================
-\begin{thebibliography}{99}\small
+\section*{Acknowledgments}
+The first author thanks Amin Shokrollahi for helpful advice, Felipe Voloch for
+allowing his constructions to be included, and his former student Greg Coy, whose
+honors project~\cite{Co06} contains parts of Proposition~\ref{prop:main}.
 
-\bibitem{AOS18} A. Alahmadi, F. \"Ozdemir and P. Sol\'e, On self-dual double
+This revision was prepared with Claude (Claude Opus~5.5, Anthropic), which acted as
+referee, reviser and co-author. Claude refereed the earlier text
+and proposed and wrote the following, which the first author has reviewed: the
+proofs of Theorems~\ref{thm:duality} and~\ref{thm:isodual}; the twist identity
+(Lemma~\ref{lem:twist}) and Corollary~\ref{cor:Mm}; the use of $\Cev$ in
+Theorems~\ref{thm:goppa} and~\ref{thm:mrrw}; the repaired Corollary~\ref{cor:53};
+case~(3) of Theorem~\ref{thm:voloch}; the computations in
+Tables~\ref{tab:wd}--\ref{tab:Mp}; and Section~\ref{sec:mod8}, comprising
+Propositions~\ref{prop:pm1} and~\ref{prop:pm3}, Theorem~\ref{thm:mod8}, the wording
+of Conjecture~\ref{conj:refined}, and the exact computations in
+Table~\ref{tab:mod8}. The Python code used to verify every numerical
+claim is in the repository accompanying this paper. Every change from the earlier
+text, with the reason for it, is recorded in the separate revision log
+(\texttt{revision-log.tex}) in the same repository.
+
+Claude also prepared Draft~1, a revision for style and exposition. In that draft it
+reordered the sections and rewrote the front matter. It also added the examples,
+orienting paragraphs, summary of results and table of notation that the revision log
+lists as new text in Draft~1. The scripts that check the numbers in those additions
+are in the directory \texttt{code/} of the repository at commit
+\texttt{c6e9125}.
+
+AI review is not an independent certification of the results of this paper. Further
+details on the AI usage can be found in the revision log.
+
+%======================================================================
+\begin{thebibliography}{TTAAJ17}\small
+
+\bibitem[AOS18]{AOS18} A. Alahmadi, F. \"Ozdemir and P. Sol\'e, On self-dual double
 circulant codes, \emph{Des.\ Codes Cryptogr.} 86 (2018), 1257--1265.
 
-\bibitem{BM06} L. Bazzi and S. Mitter, Some randomized code constructions from
+\bibitem[BH17]{BH17} N. Boston and J. Hao, The weight distribution of quasi-quadratic
+residue codes, arXiv:1705.06413 (2017).
+
+\bibitem[BM06]{BM06} L. Bazzi and S. Mitter, Some randomized code constructions from
 group actions, \emph{IEEE Trans.\ Inform.\ Theory} 52 (2006), 3210--3219
 (preprint 2001).
 
-\bibitem{BH17} N. Boston and J. Hao, The weight distribution of quasi-quadratic
-residue codes, arXiv:1705.06413 (2017).
-
-\bibitem{Ca83} R. Calderbank, A square root bound on the minimum weight in
+\bibitem[Ca83]{Ca83} R. Calderbank, A square root bound on the minimum weight in
 quasi-cyclic codes, \emph{IEEE Trans.\ Inform.\ Theory} 29 (1983), 332--337.
 
-\bibitem{CPW69} C.~L. Chen, W.~W. Peterson and E.~J. Weldon, Some results on
-quasi-cyclic codes, \emph{Inform.\ Control} 15 (1969), 407--423.
-
-\bibitem{Ch05} K. Chinen, Zeta functions for formal weight enumerators and the
+\bibitem[Ch05]{Ch05} K. Chinen, Zeta functions for formal weight enumerators and the
 extremal property, \emph{Proc.\ Japan Acad.\ Ser.\ A} 81 (2005), 168--173.
 
-\bibitem{Ch18} K. Chinen, Extremal invariant polynomials not satisfying the Riemann
+\bibitem[Ch17]{Ch17} K. Chinen, Extremal invariant polynomials not satisfying the Riemann
 hypothesis, arXiv:1709.03389 (2017).
 
-\bibitem{Coy06} G. Coy, \emph{Long quadratic residue codes}, Honors Project,
+\bibitem[Co06]{Co06} G. Coy, \emph{Long quadratic residue codes}, Honors Project,
 Mathematics Dept., U.S. Naval Academy, 2005--2006.
 
-\bibitem{Du99} I. Duursma, Weight distributions of geometric Goppa codes,
+\bibitem[CPW69]{CPW69} C.~L. Chen, W.~W. Peterson and E.~J. Weldon, Some results on
+quasi-cyclic codes, \emph{Inform.\ Control} 15 (1969), 407--423.
+
+\bibitem[Du99]{Du99} I. Duursma, Weight distributions of geometric Goppa codes,
 \emph{Trans.\ Amer.\ Math.\ Soc.} 351 (1999), 3609--3639.
 
-\bibitem{Du01} I. Duursma, From weight enumerators to zeta functions,
+\bibitem[Du01]{Du01} I. Duursma, From weight enumerators to zeta functions,
 \emph{Discrete Appl.\ Math.} 111 (2001), 55--73.
 
-\bibitem{Du03} I. Duursma, Extremal weight enumerators and ultraspherical
+\bibitem[Du03]{Du03} I. Duursma, Extremal weight enumerators and ultraspherical
 polynomials, \emph{Discrete Math.} 268 (2003), 103--127.
 
-\bibitem{Ga02} P. Gaborit, Quadratic double circulant codes over fields,
+\bibitem[Ga02]{Ga02} P. Gaborit, Quadratic double circulant codes over fields,
 \emph{J.\ Combin.\ Theory Ser.\ A} 97 (2002), 85--107.
 
-\bibitem{Go93} V.~D. Goppa, Bounds for codes, \emph{Dokl.\ Akad.\ Nauk} 333 (1993),
+\bibitem[Go93]{Go93} V.~D. Goppa, Bounds for codes, \emph{Dokl.\ Akad.\ Nauk} 333 (1993),
 423.
 
-\bibitem{Gr} M. Grassl, Bounds on the minimum distance of linear codes and quantum
-codes, online tables, \url{http://www.codetables.de}.
+\bibitem[Gr26]{Gr26} M. Grassl, Bounds on the minimum distance of linear codes and quantum
+codes, online tables, \url{http://www.codetables.de}, accessed 2026.
 
-\bibitem{He92} T. Helleseth, Legendre sums and codes related to QR codes,
+\bibitem[He92]{He92} T. Helleseth, Legendre sums and codes related to QR codes,
 \emph{Discrete Appl.\ Math.} 35 (1992), 107--113.
 
-\bibitem{Ho67} C. Hooley, On Artin's conjecture, \emph{J.\ Reine Angew.\ Math.}
+\bibitem[Ho67]{Ho67} C. Hooley, On Artin's conjecture, \emph{J.\ Reine Angew.\ Math.}
 225 (1967), 209--220.
 
-\bibitem{HV04} T. Helleseth and J.~F. Voloch, Double circulant quadratic residue
-codes, \emph{IEEE Trans.\ Inform.\ Theory} 50 (2004), 2154--2155.
-
-\bibitem{HP03} W.~C. Huffman and V. Pless, \emph{Fundamentals of Error-Correcting
+\bibitem[HP03]{HP03} W.~C. Huffman and V. Pless, \emph{Fundamentals of Error-Correcting
 Codes}, Cambridge Univ.\ Press, 2003.
 
-\bibitem{JV04} T. Jiang and A. Vardy, Asymptotic improvement of the
-Gilbert--Varshamov bound on the size of binary codes, \emph{IEEE Trans.\ Inform.\
-Theory} 50 (2004), 1655--1664.
+\bibitem[HV04]{HV04} T. Helleseth and J.~F. Voloch, Double circulant quadratic residue
+codes, \emph{IEEE Trans.\ Inform.\ Theory} 50 (2004), 2154--2155.
 
-\bibitem{Jo08} D. Joyner, On quadratic residue codes and hyperelliptic curves,
+\bibitem[JK11]{JK11} D. Joyner and J.-L. Kim, \emph{Selected Unsolved Problems in Coding
+Theory}, Birkh\"auser, 2011.
+
+\bibitem[Jo08]{Jo08} D. Joyner, On quadratic residue codes and hyperelliptic curves,
 \emph{Discrete Math.\ Theor.\ Comput.\ Sci.} 10:1 (2008),
 \url{https://doi.org/10.46298/dmtcs.429}; arXiv:math/0609562.
 
-\bibitem{JK11} D. Joyner and J.-L. Kim, \emph{Selected Unsolved Problems in Coding
-Theory}, Birkh\"auser, 2011.
+\bibitem[JV04]{JV04} T. Jiang and A. Vardy, Asymptotic improvement of the
+Gilbert--Varshamov bound on the size of binary codes, \emph{IEEE Trans.\ Inform.\
+Theory} 50 (2004), 1655--1664.
 
-\bibitem{Ka69} M. Karlin, New binary coding results by circulants, \emph{IEEE
+\bibitem[Ka69]{Ka69} M. Karlin, New binary coding results by circulants, \emph{IEEE
 Trans.\ Inform.\ Theory} 15 (1969), 81--92.
 
-\bibitem{Ka74} T. Kasami, A Gilbert--Varshamov bound for quasi-cyclic codes of rate
+\bibitem[Ka74]{Ka74} T. Kasami, A Gilbert--Varshamov bound for quasi-cyclic codes of rate
 1/2, \emph{IEEE Trans.\ Inform.\ Theory} 20 (1974), 679.
 
-\bibitem{KBT78} M. Karlin, V.~K. Bhargava and S.~E. Tavares, A note on the extended
+\bibitem[KBT78]{KBT78} M. Karlin, V.~K. Bhargava and S.~E. Tavares, A note on the extended
 quadratic residue codes and their binary images, \emph{Inform.\ Control} 38 (1978),
 148--153.
 
-\bibitem{LO77} J.~C. Lagarias and A.~M. Odlyzko, Effective versions of the
+\bibitem[LO77]{LO77} J.~C. Lagarias and A.~M. Odlyzko, Effective versions of the
 Chebotarev density theorem, in \emph{Algebraic Number Fields}, A.~Fr\"ohlich (ed.),
 Academic Press, 1977, 409--464.
 
-\bibitem{MS77} F.~J. MacWilliams and N.~J.~A. Sloane, \emph{The Theory of
-Error-Correcting Codes}, North-Holland, 1977.
-
-\bibitem{MS73} C.~L. Mallows and N.~J.~A. Sloane, An upper bound for self-dual
-codes, \emph{Inform.\ Control} 22 (1973), 188--200.
-
-\bibitem{Ma92} J.~L. Massey, Linear codes with complementary duals, \emph{Discrete
+\bibitem[Ma92]{Ma92} J.~L. Massey, Linear codes with complementary duals, \emph{Discrete
 Math.} 106/107 (1992), 337--342.
 
-\bibitem{MRRW77} R.~J. McEliece, E.~R. Rodemich, H. Rumsey and L.~R. Welch, New
+\bibitem[MRRW77]{MRRW77} R.~J. McEliece, E.~R. Rodemich, H. Rumsey and L.~R. Welch, New
 upper bounds on the rate of a code via the Delsarte--MacWilliams inequalities,
 \emph{IEEE Trans.\ Inform.\ Theory} 23 (1977), 157--166.
 
-\bibitem{Ra98} E.~M. Rains, Shadow bounds for self-dual codes, \emph{IEEE Trans.\
+\bibitem[MS73]{MS73} C.~L. Mallows and N.~J.~A. Sloane, An upper bound for self-dual
+codes, \emph{Inform.\ Control} 22 (1973), 188--200.
+
+\bibitem[MS77]{MS77} F.~J. MacWilliams and N.~J.~A. Sloane, \emph{The Theory of
+Error-Correcting Codes}, North-Holland, 1977.
+
+\bibitem[Ra98]{Ra98} E.~M. Rains, Shadow bounds for self-dual codes, \emph{IEEE Trans.\
 Inform.\ Theory} 44 (1998), 134--139.
 
-\bibitem{Sc04} W. Schmidt, \emph{Equations over Finite Fields: An Elementary
+\bibitem[Sc04]{Sc04} W. Schmidt, \emph{Equations over Finite Fields: An Elementary
 Approach}, 2nd ed., Kendrick Press, 2004.
 
-\bibitem{Se81} J.-P. Serre, Quelques applications du th\'eor\`eme de densit\'e de
+\bibitem[Se81]{Se81} J.-P. Serre, Quelques applications du th\'eor\`eme de densit\'e de
 Chebotarev, \emph{Publ.\ Math.\ IH\'ES} 54 (1981), 123--201.
 
-\bibitem{SXS21} M. Shi, L. Xu and P. Sol\'e, On isodual double Toeplitz codes,
+\bibitem[SXS21]{SXS21} M. Shi, L. Xu and P. Sol\'e, On isodual double Toeplitz codes,
 arXiv:2102.09233 (2021).
 
-\bibitem{TT17} M. Tomlinson, C.~J. Tjhai, M.~A. Ambroze, M. Ahmed and M. Jibril,
+\bibitem[TTAAJ17]{TTAAJ17} M. Tomlinson, C.~J. Tjhai, M.~A. Ambroze, M. Ahmed and M. Jibril,
 \emph{Error-Correction Coding and Decoding: Bounds, Codes, Decoders, Analysis and
 Applications}, Springer, 2017; Ch.~9, Algebraic quasi cyclic codes.
 
-\bibitem{TV91} M.~A. Tsfasman and S.~G. Vl\u{a}du\c{t}, \emph{Algebraic-Geometric
+\bibitem[TV91]{TV91} M.~A. Tsfasman and S.~G. Vl\u{a}du\c{t}, \emph{Algebraic-Geometric
 Codes}, Kluwer, Dordrecht, 1991.
 
-\bibitem{Vo} J.~F. Voloch, Asymptotics of the minimal distance of quadratic residue
-codes, preprint.
+\bibitem[Vo04]{Vo04} J.~F. Voloch, Asymptotics of the minimal distance of quadratic residue
+codes, in \emph{Finite Fields: Theory and Applications}, Oberwolfach Report
+No.~54/2004, Mathematisches Forschungsinstitut Oberwolfach, 2004, 2946--2947.
 
-\bibitem{Vo06} J.~F. Voloch, personal communication, May 2006.
+\bibitem[Vo06]{Vo06} J.~F. Voloch, personal communication, May 2006.
 
-\bibitem{We48} A. Weil, On some exponential sums, \emph{Proc.\ Nat.\ Acad.\ Sci.\
+\bibitem[We48]{We48} A. Weil, On some exponential sums, \emph{Proc.\ Nat.\ Acad.\ Sci.\
 U.S.A.} 34 (1948), 204--207.
 
 \end{thebibliography}

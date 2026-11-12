@@ -10,22 +10,22 @@ Two papers by David Joyner on error-correcting codes and hyperelliptic curves, e
 | File | What it is |
 | --- | --- |
 | `original/qrcodes-hyperell-dmtcs2.tex` | The version submitted to *Discrete Mathematics & Theoretical Computer Science*, received 20 Oct 2006 (David Joyner, sole author) |
-| `qrcodes-hyperelliptic.tex` / `.pdf` | The revised paper (David Joyner and Claude), 12pt Times, US letter |
-| `revision-log.tex` / `.pdf` | Change-by-change log from the 2006 file to the revision |
+| `qrcodes-hyperelliptic.tex` / `.pdf` | The revised paper, Draft 1 (David Joyner and Claude), 12pt Times, US letter |
+| `revision-log.tex` / `.pdf` | Change-by-change log from the 2006 file to the revision, with a concordance of old and Draft 1 numbers |
 | `code/` | Python scripts that check every numerical claim (weight distributions, duality, examples, Duursma zeta zeros, Voloch's constructions, the mod-8 split), and a C program for exact minimum distances |
 
 A different revision of the 2006 submission was published as D. Joyner, *DMTCS* 10:1 (2008), [doi:10.46298/dmtcs.429](https://doi.org/10.46298/dmtcs.429) (arXiv:math/0609562). This repository revises the 2006 file, not the published one.
 
 ### Update of 10 November 2026: the split by p mod 8 and a refined conjecture
 
-A new Section 7 of the revised paper shows that the even subcode C_ev of the QQR code is a quadratic residue code in disguise. Write M_p for the largest number of points on y² = f_T(x) over sets T of even size, so that d(C_ev) = 2p + 2 − M_p.
+A new section of the revised paper (Section 8 in Draft 1, Section 7 when it was added) shows that the even subcode C_ev of the QQR code is a quadratic residue code in disguise. Write M_p for the largest number of points on y² = f_T(x) over sets T of even size, so that d(C_ev) = 2p + 2 − M_p.
 
-- **p ≡ ±1 (mod 8)** (Proposition 7.1): C_ev is a direct sum of two binary QR codes, so M_p = 2p + 2 − d(extended binary QR code) exactly. Known QR distances then give M_p/p ≥ 1.787 for all such p with 31 ≤ p ≤ 199.
-- **p ≡ ±3 (mod 8)** (Proposition 7.2): C_ev is the binary image of a quaternary QR code. An exact search gives M_p/p between 1.45 and 1.74 for every such p ≤ 83.
+- **p ≡ ±1 (mod 8)** (Proposition 8.1): C_ev is a direct sum of two binary QR codes, so M_p = 2p + 2 − d(extended binary QR code) exactly. Known QR distances then give M_p/p ≥ 1.787 for all such p with 31 ≤ p ≤ 199.
+- **p ≡ ±3 (mod 8)** (Proposition 8.3): C_ev is the binary image of a quaternary QR code. An exact search gives M_p/p between 1.45 and 1.74 for every such p ≤ 83.
 
-So the Bazzi–Mitter conjecture implies that binary or quaternary QR codes have minimum distance growing linearly in the length along an infinite set of primes (Theorem 7.4). The data suggest posing it only for p ≡ ±3 (mod 8):
+So the Bazzi–Mitter conjecture implies that binary or quaternary QR codes have minimum distance growing linearly in the length along an infinite set of primes (Theorem 8.6). The data suggest posing it only for p ≡ ±3 (mod 8):
 
-> **Conjecture 7.5.** There is a constant c < 2 such that M_p ≤ cp for infinitely many primes p ≡ ±3 (mod 8).
+> **Conjecture 8.7.** There is a constant c < 2 such that M_p ≤ cp for infinitely many primes p ≡ ±3 (mod 8).
 
 This is equivalent to the quaternary QR codes of those lengths having minimum distance at least a fixed multiple of p. If it held with c < 2(1 − H⁻¹(1/2)) ≈ 1.7799, Goppa's conjecture would be false. We expect it to hold with c just above 1.78. A stronger form asks for M_p ≤ cp at all large safe primes p ≡ 3 (mod 8), where 2 is a primitive root.
 
@@ -48,10 +48,11 @@ The scripts need Python 3.10+, plus `sympy` for the zeta check.
 
 ```
 cd code
-python3 check_weights_duality.py   # weight distributions, Prop. 3.6, self-duality / LCD
+python3 check_weights_duality.py   # weight distributions, Prop. 4.6, self-duality / LCD
 python3 check_examples_voloch.py   # worked examples, Voloch's constructions for p < 200
 python3 check_zeta.py              # Duursma zeta polynomials and zeros (about 1.5 minutes)
-python3 check_mod8.py              # Props. 7.1 and 7.2 (the split by p mod 8) for small p
+python3 check_mod8.py              # Props. 8.1 and 8.3 (the split by p mod 8) for small p
+python3 check_examples_draft1.py   # the examples added in Draft 1 (Examples 1.3, 8.2, 8.4, 9.1)
 ```
 
 Exact minimum distances of C_ev for p ≡ ±3 (mod 8), Table 3 of the paper (needs a C compiler with 128-bit integers, such as gcc or clang):
