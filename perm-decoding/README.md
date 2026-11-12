@@ -22,8 +22,11 @@ problems.
 
 | Path | Description |
 |---|---|
-| `paper/perm_decoding_step2_revision.tex` / `.pdf` | The corrected and expanded version (12pt Times), including the p = 23 results |
+| `paper/perm_decoding_step2_revision.tex` / `.pdf` | The corrected and expanded version, Draft 2 (12pt Times, US letter), including the p = 23 results |
+| `paper/revision-log.tex` / `.pdf` | Revision log: a reconstructed account of the changes from the 2005 note to Draft 1, and every change in Draft 2, with a concordance of numbers |
 | `scripts/pd_affine.py` | Exhaustive test of AGL(1,p) as a full PD-set for RS(F_p, k) |
+| `scripts/check_examples_draft2.py` | Checks every number in the examples added in Draft 2 |
+| `scripts/check_body_numbers.py` | Rechecks the other numerical statements of the paper (Example 7.7, Theorem 7.8, Remark 7.9, Section 8) |
 | `results/agl_pd_p*.txt` | Output of `pd_affine.py` for p = 5, 7, 11, 13, 17, 19, 23 |
 
 **History**
@@ -159,4 +162,4 @@ For that the exhaustive search, or the counting bound, is needed.
 
 The paper and this code were produced by David Joyner with substantial help
 from two AI systems, ChatGPT (OpenAI) and Claude (Anthropic). Their roles
-are described in the paper's Acknowledgments.
+are described in the paper's Acknowledgments and in the revision log.
