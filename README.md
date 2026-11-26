@@ -5,6 +5,16 @@ Two papers by David Joyner on error-correcting codes and hyperelliptic curves, e
 1. *On quadratic residue codes and hyperelliptic curves*: the original 2006 manuscript and a 2026 revision (this top-level folder).
 2. *Conjectural permutation decoding of some AG codes* (ACM SIGSAM Bulletin, 2005): a corrected and expanded 2026 version, in [`perm-decoding/`](perm-decoding/).
 
+## Quadratic residue codes: summary
+
+For an odd prime p and a set S of elements of 𝔽_p, let X_S be the hyperelliptic curve y² = ∏_{a∈S}(x − a). The quasi-quadratic residue (QQR) code is a binary double-circulant code of length 2p whose codeword weights are given exactly by the numbers of points on the curves X_T, for sets T of even size. The paper uses this dictionary in both directions.
+
+- Coding-theory bounds give point-count bounds: for every c < 1.6258 and every large prime p there is a curve X_S with more than cp points, and for p ≡ 3 (mod 4), p ≥ 11, one with at least 5p/3 − 6.
+- Conversely, if for some c < 1.7799 every such curve had at most cp points for infinitely many p, Goppa's conjecture would fail.
+- The QQR code is self-dual for p ≡ 3 (mod 4) and has complementary dual for p ≡ 1 (mod 4); its extension by the all-ones vector is isodual. A quadratic-twist identity pairs curves with many and few points.
+- Voloch's constructions give sets with about 1.5p points for every p, and some optimal-looking codes have Duursma zeta functions that violate the analog of the Riemann hypothesis.
+- The even subcode is a quadratic residue code in disguise (see the update below), which turns the Bazzi–Mitter conjecture into a question about minimum distances of QR codes.
+
 ## Quadratic residue codes: files
 
 | File | What it is |
